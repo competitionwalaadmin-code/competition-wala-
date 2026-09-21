@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Wala Computer Classes - Online Examination</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #8b5cf6;
+            --neutral: #e5e7eb;
+            --bg-color: #f8fafc;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 92vh;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-info {
+            font-size: 0.9rem;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .timer-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .screen {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .instructions-box {
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .instructions-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .instructions-box li {
+            margin-bottom: 8px;
+        }
+
+        .exam-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            height: 100%;
+            min-height: 450px;
+        }
+
+        @media (max-width: 768px) {
+            .exam-layout {
+                grid-template-columns: 1fr;
+            }
+            .palette-sidebar {
+                order: -1;
+            }
+        }
+
+        .question-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .q-number {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .q-text-en {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .q-text-hi {
+            font-size: 1rem;
+            color: #4b5563;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-light);
+        }
+
+        .option-item input {
+            margin-top: 3px;
+        }
+
+        .option-text div {
+            font-size: 0.95rem;
+        }
+        .option-text .hi-opt {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .exam-controls {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .exam-controls-left, .exam-controls-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .palette-sidebar {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .palette-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .dot-green { background: var(--success); }
+        .dot-red { background: var(--danger); }
+        .dot-purple { background: var(--warning); }
+        .dot-neutral { background: var(--border-color); }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .palette-btn.attempted { background: var(--success); color: white; border-color: var(--success); }
+        .palette-btn.unattempted { background: var(--danger); color: white; border-color: var(--danger); }
+        .palette-btn.review { background: var(--warning); color: white; border-color: var(--warning); }
+        .palette-btn.current { border: 2px solid var(--primary); box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+
+        .result-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .error-banner {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1 id="institute-title">Competition Wala Computer Classes</h1>
+        <div class="header-info hidden" id="header-info">
+            <span id="hdr-student"></span>
+            <span id="hdr-course"></span>
+            <div class="timer-badge" id="timer-display">30:00</div>
+        </div>
+    </header>
+
+    <!-- 1. STUDENT LOGIN SCREEN -->
+    <div id="login-screen" class="screen">
+        <div class="login-card">
+            <h2>Online Test Portal</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="student-name">Student Name *</label>
+                    <input type="text" id="student-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="student-course">Course *</label>
+                    <select id="student-course" required>
+                        <option value="">Select Course</option>
+                        <option value="DCA">DCA</option>
+                        <option value="ADCA">ADCA</option>
+                        <option value="DCTT">DCTT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-email">Email Address *</label>
+                    <select id="student-email" required>
+                        <option value="">Select Email</option>
+                        <option value="student1.adca@gmail.com">student1.adca@gmail.com</option>
+                        <option value="learner.competitionwala@gmail.com">learner.competitionwala@gmail.com</option>
+                        <option value="aspirant.shashisir@gmail.com">aspirant.shashisir@gmail.com</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Start Test</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. INSTRUCTIONS SCREEN -->
+    <div id="instruction-screen" class="screen hidden">
+        <div style="max-width: 700px; margin: 0 auto;">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
+            <div class="instructions-box">
+                <ul>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions (History & Generation of Computers).</li>
+                    <li><strong>Time Limit:</strong> <span id="inst-time-limit">30</span> minutes. Test auto-submits when time expires.</li>
+                    <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
+                    <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
+                    <li><strong>Question Palette States:</strong>
+                        <ul style="margin-top: 5px;">
+                            <li><span class="dot dot-green" style="display:inline-block;"></span> Green = Attempted</li>
+                            <li><span class="dot dot-red" style="display:inline-block;"></span> Red = Not Attempted</li>
+                            <li><span class="dot dot-purple" style="display:inline-block;"></span> Purple = Marked for Review</li>
+                            <li><span class="dot dot-neutral" style="display:inline-block;"></span> Neutral = Not Visited</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button id="begin-test-btn" class="btn">Proceed to Test</button>
+        </div>
+    </div>
+
+    <!-- 3. EXAMINATION SCREEN -->
+    <div id="exam-screen" class="screen hidden">
+        <div class="exam-layout">
+            <div class="question-area">
+                <div>
+                    <div class="q-number" id="q-counter">Question 1 of 30</div>
+                    <div class="q-text-en" id="q-en">Loading question...</div>
+                    <div class="q-text-hi" id="q-hi">प्रश्न लोड हो रहा है...</div>
+
+                    <div class="options-list" id="options-container">
+                        <!-- Options injected dynamically -->
+                    </div>
+                </div>
+
+                <div class="exam-controls">
+                    <div class="exam-controls-left">
+                        <button class="btn btn-secondary" id="prev-btn">Previous</button>
+                        <button class="btn btn-secondary" id="next-btn">Next</button>
+                    </div>
+                    <div class="exam-controls-right">
+                        <button class="btn btn-secondary" id="clear-btn" style="background: #eab308;">Clear Response</button>
+                        <button class="btn btn-secondary" id="review-btn" style="background: var(--warning);">Mark for Review</button>
+                        <button class="btn" id="submit-test-btn" style="background: var(--success);">Submit Test</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette-sidebar">
+                <h3>Question Palette</h3>
+                <div class="palette-legend">
+                    <div class="legend-item"><span class="dot dot-green"></span> Attempted</div>
+                    <div class="legend-item"><span class="dot dot-red"></span> Not Attempted</div>
+                    <div class="legend-item"><span class="dot dot-purple"></span> Review</div>
+                    <div class="legend-item"><span class="dot dot-neutral"></span> Not Visited</div>
+                </div>
+                <div class="palette-grid" id="palette-grid">
+                    <!-- Palette buttons injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RESULT SCREEN -->
+    <div id="result-screen" class="screen hidden">
+        <div class="result-card">
+            <div class="result-header">
+                <h2>ONLINE TEST RESULT</h2>
+                <p id="res-student-info" style="color: #4b5563; margin-top: 4px;"></p>
+                <div id="performance-badge" class="performance-badge">Good Performance!</div>
+            </div>
+
+            <div id="email-status-banner"></div>
+
+            <div class="stats-grid">
+                <div class="stat-item"><span>Total Questions:</span> <strong id="res-total">0</strong></div>
+                <div class="stat-item"><span>Attempted:</span> <strong id="res-attempted">0</strong></div>
+                <div class="stat-item"><span>Unattempted:</span> <strong id="res-unattempted">0</strong></div>
+                <div class="stat-item"><span>Correct Answers:</span> <strong id="res-correct" style="color:var(--success)">0</strong></div>
+                <div class="stat-item"><span>Incorrect Answers:</span> <strong id="res-incorrect" style="color:var(--danger)">0</strong></div>
+                <div class="stat-item"><span>Marks Obtained:</span> <strong id="res-marks">0</strong></div>
+                <div class="stat-item"><span>Percentage:</span> <strong id="res-percentage">0%</strong></div>
+                <div class="stat-item"><span>Time Taken:</span> <strong id="res-time">00:00</strong></div>
+            </div>
+            
+            <button class="btn" onclick="location.reload()">Finish & Exit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ========================================================
+       ADMIN & SYSTEM CONFIGURATION
+       ======================================================== */
+    const CONFIG = {
+        instituteName: "Competition Wala Computer Classes",
+        numberOfQuestions: 30,
+        adminEmail: "competitionwalaadmin@gmail.com",
+        emailjsServiceId: "service_d15114h",     
+        emailjsTemplateId: "template_2yx0cwh",   
+        emailjsPublicKey:  "-7EDKicno-1aJnWPA"    
+    };
+
+    // Initialize EmailJS
+    try {
+        emailjs.init(CONFIG.emailjsPublicKey);
+    } catch (e) {
+        console.warn("EmailJS initialization skipped or failed.", e);
+    }
+
+    /* ========================================================
+       QUESTION BANK (30 Questions - STRICTLY History & Generations of Computers)
+       ======================================================== */
+    const masterQuestionBank = [
+        {
+            question: { en: "When was the Abacus created and used in ancient civilizations?", hi: "प्राचीन सभ्यताओं में एबेकस का निर्माण और उपयोग कब किया गया था?" },
+            options: [
+                { en: "Around 3000 BC (over 5,000 years ago)", hi: "लगभग 3000 ईसा पूर्व (5,000 साल पहले)" },
+                { en: "In the year 1617", hi: "वर्ष 1617 में" },
+                { en: "In the year 1945", hi: "वर्ष 1945 में" },
+                { en: "In the year 1991", hi: "वर्ष 1991 में" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Who invented 'Napier's Bones' in the year 1617?", hi: "वर्ष 1617 में 'नेपियर्स बोन्स' का आविष्कार किसने किया था?" },
+            options: [
+                { en: "John Napier", hi: "जॉन नेपियर" },
+                { en: "Charles Babbage", hi: "चाल्ज़ बैबेज" },
+                { en: "Gottfried Wilhelm Leibniz", hi: "गॉटफ्रीड विल्हेम लिबनिज" },
+                { en: "Howard Aiken", hi: "हावर्ड ऐकेन" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Who invented the Stepped Reckoner calculator using the Stepped Drum mechanism in 1673?", hi: "1673 में स्टेप्ड ड्रम तंत्र का उपयोग करके स्टेप्ड रेकनर कैलकुलेटर का आविष्कार किसने किया था?" },
+            options: [
+                { en: "Gottfried Wilhelm Leibniz", hi: "गॉटफ्रीड विल्हेम लिबनिज" },
+                { en: "John Napier", hi: "जॉन नेपियर" },
+                { en: "Charles Babbage", hi: "चाल्ज़ बैबेज" },
+                { en: "Blaise Pascal", hi: "ब्लेस पास्कल" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which mechanical calculating machine introduced by Blaise Pascal in 1642 performed mechanical addition using toothed wheels?", hi: "ब्लेस पास्कल द्वारा 1642 में पेश की गई किस यांत्रिक गणना मशीन ने दांतेदार पहियों का उपयोग करके यांत्रिक जोड़ किया था?" },
+            options: [
+                { en: "Pascaline", hi: "पास्कलाइन" },
+                { en: "Difference Engine", hi: "डिफरेंस इंजन" },
+                { en: "Analytical Engine", hi: "एनालिटिकल इंजन" },
+                { en: "Harvard Mark I", hi: "हार्वर्ड मार्क I" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which machine was designed by Charles Babbage in 1822 to compute polynomial and astronomical tables automatically?", hi: "बहुपद और खगोलीय तालिकाओं की स्वतः गणना करने के लिए 1822 में चार्ल्स बैबेज द्वारा कौन सी मशीन डिजाइन की गई थी?" },
+            options: [
+                { en: "Difference Engine", hi: "डिफरेंस इंजन" },
+                { en: "Analytical Engine", hi: "एनालिटिकल इंजन" },
+                { en: "Pascaline", hi: "पास्कलाइन" },
+                { en: "ENIAC", hi: "ENIAC" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which machine is considered the world's first design for a general-purpose, fully programmable computer conceived by Charles Babbage?", hi: "चार्ल्स बैबेज द्वारा परिकल्पित किस मशीन को सामान्य-उद्देश्य, पूरी तरह से प्रोग्राम योग्य कंप्यूटर के लिए दुनिया का पहला डिजाइन माना जाता है?" },
+            options: [
+                { en: "Analytical Engine (1837)", hi: "एनालिटिकल इंजन (1837)" },
+                { en: "ENIAC (1945)", hi: "ENIAC (1945)" },
+                { en: "Pascaline (1642)", hi: "पास्कलाइन (1642)" },
+                { en: "Harvard Mark I (1944)", hi: "हार्वर्ड मार्क I (1944)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Who is known as the 'Father of Computer' due to his groundbreaking invention of the Analytical and Difference Engines?", hi: "एनालिटिकल और डिफरेंस इंजन के अपने अभूतपूर्व आविष्कार के कारण किसे 'कंप्यूटर का पिता' कहा जाता है?" },
+            options: [
+                { en: "Charles Babbage", hi: "चाल्ज़ बैबेज" },
+                { en: "John Mauchly", hi: "जॉन माauchly" },
+                { en: "Alan Turing", hi: "एलान ट्यूरिंग" },
+                { en: "Howard Aiken", hi: "हावर्ड ऐकेन" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What was the Harvard Mark I (1944) classified as?", hi: "हार्वर्ड मार्क I (1944) को किस रूप में वर्गीकृत किया गया था?" },
+            options: [
+                { en: "An Electro-Mechanical Machine (Automatic Sequence Controlled Calculator)", hi: "एक इलेक्ट्रो-मैकेनिकल मशीन (ऑटोमैटिक सीक्वेंस कंट्रोल्ड कैलकुलेटर)" },
+                { en: "An all-electronic vacuum tube processor", hi: "एक पूर्ण-इलेक्ट्रॉनिक वैक्यूम ट्यूब प्रोसेसर" },
+                { en: "A modern silicon microprocessor PC", hi: "एक आधुनिक सिलिकॉन माइक्रोप्रोसेसर PC" },
+                { en: "An ancient mechanical abacus device", hi: "एक प्राचीन यांत्रिक एबेकस उपकरण" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Who developed ENIAC (Electronic Numerical Integrator and Computer) in 1945?", hi: "1945 में ENIAC (इलेक्ट्रॉनिक न्यूमेरिकल इंटीग्रेटर एंड कंप्यूटर) किसने विकसित किया था?" },
+            options: [
+                { en: "John Mauchly and J. Presper Eckert", hi: "जॉन माउचली और जे. प्रेस्पर एकर्ट" },
+                { en: "Charles Babbage and Ada Lovelace", hi: "चार्ल्स बैबेज और एडा लवलेस" },
+                { en: "Gottfried Leibniz and John Napier", hi: "गॉटफ्रीड लिबनिज और जॉन नेपियर" },
+                { en: "Howard Aiken and Seymour Cray", hi: "हावर्ड ऐकेन और सीमोर क्रे" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What core technology defined 1st Generation computers (1940-1956)?", hi: "किस मुख्य तकनीक ने पहली पीढ़ी के कंप्यूटर (1940-1956) को परिभाषित किया?" },
+            options: [
+                { en: "Vacuum Tubes and magnetic drums", hi: "वैक्यूम ट्यूब और चुंबकीय ड्रम" },
+                { en: "Transistors and magnetic cores", hi: "ट्रांजिस्टर और मैग्नेटिक कोर" },
+                { en: "Integrated Circuits (ICs)", hi: "इंटीग्रेटेड सर्किट (IC)" },
+                { en: "Microprocessors (VLSI)", hi: "माइक्रोप्रोसेसर (VLSI)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What were prominent examples of 1st Generation computers?", hi: "प्रथम पीढ़ी के कंप्यूटरों के प्रमुख उदाहरण क्या थे?" },
+            options: [
+                { en: "ENIAC, UNIVAC, and EDVAC", hi: "ENIAC, UNIVAC और EDVAC" },
+                { en: "IBM 7094 and CDC 1604", hi: "IBM 7094 और CDC 1604" },
+                { en: "IBM 360 series and PDP-8", hi: "IBM 360 श्रृंखला और PDP-8" },
+                { en: "Apple Macintosh and Intel 4004", hi: "Apple Macintosh और Intel 4004" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What major technology replacement occurred in 2nd Generation computers (1956-1963)?", hi: "दूसरी पीढ़ी के कंप्यूटरों (1956-1963) में कौन सा प्रमुख तकनीकी प्रतिस्थापन हुआ?" },
+            options: [
+                { en: "Bulky vacuum tubes were replaced by compact solid-state transistors", hi: "भारी वैक्यूम ट्यूबों को कॉम्पैक्ट सॉलिड-स्टेट ट्रांजिस्टर से बदल दिया गया" },
+                { en: "Transistors were replaced by massive vacuum tubes", hi: "ट्रांजिस्टर को भारी वैक्यूम ट्यूबों से बदल दिया गया" },
+                { en: "Mechanical cogs were replaced by wooden beads", hi: "यांत्रिक कॉग को लकड़ी के मनकों से बदल दिया गया" },
+                { en: "Quantum processors replaced microchips", hi: "क्वांटम प्रोसेसर ने माइक्रोचिप्स की जगह ले ली" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which high-level programming languages were introduced during the 2nd Generation of computers?", hi: "कंप्यूटर की दूसरी पीढ़ी के दौरान कौन सी उच्च-स्तरीय प्रोग्रामिंग भाषाएं शुरू की गईं?" },
+            options: [
+                { en: "FORTRAN and COBOL", hi: "FORTRAN और COBOL" },
+                { en: "C++ and Java", hi: "C++ और Java" },
+                { en: "Python and HTML", hi: "Python और HTML" },
+                { en: "Machine binary code (0s and 1s)", hi: "मशीन बाइनरी कोड (0s और 1s)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What core architecture characterized 3rd Generation computers (1964-1971)?", hi: "किस मुख्य वास्तुकला ने तीसरी पीढ़ी के कंप्यूटरों (1964-1971) को विशेषता दी?" },
+            options: [
+                { en: "Integrated Circuits (ICs) combining hundreds of transistors on silicon chips", hi: "सिलिकॉन चिप्स पर सैकड़ों ट्रांजिस्टर को मिलाने वाले इंटीग्रेटेड सर्किट (IC)" },
+                { en: "Individual vacuum tubes wired manually", hi: "मैनुअल रूप से जुड़े व्यक्तिगत वैक्यूम ट्यूब" },
+                { en: "Neural networks and quantum logic gates", hi: "न्यूरल नेटवर्क और क्वांटम लॉजिक गेट" },
+                { en: "Mechanical gears and brass shafts", hi: "यांत्रिक गियर और पीतल की शाफ्ट" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What breakthrough technology defined the 4th Generation of computers (1971-Present)?", hi: "किस सफलता की तकनीक ने कंप्यूटर की चौथी पीढ़ी (1971-वर्तमान) को परिभाषित किया?" },
+            options: [
+                { en: "Microprocessors using Very Large-Scale Integration (VLSI)", hi: "बहुत बड़े पैमाने पर एकीकरण (VLSI) का उपयोग करने वाले माइक्रोप्रोसेसर" },
+                { en: "Magnetic punch cards and paper tapes", hi: "चुंबकीय पंच कार्ड और पेपर टेप" },
+                { en: "Thermionic vacuum glass tubes", hi: "थर्मionic वैक्यूम ग्लास ट्यूब" },
+                { en: "Analog continuous voltage meters", hi: "एनालॉग निरंतर वोल्टेज मीटर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary focus of 5th Generation computers (Present & Future Era)?", hi: "पांचवीं पीढ़ी के कंप्यूटरों (वर्तमान और भविष्य का युग) का प्राथमिक फोकस क्या है?" },
+            options: [
+                { en: "Artificial Intelligence, parallel processing, neural networks, and quantum computing", hi: "आर्टिफिशियल इंटेलिजेंस, समानांतर प्रोसेसिंग, न्यूरल नेटवर्क और क्वांटम कंप्यूटिंग" },
+                { en: "Punch card batch processing and machine language switches", hi: "पंच कार्ड बैच प्रोसेसिंग और मशीन भाषा स्विच" },
+                { en: "Replacing electronic screens with wooden Abacus frames", hi: "इलेक्ट्रॉनिक स्क्रीन को लकड़ी के एबेकस फ्रेम से बदलना" },
+                { en: "Eliminating operating systems completely", hi: "ऑपरेटिंग सिस्टम को पूरी तरह से समाप्त करना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "According to the Generations comparison table, what primary language was used in 1st Generation computers?", hi: "पीढ़ी तुलना तालिका के अनुसार, पहली पीढ़ी के कंप्यूटरों में मुख्य रूप से किस भाषा का उपयोग किया गया था?" },
+            options: [
+                { en: "Machine Language", hi: "मशीन भाषा (Machine Language)" },
+                { en: "Assembly and FORTRAN", hi: "असेंबली और FORTRAN" },
+                { en: "High-Level BASIC and C", hi: "उच्च-स्तरीय BASIC और C" },
+                { en: "C++, Java, and Python", hi: "C++, Java और Python" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What key characteristic defined 2nd Generation computers compared to 1st Generation?", hi: "पहली पीढ़ी की तुलना में दूसरी पीढ़ी के कंप्यूटरों की क्या प्रमुख विशेषता थी?" },
+            options: [
+                { en: "Smaller size, faster speed, and reduced heat & power usage", hi: "छोटा आकार, तेज गति, और कम गर्मी और बिजली की खपत" },
+                { en: "Massive room-sized vacuum tube frames consuming heavy electricity", hi: "भारी बिजली की खपत करने वाले विशाल कमरे के आकार के वैक्यूम ट्यूब फ्रेम" },
+                { en: "Self-learning quantum logic systems", hi: "स्वयं सीखने वाली क्वांटम लॉजिक प्रणाली" },
+                { en: "Complete absence of any programming language", hi: "किसी भी प्रोग्रामिंग भाषा की पूर्ण अनुपस्थिति" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which innovation was introduced in 3rd Generation computers for user interaction and operating software?", hi: "उपयोगकर्ता इंटरैक्शन और ऑपरेटिंग सॉफ्टवेयर के लिए तीसरी पीढ़ी के कंप्यूटरों में कौन सा नवाचार पेश किया गया था?" },
+            options: [
+                { en: "Keyboards, monitors, and operating systems enabling multi-programming", hi: "कीबोर्ड, मॉनिटर और ऑपरेटिंग सिस्टम जो बहु-प्रोग्रामिंग को सक्षम करते हैं" },
+                { en: "External manual cables and switches", hi: "बाहरी मैनुअल केबल और स्विच" },
+                { en: "Punch cards as the sole input method", hi: " एकमात्र इनपुट विधि के रूप में पंच कार्ड" },
+                { en: "Voice recognition and neural AI prompts", hi: "आवाज पहचान और न्यूरल AI संकेत" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What evolutionary trend describes the transition of hardware scale across computer generations?", hi: "कौन सा विकासात्मक रुझान कंप्यूटर पीढ़ियों में हार्डवेयर पैमाने के संक्रमण का वर्णन करता है?" },
+            options: [
+                { en: "Miniaturization from full-room vacuum tube frames to nanometer-scale silicon chips", hi: "पूर्ण-कमरे के वैक्यूम ट्यूब फ्रेम से नैनोमीटर-स्केल सिलिकॉन चिप्स तक लघुकरण" },
+                { en: "Expansion from small chips back to building room-sized glass tubes", hi: "छोटे चिप्स से वापस कमरे के आकार की कांच की ट्यूब बनाने तक विस्तार" },
+                { en: "Constant increase in physical weight and electrical heat generation", hi: "भौतिक वजन और विद्युत ताप उत्पादन में लगातार वृद्धि" },
+                { en: "Transition from fast electronic processing back to slow manual bead counting", hi: "तेज इलेक्ट्रॉनिक प्रोसेसिंग से वापस धीमी मैनुअल बीड काउंटिंग में संक्रमण" },
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What was a major disadvantage of 1st Generation computers due to vacuum tubes?", hi: "वैक्यूम ट्यूबों के कारण पहली पीढ़ी के कंप्यूटरों की एक प्रमुख हानि क्या थी?" },
+            options: [
+                { en: "Massive size, slow speed, and high power consumption generating heavy heat", hi: "भारी गर्मी उत्पन्न करने वाले भारी आकार, धीमी गति और उच्च बिजली की खपत" },
+                { en: "Being extremely portable and lightweight for personal desks", hi: "व्यक्तिगत डेस्क के लिए बेहद पोर्टेबल और हल्के होना" },
+                { en: "Running entirely on eco-friendly solar battery power", hi: "पूरी तरह से पर्यावरण के अनुकूल सौर बैटरी पावर पर चलना" },
+                { en: "Having instant wireless internet connectivity", hi: "त्वरित वायरलेस इंटरनेट कनेक्टिविटी होना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What technology powered ENIAC (1945) to compute at speeds 1,000 times faster than electromechanical predecessors?", hi: "इलेक्ट्रोमैकेनिकल पूर्ववर्तियों की तुलना में 1,000 गुना अधिक गति से गणना करने के लिए ENIAC (1945) को किस तकनीक ने शक्ति प्रदान की?" },
+            options: [
+                { en: "Over 17,000 vacuum tubes", hi: "17,000 से अधिक वैक्यूम ट्यूब" },
+                { en: "Microprocessors on silicon chips", hi: "सिलिकॉन चिप्स पर माइक्रोप्रोसेसर" },
+                { en: "Mechanical gears and brass pins", hi: "यांत्रिक गियर और पीतल के पिन" },
+                { en: "Optical laser discs", hi: "ऑप्टिकल लेजर डिस्क" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which chip generation squeezed millions of transistors onto a single microprocessor chip to unlock personal computing?", hi: "किस चिप पीढ़ी ने व्यक्तिगत कंप्यूटिंग को अनलॉक करने के लिए एक ही माइक्रोप्रोसेसर चिप पर लाखों ट्रांजिस्टर निचोड़ लिए?" },
+            options: [
+                { en: "4th Generation (VLSI - Very Large-Scale Integration)", hi: "चौथी पीढ़ी (VLSI - बहुत बड़े पैमाने पर एकीकरण)" },
+                { en: "1st Generation (Vacuum Tubes)", hi: "पहली पीढ़ी (वैक्यूम ट्यूब)" },
+                { en: "2nd Generation (Transistors)", hi: "दूसरी पीढ़ी (ट्रांजिस्टर)" },
+                { en: "3rd Generation (Integrated Circuits)", hi: "तीसरी पीढ़ी (इंटीग्रेटेड सर्किट)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What was the chronological classification of the Pascaline calculator invented by Blaise Pascal?", hi: "ब्लेस पास्कल द्वारा आविष्कार किए गए पास्कलाइन कैलकुलेटर का कालक्रम वर्गीकरण क्या था?" },
+            options: [
+                { en: "Year 1642 - Mechanical toothed wheels with automated digital carry mechanism", hi: "वर्ष 1642 - स्वचालित डिजिटल कैरी तंत्र के साथ यांत्रिक दांतेदार पहिये" },
+                { en: "Year 1822 - Cogs and shafts for polynomial tables", hi: "वर्ष 1822 - बहुपद तालिकाओं के लिए कॉग और शाफ्ट" },
+                { en: "Year 1944 - Electro-mechanical relays", hi: "वर्ष 1944 - इलेक्ट्रो-मैकेनिकल रिले" },
+                { en: "Year 1945 - Electronic vacuum tubes", hi: "वर्ष 1945 - इलेक्ट्रॉनिक वैक्यूम ट्यूब" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What was the revolutionary feature of Charles Babbage's Analytical Engine compared to older machines?", hi: "पुरानी मशीनों की तुलना में चार्ल्स बैबेज के एनालिटिकल इंजन की क्रांतिकारी विशेषता क्या थी?" },
+            options: [
+                { en: "Separation of memory and CPU (Mill & Store) using punched cards and gears", hi: "पंच कार्ड और गियर का उपयोग करके मेमोरी और CPU (मिल और स्टोर) का पृथक्करण" },
+                { en: "Using touchscreens and wireless mice", hi: "टचस्क्रीन और वायरलेस माउस का उपयोग करना" },
+                { en: "Running high-level Python and Java applications", hi: "उच्च-स्तरीय पायथन और जावा अनुप्रयोगों को चलाना" },
+                { en: "Requiring manual human calculation for every single step", hi: "हर एक चरण के लिए मैन्युअल मानव गणना की आवश्यकता होना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What span and component scale described the Harvard Mark I built in 1944?", hi: "1944 में निर्मित हार्वर्ड मार्क I का विस्तार और घटक पैमाना क्या था?" },
+            options: [
+                { en: "Spanning 51 feet in length, weighing over 5 tons with over 760,000 components", hi: "लंबाई में 51 फीट फैला हुआ, 760,000 से अधिक घटकों के साथ 5 टन से अधिक वजन वाला" },
+                { en: "Pocket-sized device weighing less than 100 grams", hi: "100 ग्राम से कम वजन वाला पॉकेट-साइज़ का उपकरण" },
+                { en: "A room-sized mainframe running on 17,000 glass tubes", hi: "17,000 कांच की नलियों पर चलने वाला कमरे के आकार का मेनफ्रेम" },
+                { en: "A desktop personal computer with an LCD flat screen", hi: "LCD फ्लैट स्क्रीन वाला डेस्कटॉप पर्सनल कंप्यूटर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "According to the chronological timeline, what technology represents the Present Era of computing?", hi: "कालक्रम समयरेखा के अनुसार, कौन सी तकनीक कंप्यूटिंग के वर्तमान युग का प्रतिनिधित्व करती है?" },
+            options: [
+                { en: "Silicon Transistors and Microchips performing billions of computations per second", hi: "सिलिकॉन ट्रांजिस्टर और माइक्रोचिप्स प्रति सेकंड अरबों गणनाएं करते हैं" },
+                { en: "Hand-cranked wooden gears and ivory bones", hi: "हाथ से क्रैंक किए गए लकड़ी के गियर और हाथी दांत की हड्डियां" },
+                { en: "Paper punch tapes and electromagnetic switches", hi: "पेपर पंच टेप और इलेक्ट्रोमैग्नेटिक स्विच" },
+                { en: "Glass thermionic vacuum tubes", hi: "ग्लास थर्मionic वैक्यूम ट्यूब" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How did evolutionary trends affect computer processing speeds from early generations to modern times?", hi: "विकासात्मक प्रवृत्तियों ने शुरुआती पीढ़ियों से लेकर आधुनिक समय तक कंप्यूटर प्रोसेसिंग की गति को कैसे प्रभावित किया?" },
+            options: [
+                { en: "Transitioned computational speeds from milliseconds down to nanoseconds and trillions of operations per second", hi: "कम्प्यूटेशनल गति को मिलीसेकंड से घटाकर नैनोसेकंड और प्रति सेकंड खरबों संचालन तक पहुँचाया" },
+                { en: "Slowed down processing speeds to match manual human writing speed", hi: "मैन्युअल मानव लेखन गति से मेल खाने के लिए प्रोसेसिंग गति को धीमा कर दिया" },
+                { en: "Eliminated all processing capabilities in favor of storage only", hi: "केवल स्टोरेज के पक्ष में सभी प्रोसेसिंग क्षमताओं को समाप्त कर दिया" },
+                { en: "Kept speeds constant at exactly one calculation per minute", hi: "गति को प्रति मिनट ठीक एक गणना पर स्थिर रखा" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What primary software and language evolution occurred across the 3rd and 4th computer generations?", hi: "तीसरी और चौथी कंप्यूटर पीढ़ियों में कौन सा प्राथमिक सॉफ्टवेयर और भाषा विकास हुआ?" },
+            options: [
+                { en: "Introduction of high-level languages like BASIC, C, C++, Java, and Python alongside modern OS interfaces", hi: "आधुनिक OS इंटरफेस के साथ-साथ BASIC, C, C++, Java, और Python जैसी उच्च-स्तरीय भाषाओं की शुरुआत" },
+                { en: "Strict restriction to raw binary 0s and 1s typed by hand switches", hi: "हाथ के स्विच द्वारा टाइप किए गए कच्चे बाइनरी 0s और 1s तक सख्त प्रतिबंध" },
+                { en: "Abandonment of all programming in favor of analog voltage dials", hi: "एनालॉग वोल्टेज डायल के पक्ष में सभी प्रोग्रामिंग का त्याग" },
+                { en: "Exclusive use of ancient machine mnemonics", hi: "प्राचीन मशीन स्मरणीय चिन्हों का अनन्य उपयोग" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the defining capability of 5th Generation artificial intelligence systems compared to 4th Generation PCs?", hi: "चौथी पीढ़ी के PC की तुलना में 5वीं पीढ़ी की आर्टिफिशियल इंटेलिजेंस प्रणालियों की परिभाषित क्षमता क्या है?" },
+            options: [
+                { en: "Capable of learning from data inputs to solve complex real-world challenges independently using neural networks", hi: "न्यूरल नेटवर्क का स्वतंत्र रूप से उपयोग करके जटिल वास्तविक दुनिया की चुनौतियों को हल करने के लिए डेटा इनपुट से सीखने में सक्षम" },
+                { en: "Requiring physical punch cards to execute basic arithmetic", hi: "बुनियादी अंकगणित निष्पादित करने के लिए भौतिक पंच कार्ड की आवश्यकता होती है" },
+                { en: "Operating solely on mechanical water clocks and cogs", hi: "पूरी तरह से यांत्रिक जल घड़ियों और कॉग पर संचालन" },
+                { en: "Being restricted to text-only command prompt terminals without display", hi: "बिना डिस्प्ले के केवल टेक्स्ट-ओनली कमांड प्रॉम्प्ट टर्मिनल तक सीमित होना" }
+            ],
+            answer: 0
+        }
+    ];
+
+    /* ========================================================
+       APPLICATION STATE
+       ======================================================== */
+    let studentData = { name: "", course: "", email: "" };
+    let testQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = {}; // questionIndex -> selectedOptionIndex
+    let markedForReview = {}; // questionIndex -> boolean
+    let visitedQuestions = new Set();
+    let timerInterval = null;
+    let timeLeft = 30 * 60; // Exactly 30 minutes
+    let startTime = null;
+    let isSubmitted = false;
+
+    /* ========================================================
+       DOM REFERENCES
+       ======================================================== */
+    const loginScreen = document.getElementById("login-screen");
+    const instructionScreen = document.getElementById("instruction-screen");
+    const examScreen = document.getElementById("exam-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const loginForm = document.getElementById("login-form");
+    const headerInfo = document.getElementById("header-info");
+    const hdrStudent = document.getElementById("hdr-student");
+    const hdrCourse = document.getElementById("hdr-course");
+    const timerDisplay = document.getElementById("timer-display");
+    const beginTestBtn = document.getElementById("begin-test-btn");
+
+    // Exam Screen Elements
+    const qCounter = document.getElementById("q-counter");
+    const qEn = document.getElementById("q-en");
+    const qHi = document.getElementById("q-hi");
+    const optionsContainer = document.getElementById("options-container");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const reviewBtn = document.getElementById("review-btn");
+    const submitTestBtn = document.getElementById("submit-test-btn");
+    const paletteGrid = document.getElementById("palette-grid");
+
+    /* ========================================================
+       EVENT LISTENERS & FLOW
+       ======================================================== */
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("student-name").value.trim();
+        const course = document.getElementById("student-course").value;
+        const email = document.getElementById("student-email").value;
+
+        if (!name || !course || !email) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        studentData = { name, course, email };
+        
+        // Populate instructions
+        document.getElementById("inst-total-q").textContent = CONFIG.numberOfQuestions;
+        document.getElementById("inst-time-limit").textContent = "30";
+
+        loginScreen.classList.add("hidden");
+        instructionScreen.classList.remove("hidden");
+    });
+
+    beginTestBtn.addEventListener("click", () => {
+        initTest();
+        instructionScreen.classList.add("hidden");
+        examScreen.classList.remove("hidden");
+        headerInfo.classList.remove("hidden");
+        
+        hdrStudent.textContent = `Student: ${studentData.name}`;
+        hdrCourse.textContent = `Course: ${studentData.course}`;
+
+        startTimer();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (currentIndex < testQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion();
+        }
+    });
+
+    clearBtn.addEventListener("click", () => {
+        delete userAnswers[currentIndex];
+        renderQuestion();
+        updatePalette();
+    });
+
+    reviewBtn.addEventListener("click", () => {
+        if (markedForReview[currentIndex]) {
+            delete markedForReview[currentIndex];
+        } else {
+            markedForReview[currentIndex] = true;
+        }
+        renderQuestion();
+        updatePalette();
+    });
+
+    submitTestBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to submit the test?")) {
+            submitTest();
+        }
+    });
+
+    /* ========================================================
+       TEST INITIALIZATION & RANDOMIZATION
+       ======================================================== */
+    function initTest() {
+        startTime = new Date();
+        let numQ = CONFIG.numberOfQuestions;
+        
+        if (masterQuestionBank.length < numQ) {
+            alert(`Requested ${numQ} questions, but only ${masterQuestionBank.length} available in bank. Adjusting accordingly.`);
+            numQ = masterQuestionBank.length;
+        }
+
+        // Shuffle questions and select numQ
+        let shuffledBank = [...masterQuestionBank].sort(() => 0.5 - Math.random());
+        let selected = shuffledBank.slice(0, numQ);
+
+        // Randomize options for each question while tracking correct answer index
+        testQuestions = selected.map(q => {
+            let optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+            optionsWithIndex.sort(() => 0.5 - Math.random());
+            
+            let newOptions = optionsWithIndex.map(item => item.opt);
+            let newAnswerIndex = optionsWithIndex.findIndex(item => item.originalIndex === q.answer);
+
+            return {
+                question: q.question,
+                options: newOptions,
+                answer: newAnswerIndex
+            };
+        });
+
+        timeLeft = 30 * 60; // 30 minutes total timer
+        currentIndex = 0;
+        renderPaletteGrid();
+        renderQuestion();
+    }
+
+    /* ========================================================
+       RENDER QUESTION & PALETTE
+       ======================================================== */
+    function renderQuestion() {
+        visitedQuestions.add(currentIndex);
+        const q = testQuestions[currentIndex];
+
+        qCounter.textContent = `Question ${currentIndex + 1} of ${testQuestions.length}`;
+        qEn.textContent = q.question.en;
+        qHi.textContent = q.question.hi;
+
+        optionsContainer.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+            const isChecked = userAnswers[currentIndex] === idx ? "checked" : "";
+            const div = document.createElement("label");
+            div.className = "option-item";
+            div.innerHTML = `
+                <input type="radio" name="question_option" value="${idx}" ${isChecked} onchange="selectOption(${idx})">
+                <div class="option-text">
+                    <div><strong>${String.fromCharCode(65 + idx)}.</strong> ${opt.en}</div>
+                    <div class="hi-opt">${opt.hi}</div>
+                </div>
+            `;
+            optionsContainer.appendChild(div);
+        });
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === testQuestions.length - 1;
+        
+        updatePalette();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentIndex] = optIdx;
+        updatePalette();
+    }
+
+    function renderPaletteGrid() {
+        paletteGrid.innerHTML = "";
+        testQuestions.forEach((_, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "palette-btn neutral";
+            btn.textContent = idx + 1;
+            btn.id = `palette-btn-${idx}`;
+            btn.onclick = () => {
+                currentIndex = idx;
+                renderQuestion();
+            };
+            paletteGrid.appendChild(btn);
+        });
+    }
+
+    function updatePalette() {
+        testQuestions.forEach((_, idx) => {
+            const btn = document.getElementById(`palette-btn-${idx}`);
+            if (!btn) return;
+
+            btn.className = "palette-btn";
+
+            if (idx === currentIndex) {
+                btn.classList.add("current");
+            }
+
+            if (userAnswers[idx] !== undefined) {
+                btn.classList.add("attempted");
+            } else if (markedForReview[idx]) {
+                btn.classList.add("review");
+            } else if (visitedQuestions.has(idx)) {
+                btn.classList.add("unattempted");
+            } else {
+                btn.classList.add("neutral");
+            }
+        });
+    }
+
+    /* ========================================================
+       TIMER LOGIC (30 Minutes)
+       ======================================================== */
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will be submitted automatically.");
+                submitTest();
+                return;
+            }
+
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            if (timeLeft === 300) {
+                alert("Warning: Only 5 minutes remaining!");
+            }
+        }, 1000);
+    }
+
+    /* ========================================================
+       SUBMISSION & RESULT CALCULATION
+       ======================================================== */
+    function submitTest() {
+        if (isSubmitted) return;
+        isSubmitted = true;
+        clearInterval(timerInterval);
+
+        let attempted = Object.keys(userAnswers).length;
+        let unattempted = testQuestions.length - attempted;
+        let correct = 0;
+        let incorrect = 0;
+
+        testQuestions.forEach((q, idx) => {
+            if (userAnswers[idx] !== undefined) {
+                if (userAnswers[idx] === q.answer) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
+            }
+        });
+
+        let marksObtained = correct; // No negative marking (+1 correct, 0 incorrect)
+        let maxMarks = testQuestions.length;
+        let percentage = Math.round((marksObtained / maxMarks) * 100);
+
+        let endTime = new Date();
+        let timeTakenSecs = Math.floor((endTime - startTime) / 1000);
+        let timeTakenMins = Math.floor(timeTakenSecs / 60);
+        let timeTakenSecsRem = timeTakenSecs % 60;
+        let timeTakenStr = `${timeTakenMins}m ${timeTakenSecsRem}s`;
+
+        // Performance message
+        let perfBadge = document.getElementById("performance-badge");
+        let perfText = "";
+        let badgeColor = "";
+        if (percentage >= 90) { perfText = "Excellent Performance!"; badgeColor = "#10b981"; }
+        else if (percentage >= 75) { perfText = "Very Good Performance!"; badgeColor = "#3b82f6"; }
+        else if (percentage >= 60) { perfText = "Good Performance!"; badgeColor = "#8b5cf6"; }
+        else if (percentage >= 40) { perfText = "Keep Practicing!"; badgeColor = "#f59e0b"; }
+        else { perfText = "More Practice Required!"; badgeColor = "#ef4444"; }
+
+        perfBadge.textContent = perfText;
+        perfBadge.style.background = badgeColor;
+        perfBadge.style.color = "#fff";
+
+        // Fill result metrics
+        document.getElementById("res-student-info").textContent = `${studentData.name} | ${studentData.course} | ${studentData.email}`;
+        document.getElementById("res-total").textContent = maxMarks;
+        document.getElementById("res-attempted").textContent = attempted;
+        document.getElementById("res-unattempted").textContent = unattempted;
+        document.getElementById("res-correct").textContent = correct;
+        document.getElementById("res-incorrect").textContent = incorrect;
+        document.getElementById("res-marks").textContent = `${marksObtained} / ${maxMarks}`;
+        document.getElementById("res-percentage").textContent = `${percentage}%`;
+        document.getElementById("res-time").textContent = timeTakenStr;
+
+        examScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+
+        // Send Email to Admin via EmailJS
+        sendAdminEmail({
+            total: maxMarks,
+            attempted,
+            unattempted,
+            correct,
+            incorrect,
+            marks: marksObtained,
+            percentage,
+            timeTaken: timeTakenStr
+        });
+    }
+
+    /* ========================================================
+       EMAIL DISPATCH VIA EMAILJS
+       ======================================================== */
+    function sendAdminEmail(stats) {
+        let questionDetailsHtml = "<table border='1' cellpadding='5' cellspacing='0' style='border-collapse:collapse;font-size:12px;'><tr><th>Q.No</th><th>Question</th><th>Student Answer</th><th>Correct Answer</th><th>Status</th></tr>";
+        
+        testQuestions.forEach((q, idx) => {
+            let studentAnsIdx = userAnswers[idx];
+            let studentAnsText = studentAnsIdx !== undefined ? q.options[studentAnsIdx].en : "Unattempted";
+            let correctAnsText = q.options[q.answer].en;
+            let status = "Unattempted";
+            if (studentAnsIdx !== undefined) {
+                status = studentAnsIdx === q.answer ? "Correct" : "Incorrect";
+            }
+            questionDetailsHtml += `<tr><td>${idx+1}</td><td>${q.question.en}</td><td>${studentAnsText}</td><td>${correctAnsText}</td><td>${status}</td></tr>`;
+        });
+        questionDetailsHtml += "</table>";
+
+        const templateParams = {
+            to_email: CONFIG.adminEmail,
+            institute_name: CONFIG.instituteName,
+            student_name: studentData.name,
+            student_course: studentData.course,
+            student_email: studentData.email,
+            test_date: new Date().toLocaleDateString(),
+            test_time: new Date().toLocaleTimeString(),
+            total_questions: stats.total,
+            attempted_questions: stats.attempted,
+            unattempted_questions: stats.unattempted,
+            correct_answers: stats.correct,
+            incorrect_answers: stats.incorrect,
+            marks_obtained: stats.marks,
+            max_marks: stats.total,
+            percentage: stats.percentage + "%",
+            time_taken: stats.timeTaken,
+            question_details: questionDetailsHtml
+        };
+
+        const banner = document.getElementById("email-status-banner");
+
+        emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, templateParams)
+            .then(response => {
+                console.log("Email sent successfully!", response.status, response.text);
+            })
+            .catch(error => {
+                console.error("Failed to send email result.", error);
+                banner.innerHTML = `<div class="error-banner">Notice: Your test was successfully evaluated, but the admin notification email could not be dispatched at this moment.</div>`;
+            });
+    }
+</script>
+
+</body>
+</html>
