@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Wala Computer Classes - Online Examination</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #8b5cf6;
+            --neutral: #e5e7eb;
+            --bg-color: #f8fafc;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 92vh;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-info {
+            font-size: 0.9rem;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .timer-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .screen {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .instructions-box {
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .instructions-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .instructions-box li {
+            margin-bottom: 8px;
+        }
+
+        .exam-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            height: 100%;
+            min-height: 450px;
+        }
+
+        @media (max-width: 768px) {
+            .exam-layout {
+                grid-template-columns: 1fr;
+            }
+            .palette-sidebar {
+                order: -1;
+            }
+        }
+
+        .question-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .q-number {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .q-text-en {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .q-text-hi {
+            font-size: 1rem;
+            color: #4b5563;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-light);
+        }
+
+        .option-item input {
+            margin-top: 3px;
+        }
+
+        .option-text div {
+            font-size: 0.95rem;
+        }
+        .option-text .hi-opt {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .exam-controls {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .exam-controls-left, .exam-controls-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .palette-sidebar {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .palette-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .dot-green { background: var(--success); }
+        .dot-red { background: var(--danger); }
+        .dot-purple { background: var(--warning); }
+        .dot-neutral { background: var(--border-color); }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .palette-btn.attempted { background: var(--success); color: white; border-color: var(--success); }
+        .palette-btn.unattempted { background: var(--danger); color: white; border-color: var(--danger); }
+        .palette-btn.review { background: var(--warning); color: white; border-color: var(--warning); }
+        .palette-btn.current { border: 2px solid var(--primary); box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+
+        .result-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .error-banner {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1 id="institute-title">Competition Wala Computer Classes</h1>
+        <div class="header-info hidden" id="header-info">
+            <span id="hdr-student"></span>
+            <span id="hdr-course"></span>
+            <div class="timer-badge" id="timer-display">30:00</div>
+        </div>
+    </header>
+
+    <!-- 1. STUDENT LOGIN SCREEN -->
+    <div id="login-screen" class="screen">
+        <div class="login-card">
+            <h2>Online Test Portal</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="student-name">Student Name *</label>
+                    <input type="text" id="student-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="student-course">Course *</label>
+                    <select id="student-course" required>
+                        <option value="">Select Course</option>
+                        <option value="DCA">DCA</option>
+                        <option value="ADCA">ADCA</option>
+                        <option value="DCTT">DCTT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-email">Email Address *</label>
+                    <select id="student-email" required>
+                        <option value="">Select Demo Email</option>
+                        <option value="student1.adca@gmail.com">student1.adca@gmail.com</option>
+                        <option value="learner.competitionwala@gmail.com">learner.competitionwala@gmail.com</option>
+                        <option value="aspirant.shashisir@gmail.com">aspirant.shashisir@gmail.com</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Start Test</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. INSTRUCTIONS SCREEN -->
+    <div id="instruction-screen" class="screen hidden">
+        <div style="max-width: 700px; margin: 0 auto;">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
+            <div class="instructions-box">
+                <ul>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions (Computer Memory, Storage & Input Device History/Generations).</li>
+                    <li><strong>Time Limit:</strong> <span id="inst-time-limit">30</span> minutes. Test auto-submits when time expires.</li>
+                    <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
+                    <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
+                    <li><strong>Question Palette States:</strong>
+                        <ul style="margin-top: 5px;">
+                            <li><span class="dot dot-green" style="display:inline-block;"></span> Green = Attempted</li>
+                            <li><span class="dot dot-red" style="display:inline-block;"></span> Red = Not Attempted</li>
+                            <li><span class="dot dot-purple" style="display:inline-block;"></span> Purple = Marked for Review</li>
+                            <li><span class="dot dot-neutral" style="display:inline-block;"></span> Neutral = Not Visited</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button id="begin-test-btn" class="btn">Proceed to Test</button>
+        </div>
+    </div>
+
+    <!-- 3. EXAMINATION SCREEN -->
+    <div id="exam-screen" class="screen hidden">
+        <div class="exam-layout">
+            <div class="question-area">
+                <div>
+                    <div class="q-number" id="q-counter">Question 1 of 30</div>
+                    <div class="q-text-en" id="q-en">Loading question...</div>
+                    <div class="q-text-hi" id="q-hi">प्रश्न लोड हो रहा है...</div>
+
+                    <div class="options-list" id="options-container">
+                        <!-- Options injected dynamically -->
+                    </div>
+                </div>
+
+                <div class="exam-controls">
+                    <div class="exam-controls-left">
+                        <button class="btn btn-secondary" id="prev-btn">Previous</button>
+                        <button class="btn btn-secondary" id="next-btn">Next</button>
+                    </div>
+                    <div class="exam-controls-right">
+                        <button class="btn btn-secondary" id="clear-btn" style="background: #eab308;">Clear Response</button>
+                        <button class="btn btn-secondary" id="review-btn" style="background: var(--warning);">Mark for Review</button>
+                        <button class="btn" id="submit-test-btn" style="background: var(--success);">Submit Test</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette-sidebar">
+                <h3>Question Palette</h3>
+                <div class="palette-legend">
+                    <div class="legend-item"><span class="dot dot-green"></span> Attempted</div>
+                    <div class="legend-item"><span class="dot dot-red"></span> Not Attempted</div>
+                    <div class="legend-item"><span class="dot dot-purple"></span> Review</div>
+                    <div class="legend-item"><span class="dot dot-neutral"></span> Not Visited</div>
+                </div>
+                <div class="palette-grid" id="palette-grid">
+                    <!-- Palette buttons injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RESULT SCREEN -->
+    <div id="result-screen" class="screen hidden">
+        <div class="result-card">
+            <div class="result-header">
+                <h2>ONLINE TEST RESULT</h2>
+                <p id="res-student-info" style="color: #4b5563; margin-top: 4px;"></p>
+                <div id="performance-badge" class="performance-badge">Good Performance!</div>
+            </div>
+
+            <div id="email-status-banner"></div>
+
+            <div class="stats-grid">
+                <div class="stat-item"><span>Total Questions:</span> <strong id="res-total">0</strong></div>
+                <div class="stat-item"><span>Attempted:</span> <strong id="res-attempted">0</strong></div>
+                <div class="stat-item"><span>Unattempted:</span> <strong id="res-unattempted">0</strong></div>
+                <div class="stat-item"><span>Correct Answers:</span> <strong id="res-correct" style="color:var(--success)">0</strong></div>
+                <div class="stat-item"><span>Incorrect Answers:</span> <strong id="res-incorrect" style="color:var(--danger)">0</strong></div>
+                <div class="stat-item"><span>Marks Obtained:</span> <strong id="res-marks">0</strong></div>
+                <div class="stat-item"><span>Percentage:</span> <strong id="res-percentage">0%</strong></div>
+                <div class="stat-item"><span>Time Taken:</span> <strong id="res-time">00:00</strong></div>
+            </div>
+            
+            <button class="btn" onclick="location.reload()">Finish & Exit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ========================================================
+       ADMIN & SYSTEM CONFIGURATION
+       ======================================================== */
+    const CONFIG = {
+        instituteName: "Competition Wala Computer Classes",
+        numberOfQuestions: 30,
+        adminEmail: "competitionwalaadmin@gmail.com",
+        emailjsServiceId: "service_d15114h",     
+        emailjsTemplateId: "template_2yx0cwh",   
+        emailjsPublicKey:  "-7EDKicno-1aJnWPA"    
+    };
+
+    // Initialize EmailJS
+    try {
+        emailjs.init(CONFIG.emailjsPublicKey);
+    } catch (e) {
+        console.warn("EmailJS initialization skipped or failed.", e);
+    }
+
+    /* ========================================================
+       QUESTION BANK (30 Questions: 25 Computer Memory & Storage + 5 Input Device History & Generations)
+       ======================================================== */
+    const masterQuestionBank = [
+        // --- 25 COMPUTER MEMORY & TYPES OF STORAGE QUESTIONS ---
+        {
+            question: { en: "What is the primary characteristic of RAM (Random Access Memory)?", hi: "RAM (रैंडम एक्सेस मेमोरी) की प्राथमिक विशेषता क्या है?" },
+            options: [
+                { en: "Volatile memory that loses all data when power is turned off", hi: "अस्थिर (volatile) मेमोरी जो बिजली बंद होने पर सारा डेटा खो देती है" },
+                { en: "Permanent non-volatile storage for operating system installation files", hi: "ऑपरेटिंग सिस्टम इंस्टॉलेशन फाइलों के लिए स्थायी नॉन-वोलाटाइल स्टोरेज" },
+                { en: "An ultra-slow backup magnetic tape drive system", hi: "एक अति-धीमा बैकअप चुंबकीय टेप ड्राइव सिस्टम" },
+                { en: "A read-only permanent chip containing BIOS startup programs", hi: "BIOS स्टार्टअप प्रोग्राम युक्त रीड-ओनली स्थायी चिप" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which type of RAM uses capacitors and requires periodic electric refreshing to retain data?", hi: "किस प्रकार की रैम कैपेसिटर का उपयोग करती है और डेटा बनाए रखने के लिए आवधिक इलेक्ट्रिक रीफ्रेश की आवश्यकता होती है?" },
+            options: [
+                { en: "DRAM (Dynamic RAM)", hi: "DRAM (डायनेमिक रैम)" },
+                { en: "SRAM (Static RAM)", hi: "SRAM (स्टेटिक रैम)" },
+                { en: "CMOS RAM", hi: "CMOS रैम" },
+                { en: "EEPROM RAM", hi: "EEPROM रैम" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the main advantage of SRAM (Static RAM) over DRAM?", hi: "DRAM की तुलना में SRAM (स्टेटिक रैम) का मुख्य लाभ क्या है?" },
+            options: [
+                { en: "It is faster and does not require constant electrical refreshing", hi: "यह तेज है और इसके लिए निरंतर विद्युत रीफ्रेश की आवश्यकता नहीं होती है" },
+                { en: "It is much cheaper to manufacture in large capacities", hi: "बड़ी क्षमताओं में निर्माण करना बहुत सस्ता है" },
+                { en: "It retains data permanently even when powered off", hi: "यह बिजली बंद होने पर भी डेटा को स्थायी रूप से रखता है" },
+                { en: "It has a higher physical storage capacity than hard disks", hi: "हार्ड डिस्क की तुलना में इसकी भौतिक भंडारण क्षमता अधिक होती है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which DDR RAM generation introduced an 8-bit prefetch architecture and operated at a standard voltage of 1.5V?", hi: "किस DDR रैम पीढ़ी ने 8-बिट प्रीफ़ेच आर्किटेक्चर पेश किया और 1.5V के मानक वोल्टेज पर काम किया?" },
+            options: [
+                { en: "DDR3 RAM", hi: "DDR3 रैम" },
+                { en: "DDR1 RAM", hi: "DDR1 रैम" },
+                { en: "DDR2 RAM", hi: "DDR2 रैम" },
+                { en: "DDR5 RAM", hi: "DDR5 रैम" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the standard physical pin count for a modern DDR4 DIMM memory module?", hi: "आधुनिक DDR4 DIMM मेमोरी मॉड्यूल के लिए मानक भौतिक पिन संख्या क्या है?" },
+            options: [
+                { en: "288 pins", hi: "288 पिन" },
+                { en: "184 pins", hi: "184 पिन" },
+                { en: "240 pins", hi: "240 पिन" },
+                { en: "168 pins", hi: "168 पिन" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which memory type holds permanent startup instructions (BIOS) and is non-volatile?", hi: "कौन सा मेमोरी प्रकार स्थायी स्टार्टअप निर्देश (BIOS) रखता है और नॉन-वोलाटाइल है?" },
+            options: [
+                { en: "ROM (Read Only Memory)", hi: "ROM (रीड ओनली मेमोरी)" },
+                { en: "RAM (Random Access Memory)", hi: "RAM (रैंडम एक्सेस मेमोरी)" },
+                { en: "Cache Memory", hi: "कैश मेमोरी" },
+                { en: "Virtual Memory", hi: "वर्चुअल मेमोरी" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which type of ROM can be erased and reprogrammed using electrical signals?", hi: "किस प्रकार की ROM को विद्युत संकेतों का उपयोग करके मिटाया और पुन: प्रोग्राम किया जा सकता है?" },
+            options: [
+                { en: "EEPROM (Electrically Erasable Programmable ROM)", hi: "EEPROM (इलेक्ट्रिकली इरेज़ेबल प्रोग्रामेबल ROM)" },
+                { en: "Standard Mask ROM", hi: "मानक मास्क ROM" },
+                { en: "UV EPROM", hi: "UV EPROM" },
+                { en: "Static PROM", hi: "स्टेटिक PROM" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary function of Cache Memory in a computer system?", hi: "कंप्यूटर सिस्टम में कैश मेमोरी का प्राथमिक कार्य क्या है?" },
+            options: [
+                { en: "Acts as an ultra-fast buffer storing frequently accessed data between CPU and RAM", hi: "CPU और RAM के बीच बार-बार एक्सेस किए जाने वाले डेटा को स्टोर करने वाले अति-तेज बफर के रूप में कार्य करता है" },
+                { en: "Provides permanent long-term mass storage for software games and movies", hi: "सॉफ्टवेयर गेम और फिल्मों के लिए स्थायी दीर्घकालिक मास स्टोरेज प्रदान करता है" },
+                { en: "Converts AC power into DC current for motherboard circuits", hi: "मदरबोर्ड सर्किट के लिए AC पावर को DC करंट में परिवर्तित करता है" },
+                { en: "Scans paper documents into digital PDF files", hi: "कागजी दस्तावेजों को डिजिटल पीडीएफ फाइलों में स्कैन करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which level of cache memory is closest and fastest to the CPU core?", hi: "कैश मेमोरी का कौन सा स्तर CPU कोर के सबसे करीब और सबसे तेज होता है?" },
+            options: [
+                { en: "L1 Cache", hi: "L1 कैश" },
+                { en: "L2 Cache", hi: "L2 कैश" },
+                { en: "L3 Cache", hi: "L3 कैश" },
+                { en: "L4 Main Cache", hi: "L4 मुख्य कैश" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the fundamental difference between primary memory and secondary memory?", hi: "प्राइमरी मेमोरी और सेकेंडरी मेमोरी के बीच मौलिक अंतर क्या है?" },
+            options: [
+                { en: "Primary memory is volatile and directly accessed by the CPU; secondary memory is permanent and external", hi: "प्राइमरी मेमोरी वोलाटाइल होती है और CPU द्वारा सीधे एक्सेस की जाती है; सेकेंडरी मेमोरी स्थायी और बाहरी होती है" },
+                { en: "Secondary memory is faster and smaller in capacity than primary memory", hi: "सेकेंडरी मेमोरी प्राइमरी मेमोरी की तुलना में तेज और क्षमता में छोटी होती है" },
+                { en: "Primary memory stores permanent user documents while secondary memory stores system boot files", hi: "प्राइमरी मेमोरी स्थायी उपयोगकर्ता दस्तावेज़ संग्रहीत करती है जबकि सेकेंडरी मेमोरी सिस्टम बूट फाइलें संग्रहीत करती है" },
+                { en: "There is no functional difference between them", hi: "उनके बीच कोई कार्यात्मक अंतर नहीं है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which storage device uses spinning magnetic disks (platters) to read and write data?", hi: "कौन सा स्टोरेज डिवाइस डेटा पढ़ने और लिखने के लिए घूमने वाली चुंबकीय डिस्क (प्लैटर्स) का उपयोग करता है?" },
+            options: [
+                { en: "Hard Disk Drive (HDD)", hi: "हार्ड डिस्क ड्राइव (HDD)" },
+                { en: "Solid State Drive (SSD)", hi: "सॉलिड स्टेट ड्राइव (SSD)" },
+                { en: "USB Flash Pen Drive", hi: "यूएसबी फ्लैश पेन ड्राइव" },
+                { en: "SD Memory Card", hi: "एसडी मेमोरी कार्ड" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is a major advantage of an SSD (Solid State Drive) compared to a traditional HDD?", hi: "पारंपरिक HDD की तुलना में SSD (सॉलिड स्टेट ड्राइव) का एक बड़ा लाभ क्या है?" },
+            options: [
+                { en: "Significantly faster read/write speeds with no moving mechanical parts", hi: "बिना किसी हिलने वाले मैकेनिकल पार्ट के काफी तेज रीड/राइट स्पीड" },
+                { en: "Cheaper cost per gigabyte of stored data", hi: "संग्रहीत डेटा के प्रति गीगाबाइट कम लागत" },
+                { en: "Uses spinning magnetic platters for data storage", hi: "डेटा स्टोरेज के लिए घूमने वाले चुंबकीय प्लैटर्स का उपयोग करता है" },
+                { en: "Requires continuous mechanical motor calibration", hi: "निरंतर मैकेनिकल मोटर कैलिब्रेशन की आवश्यकता होती है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the standard data storage capacity of a single-layer standard DVD?", hi: "सिंगल-लेयर मानक DVD की मानक डेटा भंडारण क्षमता क्या है?" },
+            options: [
+                { en: "4.7 GB", hi: "4.7 GB" },
+                { en: "700 MB", hi: "700 MB" },
+                { en: "25 GB", hi: "25 GB" },
+                { en: "1.44 MB", hi: "1.44 MB" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the maximum data storage capacity typically offered by a standard compact disc (CD)?", hi: "मानक कॉम्पैक्ट डिस्क (CD) द्वारा आमतौर पर अधिकतम डेटा भंडारण क्षमता क्या दी जाती है?" },
+            options: [
+                { en: "700 MB", hi: "700 MB" },
+                { en: "4.7 GB", hi: "4.7 GB" },
+                { en: "50 GB", hi: "50 GB" },
+                { en: "8.5 GB", hi: "8.5 GB" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the storage capacity range of a standard Blu-Ray Disc used for HD movies?", hi: "HD फिल्मों के लिए उपयोग की जाने वाली मानक ब्लू-रे डिस्क की भंडारण क्षमता सीमा क्या है?" },
+            options: [
+                { en: "25 GB to 50 GB", hi: "25 GB से 50 GB" },
+                { en: "650 MB to 700 MB", hi: "650 MB से 700 MB" },
+                { en: "4.7 GB to 8.5 GB", hi: "4.7 GB से 8.5 GB" },
+                { en: "1.44 MB to 10 MB", hi: "1.44 MB से 10 MB" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What type of storage technology does a USB Flash Drive (Pen Drive) utilize?", hi: "USB फ्लैश ड्राइव (पेन ड्राइव) किस प्रकार की स्टोरेज तकनीक का उपयोग करता है?" },
+            options: [
+                { en: "Solid-state NAND flash memory with no moving parts", hi: "बिना किसी हिलने वाले भाग के सॉलिड-स्टेट नंद फ्लैश मेमोरी" },
+                { en: "Spinning magnetic platters coated with iron oxide", hi: "आयरन ऑक्साइड से लेपित घूमते हुए चुंबकीय प्लैटर्स" },
+                { en: "Optical laser light beam reflection pits", hi: "ऑप्टिकल लेजर प्रकाश बीम परावर्तन गड्ढे" },
+                { en: "Vacuum tube electronic relays", hi: "वैक्यूम ट्यूब इलेक्ट्रॉनिक रिले" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What was the data storage capacity of a vintage standard 3.5-inch floppy disk?", hi: "विंटेज मानक 3.5-इंच फ्लॉपी डिस्क की डेटा भंडारण क्षमता क्या थी?" },
+            options: [
+                { en: "1.44 MB", hi: "1.44 MB" },
+                { en: "700 MB", hi: "700 MB" },
+                { en: "4.7 GB", hi: "4.7 GB" },
+                { en: "512 KB", hi: "512 KB" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What does cloud storage allow users to do over the internet?", hi: "क्लाउड स्टोरेज उपयोगकर्ताओं को इंटरनेट पर क्या करने की अनुमति देता है?" },
+            options: [
+                { en: "Save and access files online on secure remote servers anytime from any device", hi: "किसी भी डिवाइस से किसी भी समय सुरक्षित रिमोट सर्वर पर ऑनलाइन फाइलें सहेजना और एक्सेस करना" },
+                { en: "Physically print paper documents using thermal ink ribbons", hi: "थर्मल इंक रिबन का उपयोग करके भौतिक रूप से कागजी दस्तावेज प्रिंट करना" },
+                { en: "Boost computer processor CPU clock speed beyond limits", hi: "कंप्यूटर प्रोसेसर CPU क्लॉक स्पीड को सीमा से आगे बढ़ाना" },
+                { en: "Convert analog audio sound waves into digital mp3 files", hi: "एनालॉग ऑडियो ध्वनि तरंगों को डिजिटल mp3 फाइलों में बदलना" },
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How many bits are equal to 1 Byte in computer data measurement?", hi: "कंप्यूटर डेटा माप में कितने बिट्स 1 बाइट के बराबर होते हैं?" },
+            options: [
+                { en: "8 bits", hi: "8 बिट्स" },
+                { en: "4 bits", hi: "4 बिट्स" },
+                { en: "1024 bits", hi: "1024 बिट्स" },
+                { en: "16 bits", hi: "16 बिट्स" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which storage unit measurement is larger than a Gigabyte (GB)?", hi: "कौन सा स्टोरेज यूनिट माप गीगाबाइट (GB) से बड़ा है?" },
+            options: [
+                { en: "Terabyte (TB)", hi: "टेराबाइट (TB)" },
+                { en: "Kilobyte (KB)", hi: "किलोबाइट (KB)" },
+                { en: "Megabyte (MB)", hi: "मेगाबाइट (MB)" },
+                { en: "Nibble", hi: "निब्बल" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What does 'EPROM' stand for in computer memory terminology?", hi: "कंप्यूटर मेमोरी शब्दावली में 'EPROM' का पूर्ण रूप क्या है?" },
+            options: [
+                { en: "Erasable Programmable Read Only Memory", hi: "इरेज़ेबल प्रोग्रामेबल रीड ओनली मेमोरी" },
+                { en: "Electronic Permanent Random Output Module", hi: "इलेक्ट्रॉनिक स्थायी रैंडम आउटपुट मॉड्यूल" },
+                { en: "Extended Primary RAM Operating Machine", hi: "विस्तृत प्राइमरी रैम ऑपरेटिंग मशीन" },
+                { en: "External Peripheral Record Optical Media", hi: "बाहरी पेरिफेरल रिकॉर्ड ऑप्टिकल मीडिया" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which modern RAM generation introduced on-module PMIC and built-in On-Die ECC for extreme speeds?", hi: "किस आधुनिक रैम पीढ़ी ने अत्यधिक गति के लिए ऑन-मॉड्यूल PMIC और अंतर्निहित On-Die ECC पेश किया?" },
+            options: [
+                { en: "DDR5 RAM", hi: "DDR5 रैम" },
+                { en: "DDR1 RAM", hi: "DDR1 रैम" },
+                { en: "DDR2 RAM", hi: "DDR2 रैम" },
+                { en: "DDR3 RAM", hi: "DDR3 रैम" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is a primary drawback of using an HDD compared to an SSD?", hi: "SSD की तुलना में HDD का उपयोग करने का प्राथमिक नुकसान क्या है?" },
+            options: [
+                { en: "Slower performance and susceptibility to physical shock damage from moving parts", hi: "धीमी प्रदर्शन गति और मूविंग पार्ट्स से फिजिकल शॉक डैमेज का खतरा" },
+                { en: "Higher cost per gigabyte of storage", hi: "भंडारण के प्रति गीगाबाइट अधिक लागत" },
+                { en: "Lack of large capacity storage options", hi: "बड़ी क्षमता वाले स्टोरेज विकल्पों की कमी" },
+                { en: "Inability to boot Windows operating systems", hi: "Windows ऑपरेटिंग सिस्टम बूट करने में असमर्थता" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which of the following is a classic example of optical storage media?", hi: "निम्नलिखित में से कौन सा ऑप्टिकल स्टोरेज मीडिया का एक उत्कृष्ट उदाहरण है?" },
+            options: [
+                { en: "Blu-Ray Disc", hi: "ब्लू-रे डिस्क" },
+                { en: "DDR4 RAM Stick", hi: "DDR4 रैम स्टिक" },
+                { en: "CPU L3 Cache Chip", hi: "CPU L3 कैश चिप" },
+                { en: "Solid State Drive (SSD)", hi: "सॉलिड स्टेट ड्राइव (SSD)" },
+                
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What does the volatile nature of RAM mean for stored data?", hi: "संग्रहीत डेटा के लिए RAM की वोलाटाइल प्रकृति का क्या अर्थ है?" },
+            options: [
+                { en: "All data is completely erased when the computer is powered off", hi: "कंप्यूटर बंद होने पर सारा डेटा पूरी तरह से मिट जाता है" },
+                { en: "Data is permanently preserved for years without power", hi: "बिना बिजली के भी डेटा वर्षों तक स्थायी रूप से सुरक्षित रहता है" },
+                { en: "Data is converted into optical laser beam pits", hi: "डेटा को ऑप्टिकल लेजर बीम गड्ढों में परिवर्तित किया जाता है" },
+                { en: "Data can only be read and never modified", hi: "डेटा को केवल पढ़ा जा सकता है और कभी संशोधित नहीं किया जा सकता है" }
+            ],
+            answer: 0
+        },
+
+        // --- 5 INPUT DEVICE HISTORY & GENERATIONS OF COMPUTER QUESTIONS ---
+        {
+            question: { en: "Who invented the computer mouse as a handheld pointing device in 1964?", hi: "1964 में हैंडहेल्ड पॉइंटिंग डिवाइस के रूप में कंप्यूटर माउस का आविष्कार किसने किया था?" },
+            options: [
+                { en: "Douglas Engelbart", hi: "डगलस एंजेलबार्ट" },
+                { en: "Christopher Latham Sholes", hi: "क्रिस्टोफर लैथम शोल्स" },
+                { en: "Charles Babbage", hi: "चार्ल्स बैबेज" },
+                { en: "John Napier", hi: "जॉन नेपियर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Who is credited with inventing the standard computer keyboard layout (QWERTY)?", hi: "मानक कंप्यूटर कीबोर्ड लेआउट (QWERTY) का आविष्कार करने का श्रेय किसे दिया जाता है?" },
+            options: [
+                { en: "Christopher Latham Sholes", hi: "क्रिस्टोफर लैथम शोल्स" },
+                { en: "Douglas Engelbart", hi: "डगलस एंजेलबार्ट" },
+                { en: "Blaise Pascal", hi: "ब्लेस पास्कल" },
+                { en: "Gottfried Leibniz", hi: "गॉटफ्रीड लिबनिज" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What core circuit technology defined 1st Generation computers (1940-1956)?", hi: "किस मुख्य सर्किट तकनीक ने पहली पीढ़ी के कंप्यूटर (1940-1956) को परिभाषित किया?" },
+            options: [
+                { en: "Vacuum Tubes", hi: "वैक्यूम ट्यूब" },
+                { en: "Transistors", hi: "ट्रांजिस्टर" },
+                { en: "Integrated Circuits (ICs)", hi: "इंटीग्रेटेड सर्किट (IC)" },
+                { en: "Microprocessors (VLSI)", hi: "माइक्रोप्रोसेसर (VLSI)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which electronic component replaced bulky vacuum tubes in 2nd Generation computers (1956-1963)?", hi: "दूसरी पीढ़ी के कंप्यूटरों (1956-1963) में भारी वैक्यूम ट्यूबों की जगह किस इलेक्ट्रॉनिक घटक ने ली?" },
+            options: [
+                { en: "Transistors", hi: "ट्रांजिस्टर" },
+                { en: "Magnetic Core Drums", hi: "मैग्नेटिक कोर ड्रम" },
+                { en: "ULSI Artificial Neural Chips", hi: "ULSI कृत्रिम तंत्रिका चिप्स" },
+                { en: "Mechanical Relays", hi: "यांत्रिक रिले" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What revolutionary technology introduced in 1971 squeezed thousands/millions of transistors onto a single silicon chip, powering 4th Generation computers?", hi: "1971 में पेश की गई किस क्रांतिकारी तकनीक ने हजारों/लाखों ट्रांजिस्टर को एक ही सिलिकॉन चिप पर समेट दिया, जिससे चौथी पीढ़ी के कंप्यूटरों को शक्ति मिली?" },
+            options: [
+                { en: "Microprocessor (VLSI)", hi: "माइक्रोप्रोसेसर (VLSI)" },
+                { en: "Vacuum Tube Array", hi: "वैक्यूम ट्यूब ऐरे" },
+                { en: "Punch Card Reader", hi: "पंच कार्ड रीडर" },
+                { en: "Magnetic Tape Reel", hi: "मैग्नेटिक टेप रील" }
+            ],
+            answer: 0
+        }
+    ];
+
+    /* ========================================================
+       APPLICATION STATE
+       ======================================================== */
+    let studentData = { name: "", course: "", email: "" };
+    let testQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = {}; // questionIndex -> selectedOptionIndex
+    let markedForReview = {}; // questionIndex -> boolean
+    let visitedQuestions = new Set();
+    let timerInterval = null;
+    let timeLeft = 30 * 60; // Exactly 30 minutes
+    let startTime = null;
+    let isSubmitted = false;
+
+    /* ========================================================
+       DOM REFERENCES
+       ======================================================== */
+    const loginScreen = document.getElementById("login-screen");
+    const instructionScreen = document.getElementById("instruction-screen");
+    const examScreen = document.getElementById("exam-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const loginForm = document.getElementById("login-form");
+    const headerInfo = document.getElementById("header-info");
+    const hdrStudent = document.getElementById("hdr-student");
+    const hdrCourse = document.getElementById("hdr-course");
+    const timerDisplay = document.getElementById("timer-display");
+    const beginTestBtn = document.getElementById("begin-test-btn");
+
+    // Exam Screen Elements
+    const qCounter = document.getElementById("q-counter");
+    const qEn = document.getElementById("q-en");
+    const qHi = document.getElementById("q-hi");
+    const optionsContainer = document.getElementById("options-container");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const reviewBtn = document.getElementById("review-btn");
+    const submitTestBtn = document.getElementById("submit-test-btn");
+    const paletteGrid = document.getElementById("palette-grid");
+
+    /* ========================================================
+       EVENT LISTENERS & FLOW
+       ======================================================== */
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("student-name").value.trim();
+        const course = document.getElementById("student-course").value;
+        const email = document.getElementById("student-email").value;
+
+        if (!name || !course || !email) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        studentData = { name, course, email };
+        
+        // Populate instructions
+        document.getElementById("inst-total-q").textContent = CONFIG.numberOfQuestions;
+        document.getElementById("inst-time-limit").textContent = "30";
+
+        loginScreen.classList.add("hidden");
+        instructionScreen.classList.remove("hidden");
+    });
+
+    beginTestBtn.addEventListener("click", () => {
+        initTest();
+        instructionScreen.classList.add("hidden");
+        examScreen.classList.remove("hidden");
+        headerInfo.classList.remove("hidden");
+        
+        hdrStudent.textContent = `Student: ${studentData.name}`;
+        hdrCourse.textContent = `Course: ${studentData.course}`;
+
+        startTimer();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (currentIndex < testQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion();
+        }
+    });
+
+    clearBtn.addEventListener("click", () => {
+        delete userAnswers[currentIndex];
+        renderQuestion();
+        updatePalette();
+    });
+
+    reviewBtn.addEventListener("click", () => {
+        if (markedForReview[currentIndex]) {
+            delete markedForReview[currentIndex];
+        } else {
+            markedForReview[currentIndex] = true;
+        }
+        renderQuestion();
+        updatePalette();
+    });
+
+    submitTestBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to submit the test?")) {
+            submitTest();
+        }
+    });
+
+    /* ========================================================
+       TEST INITIALIZATION & RANDOMIZATION
+       ======================================================== */
+    function initTest() {
+        startTime = new Date();
+        let numQ = CONFIG.numberOfQuestions;
+        
+        if (masterQuestionBank.length < numQ) {
+            alert(`Requested ${numQ} questions, but only ${masterQuestionBank.length} available in bank. Adjusting accordingly.`);
+            numQ = masterQuestionBank.length;
+        }
+
+        // Shuffle questions and select numQ
+        let shuffledBank = [...masterQuestionBank].sort(() => 0.5 - Math.random());
+        let selected = shuffledBank.slice(0, numQ);
+
+        // Randomize options for each question while tracking correct answer index
+        testQuestions = selected.map(q => {
+            let optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+            optionsWithIndex.sort(() => 0.5 - Math.random());
+            
+            let newOptions = optionsWithIndex.map(item => item.opt);
+            let newAnswerIndex = optionsWithIndex.findIndex(item => item.originalIndex === q.answer);
+
+            return {
+                question: q.question,
+                options: newOptions,
+                answer: newAnswerIndex
+            };
+        });
+
+        timeLeft = 30 * 60; // 30 minutes total timer
+        currentIndex = 0;
+        renderPaletteGrid();
+        renderQuestion();
+    }
+
+    /* ========================================================
+       RENDER QUESTION & PALETTE
+       ======================================================== */
+    function renderQuestion() {
+        visitedQuestions.add(currentIndex);
+        const q = testQuestions[currentIndex];
+
+        qCounter.textContent = `Question ${currentIndex + 1} of ${testQuestions.length}`;
+        qEn.textContent = q.question.en;
+        qHi.textContent = q.question.hi;
+
+        optionsContainer.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+            const isChecked = userAnswers[currentIndex] === idx ? "checked" : "";
+            const div = document.createElement("label");
+            div.className = "option-item";
+            div.innerHTML = `
+                <input type="radio" name="question_option" value="${idx}" ${isChecked} onchange="selectOption(${idx})">
+                <div class="option-text">
+                    <div><strong>${String.fromCharCode(65 + idx)}.</strong> ${opt.en}</div>
+                    <div class="hi-opt">${opt.hi}</div>
+                </div>
+            `;
+            optionsContainer.appendChild(div);
+        });
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === testQuestions.length - 1;
+        
+        updatePalette();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentIndex] = optIdx;
+        updatePalette();
+    }
+
+    function renderPaletteGrid() {
+        paletteGrid.innerHTML = "";
+        testQuestions.forEach((_, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "palette-btn neutral";
+            btn.textContent = idx + 1;
+            btn.id = `palette-btn-${idx}`;
+            btn.onclick = () => {
+                currentIndex = idx;
+                renderQuestion();
+            };
+            paletteGrid.appendChild(btn);
+        });
+    }
+
+    function updatePalette() {
+        testQuestions.forEach((_, idx) => {
+            const btn = document.getElementById(`palette-btn-${idx}`);
+            if (!btn) return;
+
+            btn.className = "palette-btn";
+
+            if (idx === currentIndex) {
+                btn.classList.add("current");
+            }
+
+            if (userAnswers[idx] !== undefined) {
+                btn.classList.add("attempted");
+            } else if (markedForReview[idx]) {
+                btn.classList.add("review");
+            } else if (visitedQuestions.has(idx)) {
+                btn.classList.add("unattempted");
+            } else {
+                btn.classList.add("neutral");
+            }
+        });
+    }
+
+    /* ========================================================
+       TIMER LOGIC (30 Minutes)
+       ======================================================== */
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will be submitted automatically.");
+                submitTest();
+                return;
+            }
+
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            if (timeLeft === 300) {
+                alert("Warning: Only 5 minutes remaining!");
+            }
+        }, 1000);
+    }
+
+    /* ========================================================
+       SUBMISSION & RESULT CALCULATION
+       ======================================================== */
+    function submitTest() {
+        if (isSubmitted) return;
+        isSubmitted = true;
+        clearInterval(timerInterval);
+
+        let attempted = Object.keys(userAnswers).length;
+        let unattempted = testQuestions.length - attempted;
+        let correct = 0;
+        let incorrect = 0;
+
+        testQuestions.forEach((q, idx) => {
+            if (userAnswers[idx] !== undefined) {
+                if (userAnswers[idx] === q.answer) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
+            }
+        });
+
+        let marksObtained = correct; // No negative marking (+1 correct, 0 incorrect)
+        let maxMarks = testQuestions.length;
+        let percentage = Math.round((marksObtained / maxMarks) * 100);
+
+        let endTime = new Date();
+        let timeTakenSecs = Math.floor((endTime - startTime) / 1000);
+        let timeTakenMins = Math.floor(timeTakenSecs / 60);
+        let timeTakenSecsRem = timeTakenSecs % 60;
+        let timeTakenStr = `${timeTakenMins}m ${timeTakenSecsRem}s`;
+
+        // Performance message
+        let perfBadge = document.getElementById("performance-badge");
+        let perfText = "";
+        let badgeColor = "";
+        if (percentage >= 90) { perfText = "Excellent Performance!"; badgeColor = "#10b981"; }
+        else if (percentage >= 75) { perfText = "Very Good Performance!"; badgeColor = "#3b82f6"; }
+        else if (percentage >= 60) { perfText = "Good Performance!"; badgeColor = "#8b5cf6"; }
+        else if (percentage >= 40) { perfText = "Keep Practicing!"; badgeColor = "#f59e0b"; }
+        else { perfText = "More Practice Required!"; badgeColor = "#ef4444"; }
+
+        perfBadge.textContent = perfText;
+        perfBadge.style.background = badgeColor;
+        perfBadge.style.color = "#fff";
+
+        // Fill result metrics
+        document.getElementById("res-student-info").textContent = `${studentData.name} | ${studentData.course} | ${studentData.email}`;
+        document.getElementById("res-total").textContent = maxMarks;
+        document.getElementById("res-attempted").textContent = attempted;
+        document.getElementById("res-unattempted").textContent = unattempted;
+        document.getElementById("res-correct").textContent = correct;
+        document.getElementById("res-incorrect").textContent = incorrect;
+        document.getElementById("res-marks").textContent = `${marksObtained} / ${maxMarks}`;
+        document.getElementById("res-percentage").textContent = `${percentage}%`;
+        document.getElementById("res-time").textContent = timeTakenStr;
+
+        examScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+
+        // Send Email to Admin via EmailJS
+        sendAdminEmail({
+            total: maxMarks,
+            attempted,
+            unattempted,
+            correct,
+            incorrect,
+            marks: marksObtained,
+            percentage,
+            timeTaken: timeTakenStr
+        });
+    }
+
+    /* ========================================================
+       EMAIL DISPATCH VIA EMAILJS
+       ======================================================== */
+    function sendAdminEmail(stats) {
+        let questionDetailsHtml = "<table border='1' cellpadding='5' cellspacing='0' style='border-collapse:collapse;font-size:12px;'><tr><th>Q.No</th><th>Question</th><th>Student Answer</th><th>Correct Answer</th><th>Status</th></tr>";
+        
+        testQuestions.forEach((q, idx) => {
+            let studentAnsIdx = userAnswers[idx];
+            let studentAnsText = studentAnsIdx !== undefined ? q.options[studentAnsIdx].en : "Unattempted";
+            let correctAnsText = q.options[q.answer].en;
+            let status = "Unattempted";
+            if (studentAnsIdx !== undefined) {
+                status = studentAnsIdx === q.answer ? "Correct" : "Incorrect";
+            }
+            questionDetailsHtml += `<tr><td>${idx+1}</td><td>${q.question.en}</td><td>${studentAnsText}</td><td>${correctAnsText}</td><td>${status}</td></tr>`;
+        });
+        questionDetailsHtml += "</table>";
+
+        const templateParams = {
+            to_email: CONFIG.adminEmail,
+            institute_name: CONFIG.instituteName,
+            student_name: studentData.name,
+            student_course: studentData.course,
+            student_email: studentData.email,
+            test_date: new Date().toLocaleDateString(),
+            test_time: new Date().toLocaleTimeString(),
+            total_questions: stats.total,
+            attempted_questions: stats.attempted,
+            unattempted_questions: stats.unattempted,
+            correct_answers: stats.correct,
+            incorrect_answers: stats.incorrect,
+            marks_obtained: stats.marks,
+            max_marks: stats.total,
+            percentage: stats.percentage + "%",
+            time_taken: stats.timeTaken,
+            question_details: questionDetailsHtml
+        };
+
+        const banner = document.getElementById("email-status-banner");
+
+        emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, templateParams)
+            .then(response => {
+                console.log("Email sent successfully!", response.status, response.text);
+            })
+            .catch(error => {
+                console.error("Failed to send email result.", error);
+                banner.innerHTML = `<div class="error-banner">Notice: Your test was successfully evaluated, but the admin notification email could not be dispatched at this moment.</div>`;
+            });
+    }
+</script>
+
+</body>
+</html>
