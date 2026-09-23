@@ -380,7 +380,7 @@
         <div class="header-info hidden" id="header-info">
             <span id="hdr-student"></span>
             <span id="hdr-course"></span>
-            <div class="timer-badge" id="timer-display">30:00</div>
+            <div class="timer-badge" id="timer-display">50:00</div>
         </div>
     </header>
 
@@ -422,8 +422,8 @@
             <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
             <div class="instructions-box">
                 <ul>
-                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions (25 Output Devices & 5 Computer History).</li>
-                    <li><strong>Time Limit:</strong> <span id="inst-time-limit">30</span> minutes. Test auto-submits when time expires.</li>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">50</span> comprehensive questions covering all course modules.</li>
+                    <li><strong>Time Limit:</strong> <span id="inst-time-limit">50</span> minutes. Test auto-submits when time expires.</li>
                     <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
                     <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
                     <li><strong>Question Palette States:</strong>
@@ -445,7 +445,7 @@
         <div class="exam-layout">
             <div class="question-area">
                 <div>
-                    <div class="q-number" id="q-counter">Question 1 of 30</div>
+                    <div class="q-number" id="q-counter">Question 1 of 50</div>
                     <div class="q-text-en" id="q-en">Loading question...</div>
                     <div class="q-text-hi" id="q-hi">प्रश्न लोड हो रहा है...</div>
 
@@ -515,7 +515,7 @@
        ======================================================== */
     const CONFIG = {
         instituteName: "Competition Wala Computer Classes",
-        numberOfQuestions: 30,
+        numberOfQuestions: 50,
         adminEmail: "competitionwalaadmin@gmail.com",
         emailjsServiceId: "service_d15114h",     
         emailjsTemplateId: "template_2yx0cwh",   
@@ -530,269 +530,46 @@
     }
 
     /* ========================================================
-       QUESTION BANK (30 Questions: 25 Output Devices + 5 History/Generations)
+       QUESTION BANK (50 Comprehensive Questions Covering All PPT Topics)
        ======================================================== */
     const masterQuestionBank = [
-        // --- 25 OUTPUT DEVICE QUESTIONS ---
         {
-            question: { en: "What is the primary purpose of an Output Device in a computer system?", hi: "कंप्यूटर सिस्टम में आउटपुट डिवाइस का प्राथमिक उद्देश्य क्या है?" },
+            question: { en: "What is the primary definition of a computer as outlined in the course presentation?", hi: "कोर्स प्रेजेंटेशन में बताए गए अनुसार कंप्यूटर की प्राथमिक परिभाषा क्या है?" },
             options: [
-                { en: "Shows or delivers the result after a computer processes binary data into human-readable form", hi: "कंप्यूटर द्वारा बाइनरी डेटा को मानव-पठनीय रूप में संसाधित करने के बाद परिणाम दिखाता या वितरित करता है" },
-                { en: "Sends raw data and user button click instructions into the CPU", hi: "CPU में कच्चा डेटा और उपयोगकर्ता बटन क्लिक निर्देश भेजता है" },
-                { en: "Stores operating system installation files permanently without electricity", hi: "बिजली के बिना ऑपरेटिंग सिस्टम इंस्टॉलेशन फाइलों को स्थायी रूप से संग्रहीत करता है" },
-                { en: "Converts alternating wall power into regulated low DC voltage", hi: "वैकल्पिक दीवार शक्ति को विनियमित कम DC वोल्टेज में परिवर्तित करता है" }
+                { en: "An electronic device that accepts data, processes it according to stored instructions, and produces meaningful information", hi: "एक इलेक्ट्रॉनिक उपकरण जो डेटा स्वीकार करता है, संग्रहीत निर्देशों के अनुसार इसे प्रोसेस करता है, और सार्थक जानकारी उत्पन्न करता है" },
+                { en: "A purely manual calculating frame with sliding wooden beads", hi: "स्लाइडिंग लकड़ी के मोतियों के साथ विशुद्ध रूप से एक मैनुअल गणना फ्रेम" },
+                { en: "An offline storage container for physical paper records", hi: "भौतिक कागजी रिकॉर्ड के लिए एक ऑफ़लाइन स्टोरेज कंटेनर" },
+                { en: "An analog device measuring continuous temperature values", hi: "निरंतर तापमान मूल्यों को मापने वाला एक एनालॉग उपकरण" }
             ],
             answer: 0
         },
         {
-            question: { en: "What is a Monitor classified as in computer peripherals?", hi: "कंप्यूटर परिधीय उपकरणों में मॉनिटर को किस रूप में वर्गीकृत किया गया है?" },
+            question: { en: "What are the four core operational steps of the IPO Cycle in computers?", hi: "कंप्यूटर में IPO चक्र के चार मुख्य परिचालन चरण क्या हैं?" },
             options: [
-                { en: "A primary hardware soft-copy output device", hi: "एक प्राथमिक हार्डवेयर सॉफ्ट-कॉपी आउटपुट डिवाइस" },
-                { en: "A hard-copy paper printing device", hi: "एक हार्ड-कॉपी पेपर प्रिंटिंग डिवाइस" },
-                { en: "An optical document scanning input device", hi: "एक ऑप्टिकल दस्तावेज़ स्कैनिंग इनपुट डिवाइस" },
-                { en: "An internal power supply unit", hi: "एक आंतरिक बिजली आपूर्ति इकाई" }
+                { en: "Input, Processing, Output, Storage", hi: "इनपुट, प्रोसेसिंग, आउटपुट, स्टोरेज" },
+                { en: "Coding, Compiling, Testing, Deploying", hi: "कोडिंग, कंपाइलिंग, टेस्टिंग, डिप्लॉइंग" },
+                { en: "Booting, Loading, Formatting, Resetting", hi: "बूटिंग, लोडिंग, फॉर्मेटिंग, रीसेट करना" },
+                { en: "Scanning, Printing, Plotting, Projecting", hi: "स्कैनिंग, प्रिंटिंग, प्लॉटिंग, प्रोजेक्टिंग" }
             ],
             answer: 0
         },
         {
-            question: { en: "How is the quality or sharpness of any image on a monitor screen measured?", hi: "मॉनिटर स्क्रीन पर किसी भी छवि की गुणवत्ता या तीक्ष्णता को कैसे मापा जाता है?" },
+            question: { en: "Which key property of a computer allows it to work continuously for hours without getting tired or losing focus?", hi: "कंप्यूटर का कौन सा मुख्य गुण इसे बिना थके या ध्यान भटकाए घंटों तक लगातार काम करने की अनुमति देता है?" },
             options: [
-                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" },
-                { en: "PPM (Pages Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
-                { en: "CPS (Characters Per Second)", hi: "CPS (वर्ण प्रति सेकंड)" },
-                { en: "LPM (Lines Per Minute)", hi: "LPM (लाइनें प्रति मिनट)" }
+                { en: "Diligence", hi: "परिश्रम (Diligence)" },
+                { en: "Versatility", hi: "बहुमुखी प्रतिभा (Versatility)" },
+                { en: "High Speed", hi: "उच्च गति" },
+                { en: "Automation", hi: "ऑटोमेशन" }
             ],
             answer: 0
         },
-        {
-            question: { en: "What technology did old, bulky box-shaped CRT monitors use to display images?", hi: "छवियों को प्रदर्शित करने के लिए पुराने, भारी डिब्बे के आकार के CRT मॉनिटर किस तकनीक का उपयोग करते थे?" },
-            options: [
-                { en: "Vacuum tubes throwing light onto a glass screen", hi: "वैक्यूम ट्यूब कांच की स्क्रीन पर प्रकाश डालते हैं" },
-                { en: "Tiny light-emitting diodes (LEDs)", hi: "छोटे प्रकाश उत्सर्जक डायोड (LED)" },
-                { en: "Liquid crystals blocking and allowing backlight", hi: "तरल क्रिस्टल बैकलाइट को अवरुद्ध और अनुमति देते हैं" },
-                { en: "Automated mechanical ink pens moving across paper coordinates", hi: "पेपर कोऑर्डिनेट्स में घूमने वाले स्वचालित यांत्रिक स्याही पेन" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is a classic historical example of a CRT monitor mentioned in the course notes?", hi: "कोर्स नोट्स में उल्लिखित CRT मॉनिटर का एक क्लासिक ऐतिहासिक उदाहरण क्या है?" },
-            options: [
-                { en: "IBM 5151", hi: "IBM 5151" },
-                { en: "PARAM 8000", hi: "PARAM 8000" },
-                { en: "Cray-1", hi: "क्रे-1" },
-                { en: "Harvard Mark I", hi: "हार्वर्ड मार्क I" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What does LCD stand for in flat display screen terminology?", hi: "फ्लैट डिस्प्ले स्क्रीन शब्दावली में LCD का पूर्ण रूप क्या है?" },
-            options: [
-                { en: "Liquid Crystal Display", hi: "लिक्विड क्रिस्टल डिस्प्ले" },
-                { en: "Laser Color Diode", hi: "लेजर कलर डायोड" },
-                { en: "Light Control Device", hi: "लाइट कंट्रोल डिवाइस" },
-                { en: "Logical Core Display", hi: "लॉजिकल कोर डिस्प्ले" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What technology do modern LED screens use for brighter visuals and lower energy consumption?", hi: "उज्जवल दृश्यों और कम ऊर्जा खपत के लिए आधुनिक LED स्क्रीन किस तकनीक का उपयोग करती हैं?" },
-            options: [
-                { en: "Tiny light-emitting diodes", hi: "छोटे प्रकाश उत्सर्जक डायोड" },
-                { en: "Heated thermal printing heads", hi: "गर्म थर्मल प्रिंटिंग हेड" },
-                { en: "Vacuum glass electron guns", hi: "वैक्यूम ग्लास इलेक्ट्रॉन गन" },
-                { en: "Spinning magnetic platters", hi: "घूर्णन चुंबकीय प्लैटर" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "How is the printing speed of a printer measured?", hi: "प्रिंटर की मुद्रण गति कैसे मापी जाती है?" },
-            options: [
-                { en: "PPM (Page Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
-                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" },
-                { en: "GHz (Gigahertz)", hi: "GHz (गीगाहर्ट्ज़)" },
-                { en: "MB/s (Megabytes per second)", hi: "MB/s (मेगाबाइट प्रति सेकंड)" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is the primary mechanism of Impact Printers during printing?", hi: "मुद्रण के दौरान इम्पैक्ट प्रिंटर का प्राथमिक तंत्र क्या है?" },
-            options: [
-                { en: "Physical contact by striking a print element or pins against an inked ribbon onto paper", hi: "कागज पर एक स्याहीयुक्त रिबन के खिलाफ प्रिंट तत्व या पिन मारकर भौतिक संपर्क" },
-                { en: "Silent non-contact laser heat toner melting", hi: "मूक गैर-संपर्क लेजर हीट टोनर पिघलना" },
-                { en: "Micro-droplet liquid ink spraying", hi: "माइक्रो-ड्रॉपलेट तरल स्याही छिड़काव" },
-                { en: "Thermal heat chemical reaction on special coated paper", hi: "विशेष लेपित कागज पर थर्मल हीट रासायनिक प्रतिक्रिया" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "How is the speed of a Dot Matrix printer measured?", hi: "डॉट मैट्रिक्स प्रिंटर की गति कैसे मापी जाती है?" },
-            options: [
-                { en: "CPS (Characters Per Second)", hi: "CPS (वर्ण प्रति सेकंड)" },
-                { en: "PPM (Pages Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
-                { en: "LPM (Lines Per Minute)", hi: "LPM (लाइनें प्रति मिनट)" },
-                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "Where are Dot Matrix impact printers commonly used in finance and business?", hi: "वित्त और व्यवसाय में डॉट मैट्रिक्स इम्पैक्ट प्रिंटर का सामान्यतः कहाँ उपयोग किया जाता है?" },
-            options: [
-                { en: "Printing passbooks, transaction slips, and bill invoices in banking", hi: "बैंकिंग में पासबुक, लेनदेन पर्ची और बिल चालान प्रिंट करना" },
-                { en: "Printing high-resolution glossy photo albums", hi: "उच्च-रिज़ॉल्यूशन चमकदार फोटो एलबम प्रिंट करना" },
-                { en: "Plotting massive architectural engineering blueprints", hi: "विशाल वास्तुशिल्प इंजीनियरिंग ब्लू प्रिंट प्लॉट करना" },
-                { en: "Projecting classroom video presentations", hi: "कक्षा वीडियो प्रस्तुतियाँ प्रोजेक्ट करना" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What mechanism does a Daisy Wheel printer use for printing characters?", hi: "वर्णों को मुद्रित करने के लिए डेज़ी व्हील प्रिंटर किस तंत्र का उपयोग करता है?" },
-            options: [
-                { en: "A wheel with letter-shaped petals like an old typewriter", hi: "एक पुराने टाइपराइटर की तरह अक्षर के आकार की पंखुड़ियों वाला पहिया" },
-                { en: "A laser light beam and powdered toner", hi: "एक लेजर प्रकाश बीम और पाउडर टोनर" },
-                { en: "Tiny liquid ink spray nozzles", hi: "छोटी तरल स्याही स्प्रे नोजल" },
-                { en: "Continuous automated mechanical ink pens", hi: "निरंतर स्वचालित यांत्रिक स्याही पेन" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "How is the speed of a Line Printer measured?", hi: "लाइन प्रिंटर की गति कैसे मापी जाती है?" },
-            options: [
-                { en: "LPM (Lines Per Minute)", hi: "LPM (लाइनें प्रति मिनट)" },
-                { en: "CPS (Characters Per Second)", hi: "CPS (वर्ण प्रति सेकंड)" },
-                { en: "PPM (Pages Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
-                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is a major advantage of Non-Impact Printers over Impact Printers?", hi: "इम्पैक्ट प्रिंटर की तुलना में नॉन-इम्पैक्ट प्रिंटर का एक बड़ा लाभ क्या है?" },
-            options: [
-                { en: "Near-silent operation with superior resolution photo and sharp text quality", hi: "बेहतर रिज़ॉल्यूशन फोटो और तेज टेक्स्ट गुणवत्ता के साथ संचालन" },
-                { en: "Ability to print multi-part carbon copy forms directly", hi: "मल्टी-पार्ट कार्बन कॉपी फॉर्म सीधे प्रिंट करने की क्षमता" },
-                { en: "Extreme loud mechanical tapping noise for security", hi: "सुरक्षा के लिए अत्यधिक तेज़ यांत्रिक टैपिंग शोर" },
-                { en: "Zero ink or toner requirements entirely", hi: "पूरी तरह से शून्य स्याही या टोनर आवश्यकताएं" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "How does an Inkjet Printer work to produce documents?", hi: "दस्तावेज़ तैयार करने के लिए इंक जेट प्रिंटर कैसे काम करता है?" },
-            options: [
-                { en: "Sprays tiny drops of liquid ink onto paper", hi: "कागज पर तरल स्याही की छोटी बूंदें छिड़कता है" },
-                { en: "Uses a laser beam and heat-melted powdered toner", hi: "लेजर बीम और हीट-मेल्टेड पाउडर टोनर का उपयोग करता है" },
-                { en: "Strikes metal pins against an inked ribbon", hi: "स्याहीयुक्त रिबन के खिलाफ धातु के पिन मारता है" },
-                { en: "Applies thermal heat directly onto heat-sensitive rolls", hi: "गर्मी के प्रति संवेदनशील रोल पर सीधे थर्मल हीट लागू करता है" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What technology does a Laser Printer use to transfer text onto paper?", hi: "कागज पर पाठ स्थानांतरित करने के लिए लेजर प्रिंटर किस तकनीक का उपयोग करता है?" },
-            options: [
-                { en: "A laser light beam and powdered toner melted with heat", hi: "गर्मी के साथ पिघला हुआ लेजर प्रकाश बीम और पाउडर टोनर" },
-                { en: "Liquid ink spray micro-droplets", hi: "तरल स्याही स्प्रे माइक्रो-बूँदें" },
-                { en: "Mechanical pins striking carbon ribbons", hi: "कार्बन रिबन पर वार करने वाले यांत्रिक पिन" },
-                { en: "Continuous ink-pen coordinate drawing", hi: "निरंतर इंक-पेन कोऑर्डिनेट ड्राइंग" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What type of special paper do Thermal Printers use to print without ink?", hi: "बिना स्याही के प्रिंट करने के लिए थर्मल प्रिंटर किस प्रकार के विशेष कागज का उपयोग करते हैं?" },
-            options: [
-                { en: "Heat-sensitive special paper", hi: "ताप-संवेदनशील विशेष कागज" },
-                { en: "Glossy photo cardstock", hi: "ग्लॉसी फोटो कार्डस्टॉक" },
-                { en: "Multi-part carbon NCR paper sheets", hi: "मल्टी-पार्ट कार्बन NCR पेपर शीट" },
-                { en: "Heavy architectural blueprint vellum", hi: "भारी वास्तुशिल्प ब्लूप्रिंट वेल्लम" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "Where are Thermal Printers commonly used in commercial applications?", hi: "वाणिज्यिक अनुप्रयोगों में थर्मल प्रिंटर का सामान्यतः कहाँ उपयोग किया जाता है?" },
-            options: [
-                { en: "Shopping receipts, ATM slips, and shipping label ticket booths", hi: "शॉपिंग रसीदें, एटीएम पर्ची और शिपिंग लेबल टिकट बूथ" },
-                { en: "Printing corporate colored marketing brochures", hi: "कॉर्पोरेट रंगीन विपणन ब्रोशर मुद्रित करना" },
-                { en: "Publishing thick hardbound textbooks", hi: "मोटी हार्डबाउंड पाठ्यपुस्तकें प्रकाशित करना" },
-                { en: "Plotting engineering CAD blueprints", hi: "इंजीनियरिंग CAD ब्लूप्रिंट प्लॉट करना" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is the primary purpose of a Plotter (Flex Machine)?", hi: "प्लॉटर (फ्लेक्स मशीन) का प्राथमिक उद्देश्य क्या है?" },
-            options: [
-                { en: "Uses automated pens to draw smooth continuous vector line graphics on large sheets and banners", hi: "बड़ी शीटों और बैनरों पर सुचारू निरंतर वेक्टर लाइन ग्राफिक्स खींचने के लिए स्वचालित पेन का उपयोग करता है" },
-                { en: "Prints everyday single-page home office homework letters", hi: "रोजमर्रा के एकल-पृष्ठ होम ऑफिस होमवर्क पत्र प्रिंट करता है" },
-                { en: "Scans handwritten signature exams into PDF files", hi: "हस्तहस्ताक्षर परीक्षाओं को पीडीएफ फाइलों में स्कैन करता है" },
-                { en: "Plays digital music and voice audio signals", hi: "डिजिटल संगीत और आवाज ऑडियो सिग्नल चलाता है" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is the function of a Projector output device?", hi: "प्रोजेक्टर आउटपुट डिवाइस का कार्य क्या है?" },
-            options: [
-                { en: "Takes video signals from a computer and projects a large visual image onto a wall or screen", hi: "कंप्यूटर से वीडियो सिग्नल लेता है और दीवार या स्क्रीन पर एक बड़ी दृश्य छवि प्रोजेक्ट करता है" },
-                { en: "Converts human voice audio into digital storage recordings", hi: "मानव आवाज ऑडियो को डिजिटल स्टोरेज रिकॉर्डिंग में परिवर्तित करता है" },
-                { en: "Prints large architectural CAD engineering schematics", hi: "बड़े वास्तुशिल्प CAD इंजीनियरिंग योजनाएं प्रिंट करता है" },
-                { en: "Displays real-time operating system desktop taskbars", hi: "वास्तविक समय ऑपरेटिंग सिस्टम डेस्कटॉप टास्कबार प्रदर्शित करता है" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What do Speakers and Headphones convert digital audio data into?", hi: "स्पीकर और हेडफोन डिजिटल ऑडियो डेटा को किसमें परिवर्तित करते हैं?" },
-            options: [
-                { en: "Sound waves humans can hear", hi: "ध्वनि तरंगें जिन्हें मनुष्य सुन सकता है" },
-                { en: "Visual color graphic images", hi: "दृश्य रंग ग्राफिक्स छवियां" },
-                { en: "Hard-copy printed paper sheets", hi: "हार्ड-कॉपी मुद्रित कागजी चादरें" },
-                { en: "High-voltage direct current power", hi: "उच्च-वोल्टेज प्रत्यक्ष वर्तमान शक्ति" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "Which output device category produces 'Hard Copy' output?", hi: "कौन सी आउटपुट डिवाइस श्रेणी 'हार्ड कॉपी' आउटपुट उत्पन्न करती है?" },
-            options: [
-                { en: "Printers and Plotters", hi: "प्रिंटर और प्लॉटर" },
-                { en: "Monitors and Projectors", hi: "मॉनिटर और प्रोजेक्टर" },
-                { en: "Speakers and Headphones", hi: "स्पीकर और हेडफोन" },
-                { en: "Webcams and Microphones", hi: "वेबकैम और माइक्रोफोन" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "Which output device category produces 'Soft Copy' display output?", hi: "कौन सी आउटपुट डिवाइस श्रेणी 'सॉफ्ट कॉपी' डिस्प्ले आउटपुट उत्पन्न करती है?" },
-            options: [
-                { en: "Monitors, Projectors, and Speakers", hi: "मॉनिटर, प्रोजेक्टर और स्पीकर" },
-                { en: "Dot Matrix and Laser Printers", hi: "डॉट मैट्रिक्स और लेजर प्रिंटर" },
-                { en: "Flex Machine Plotters", hi: "फ्लेक्स मशीन प्लॉटर" },
-                { en: "Impact Carbon Copy Printers", hi: "इम्पैक्ट कार्बन कॉपी प्रिंटर" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is a distinct characteristic of Impact Printers regarding paper contact?", hi: "कागज के संपर्क के संबंध में इम्पैक्ट प्रिंटर की एक विशिष्ट विशेषता क्या है?" },
-            options: [
-                { en: "Yes, physical contact occurs as pins or hammers strike the paper via an inked ribbon", hi: "हाँ, भौतिक संपर्क तब होता है जब पिन या हथौड़े स्याही वाले रिबन के माध्यम से कागज पर वार करते हैं" },
-                { en: "No physical contact occurs (uses electrostatic or laser heat)", hi: "कोई भौतिक संपर्क नहीं होता है (इलेक्ट्रोस्टैटिक या लेजर हीट का उपयोग करता है)" },
-                { en: "Uses liquid micro-droplet air spray without touching", hi: "बिना छुए तरल माइक्रो-ड्रॉपलेट एयर स्प्रे का उपयोग करता है" },
-                { en: "Uses wireless radio frequency projection", hi: "वायरलेस रेडियो आवृत्ति प्रक्षेपण का उपयोग करता है" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What advantage do Impact Printers hold over Non-Impact printers for multi-part forms?", hi: "मल्टी-पार्ट फॉर्म के लिए नॉन-इम्पैक्ट प्रिंटर की तुलना में इम्पैक्ट प्रिंटर क्या लाभ रखते हैं?" },
-            options: [
-                { en: "They can print carbon-copy multi-layer forms simultaneously due to physical striking force", hi: "वे भौतिक प्रहार बल के कारण एक साथ कार्बन-कॉपी बहु-परत फॉर्म प्रिंट कर सकते हैं" },
-                { en: "They operate completely silently without any sound", hi: "वे बिना किसी आवाज के पूरी तरह से चुपचाप काम करते हैं" },
-                { en: "They print full-color glossy photographs faster than lasers", hi: "वे लेज़र की तुलना में पूर्ण-रंग चमकदार तस्वीरें तेज़ी से प्रिंट करते हैं" },
-                { en: "They require zero ribbons or physical components", hi: "उन्हें शून्य रिबन या भौतिक घटकों की आवश्यकता होती है" }
-            ],
-            answer: 0
-        },
-
-        // --- 5 HISTORY & GENERATION OF COMPUTERS QUESTIONS ---
         {
             question: { en: "When was the Abacus created and used in ancient civilizations as a manual counting tool?", hi: "प्राचीन सभ्यताओं में एक मैनुअल गिनती उपकरण के रूप में एबेकस का निर्माण और उपयोग कब किया गया था?" },
             options: [
                 { en: "Around 3000 BC (over 5,000 years ago)", hi: "लगभग 3000 ईसा पूर्व (5,000 साल पहले)" },
                 { en: "In the year 1617", hi: "वर्ष 1617 में" },
-                { en: "In the year 1945", hi: "वर्ष 1945 में" },
-                { en: "In the year 1991", hi: "वर्ष 1991 में" }
+                { en: "In the year 1822", hi: "वर्ष 1822 में" },
+                { en: "In the year 1945", hi: "वर्ष 1945 में" }
             ],
             answer: 0
         },
@@ -817,22 +594,442 @@
             answer: 0
         },
         {
-            question: { en: "Which machine conceived by Charles Babbage is considered the world's first design for a general-purpose, fully programmable computer?", hi: "चार्ल्स बैबेज द्वारा परिकल्पित किस मशीन को सामान्य-उद्देश्य, पूरी तरह से प्रोग्राम योग्य कंप्यूटर के लिए दुनिया का पहला डिजाइन माना जाता है?" },
+            question: { en: "Who is known as the 'Father of Computer' for designing the Difference Engine and Analytical Engine?", hi: "डिफरेंस इंजन और एनालिटिकल इंजन को डिजाइन करने के लिए किसे 'कंप्यूटर का पिता' कहा जाता है?" },
             options: [
-                { en: "Analytical Engine (1837)", hi: "एनालिटिकल इंजन (1837)" },
-                { en: "ENIAC (1945)", hi: "ENIAC (1945)" },
-                { en: "Difference Engine (1822)", hi: "डिफरेंस इंजन (1822)" },
-                { en: "Harvard Mark I (1944)", hi: "हार्वर्ड मार्क I (1944)" }
+                { en: "Charles Babbage", hi: "चाल्ज़ बैबेज" },
+                { en: "Howard Aiken", hi: "हावर्ड ऐकेन" },
+                { en: "John Mauchly", hi: "जॉन माauchly" },
+                { en: "Seymour Cray", hi: "सीमोर क्रे" }
             ],
             answer: 0
         },
         {
-            question: { en: "What core circuit technology defined 1st Generation computers (1940-1956)?", hi: "किस मुख्य सर्किट तकनीक ने पहली पीढ़ी के कंप्यूटर (1940-1956) को परिभाषित किया?" },
+            question: { en: "What was the Harvard Mark I (1944) classified as?", hi: "हार्वर्ड मार्क I (1944) को किस रूप में वर्गीकृत किया गया था?" },
             options: [
-                { en: "Vacuum Tubes", hi: "वैक्यूम ट्यूब" },
-                { en: "Transistors", hi: "ट्रांजिस्टर" },
+                { en: "An Electro-Mechanical Machine (Automatic Sequence Controlled Calculator)", hi: "एक इलेक्ट्रो-मैकेनिकल मशीन (ऑटोमैटिक सीक्वेंस कंट्रोल्ड कैलकुलेटर)" },
+                { en: "An all-electronic vacuum tube processor", hi: "एक पूर्ण-इलेक्ट्रॉनिक वैक्यूम ट्यूब प्रोसेसर" },
+                { en: "A modern silicon microprocessor PC", hi: "एक आधुनिक सिलिकॉन माइक्रोप्रोसेसर PC" },
+                { en: "An ancient mechanical abacus device", hi: "एक प्राचीन यांत्रिक एबेकस उपकरण" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Who developed ENIAC (Electronic Numerical Integrator and Computer) in 1945?", hi: "1945 में ENIAC (इलेक्ट्रॉनिक न्यूमेरिकल इंटीग्रेटर एंड कंप्यूटर) किसने विकसित किया था?" },
+            options: [
+                { en: "John Mauchly and J. Presper Eckert", hi: "जॉन माउचली और जे. प्रेस्पर एकर्ट" },
+                { en: "Charles Babbage and Ada Lovelace", hi: "चार्ल्स बैबेज और एडा लवलेस" },
+                { en: "Gottfried Leibniz and John Napier", hi: "गॉटफ्रीड लिबनिज और जॉन नेपियर" },
+                { en: "Howard Aiken and Seymour Cray", hi: "हावर्ड ऐकेन और सीमोर क्रे" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What core technology defined 1st Generation computers (1940-1956)?", hi: "किस मुख्य तकनीक ने पहली पीढ़ी के कंप्यूटर (1940-1956) को परिभाषित किया?" },
+            options: [
+                { en: "Vacuum Tubes and magnetic drums", hi: "वैक्यूम ट्यूब और चुंबकीय ड्रम" },
+                { en: "Transistors and magnetic cores", hi: "ट्रांजिस्टर और मैग्नेटिक कोर" },
                 { en: "Integrated Circuits (ICs)", hi: "इंटीग्रेटेड सर्किट (IC)" },
                 { en: "Microprocessors (VLSI)", hi: "माइक्रोप्रोसेसर (VLSI)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What major technology replacement occurred in 2nd Generation computers (1956-1963)?", hi: "दूसरी पीढ़ी के कंप्यूटरों (1956-1963) में कौन सा प्रमुख तकनीकी प्रतिस्थापन हुआ?" },
+            options: [
+                { en: "Bulky vacuum tubes were replaced by compact solid-state transistors", hi: "भारी वैक्यूम ट्यूबों को कॉम्पैक्ट सॉलिड-स्टेट ट्रांजिस्टर से बदल दिया गया" },
+                { en: "Transistors were replaced by massive vacuum tubes", hi: "ट्रांजिस्टर को भारी वैक्यूम ट्यूबों से बदल दिया गया" },
+                { en: "Mechanical cogs were replaced by wooden beads", hi: "यांत्रिक कॉग को लकड़ी के मनकों से बदल दिया गया" },
+                { en: "Quantum processors replaced microchips", hi: "क्वांटम प्रोसेसर ने माइक्रोचिप्स की जगह ले ली" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which core technology defined 3rd Generation computers (1964-1971)?", hi: "किस मुख्य तकनीक ने तीसरी पीढ़ी के कंप्यूटरों (1964-1971) को परिभाषित किया?" },
+            options: [
+                { en: "Integrated Circuits (ICs)", hi: "इंटीग्रेटेड सर्किट (IC)" },
+                { en: "Vacuum Tubes", hi: "वैक्यूम ट्यूब" },
+                { en: "Transistors", hi: "ट्रांजिस्टर" },
+                { en: "Microprocessors (VLSI)", hi: "माइक्रोप्रोसेसर (VLSI)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What breakthrough technology defined the 4th Generation of computers (1971-Present)?", hi: "किस सफलता की तकनीक ने कंप्यूटर की चौथी पीढ़ी (1971-वर्तमान) को परिभाषित किया?" },
+            options: [
+                { en: "Microprocessors using Very Large-Scale Integration (VLSI)", hi: "बहुत बड़े पैमाने पर एकीकरण (VLSI) का उपयोग करने वाले माइक्रोप्रोसेसर" },
+                { en: "Magnetic punch cards and paper tapes", hi: "चुंबकीय पंच कार्ड और पेपर टेप" },
+                { en: "Thermionic vacuum glass tubes", hi: "थर्मionic वैक्यूम ग्लास ट्यूब" },
+                { en: "Analog continuous voltage meters", hi: "एनालॉग निरंतर वोल्टेज मीटर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary focus of 5th Generation computers (Present & Future Era)?", hi: "पांचवीं पीढ़ी के कंप्यूटरों (वर्तमान और भविष्य का युग) का प्राथमिक फोकस क्या है?" },
+            options: [
+                { en: "Artificial Intelligence, parallel processing, neural networks, and quantum computing", hi: "आर्टिफिशियल इंटेलिजेंस, समानांतर प्रोसेसिंग, न्यूरल नेटवर्क और क्वांटम कंप्यूटिंग" },
+                { en: "Punch card batch processing and machine language switches", hi: "पंच कार्ड बैच प्रोसेसिंग और मशीन भाषा स्विच" },
+                { en: "Replacing electronic screens with wooden Abacus frames", hi: "इलेक्ट्रॉनिक स्क्रीन को लकड़ी के एबेकस फ्रेम से बदलना" },
+                { en: "Eliminating operating systems completely", hi: "ऑपरेटिंग सिस्टम को पूरी तरह से समाप्त करना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the name of the first Indian supercomputer?", hi: "पहले भारतीय सुपरकंप्यूटर का नाम क्या है?" },
+            options: [
+                { en: "PARAM 8000", hi: "PARAM 8000" },
+                { en: "Cray-1", hi: "क्रे-1" },
+                { en: "ENIAC", hi: "ENIAC" },
+                { en: "Harvard Mark I", hi: "हार्वर्ड मार्क I" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How are computers classified based on data types handled?", hi: "संभाले गए डेटा प्रकारों के आधार पर कंप्यूटरों को कैसे वर्गीकृत किया जाता है?" },
+            options: [
+                { en: "Analog, Digital, and Hybrid Computers", hi: "एनालॉग, डिजिटल और हाइब्रिड कंप्यूटर" },
+                { en: "Micro, Mini, and Mainframe Computers", hi: "माइक्रो, मिनी और मेनफ्रेम कंप्यूटर" },
+                { en: "General and Special Purpose Computers", hi: "सामान्य और विशेष प्रयोजन कंप्यूटर" },
+                { en: "Input, Processing, and Output Computers", hi: "इनपुट, प्रोसेसिंग और आउटपुट कंप्यूटर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What do Digital Computers process to perform mathematical and logical computations with extreme accuracy?", hi: "अत्यंत सटीकता के साथ गणितीय और तार्किक गणना करने के लिए डिजिटल कंप्यूटर क्या प्रोसेस करते हैं?" },
+            options: [
+                { en: "Discrete binary data (0s and 1s)", hi: "विविक्त बाइनरी डेटा (0s और 1s)" },
+                { en: "Continuous physical quantities like voltage or temperature", hi: "सतत भौतिक मात्राएं जैसे वोल्टेज या तापमान" },
+                { en: "Physical wooden beads on rods", hi: "सलाखों पर भौतिक लकड़ी के मनके" },
+                { en: "Punched paper tapes using relays", hi: "रिले का उपयोग करके पंच किए गए कागज के टेप" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is known as the 'Brain of the Computer' that performs calculations and executes program commands?", hi: "गणना करने और प्रोग्राम कमांड निष्पादित करने वाले 'कंप्यूटर के मस्तिष्क' के रूप में किसे जाना जाता है?" },
+            options: [
+                { en: "CPU (Central Processing Unit)", hi: "CPU (सेंट्रल प्रोसेसिंग यूनिट)" },
+                { en: "RAM (Random Access Memory)", hi: "RAM (रैंडम एक्सेस मेमोरी)" },
+                { en: "Motherboard", hi: "मदरबोर्ड" },
+                { en: "Hard Disk Drive", hi: "हार्ड डिस्क ड्राइव" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the function of the ALU (Arithmetic Logic Unit) inside the CPU?", hi: "CPU के अंदर ALU (अरिथमेटिक लॉजिक यूनिट) का कार्य क्या है?" },
+            options: [
+                { en: "Executes mathematical operations and logical decisions directly on binary numbers", hi: "बाइनरी नंबरों पर सीधे गणितीय संचालन और तार्किक निर्णय निष्पादित करता है" },
+                { en: "Stores permanent boot instructions for computer startup", hi: "कंप्यूटर स्टार्टअप के लिए स्थायी बूट निर्देश संग्रहीत करता है" },
+                { en: "Converts high-level code into machine binary language", hi: "उच्च-स्तरीय कोड को मशीन बाइनरी भाषा में परिवर्तित करता है" },
+                { en: "Controls printer ink spray mechanisms", hi: "प्रिंटर इंक स्प्रे तंत्र को नियंत्रित करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which component acts as the central supervisor inside the CPU, decoding instructions and generating timing control signals?", hi: "कौन सा घटक CPU के अंदर केंद्रीय पर्यवेक्षक के रूप में कार्य करता है, निर्देशों को डिकोड करता है और समय नियंत्रण संकेत उत्पन्न करता है?" },
+            options: [
+                { en: "Control Unit (CU)", hi: "कंट्रोल यूनिट (CU)" },
+                { en: "Arithmetic Logic Unit (ALU)", hi: "अरिथमेटिक लॉजिक यूनिट (ALU)" },
+                { en: "Cache Memory", hi: "कैश मेमोरी" },
+                { en: "Hard Disk Drive", hi: "हार्ड डिस्क ड्राइव" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the main circuit board that connects all internal hardware components together called?", hi: "सभी आंतरिक हार्डवेयर घटकों को एक साथ जोड़ने वाले मुख्य सर्किट बोर्ड को क्या कहा जाता है?" },
+            options: [
+                { en: "Motherboard", hi: "मदरबोर्ड" },
+                { en: "Expansion Card", hi: "एक्सपेंशन कार्ड" },
+                { en: "SMPS", hi: "SMPS" },
+                { en: "UPS", hi: "UPS" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What does SMPS stand for in a computer system?", hi: "कंप्यूटर सिस्टम में SMPS का पूर्ण रूप क्या है?" },
+            options: [
+                { en: "Switched-Mode Power Supply", hi: "स्विitched-मूड पावर सप्लाई" },
+                { en: "System Memory Processing Standard", hi: "सिस्टम मेमोरी प्रोसेसिंग स्टैंडर्ड" },
+                { en: "Serial Multitasking Peripheral Source", hi: "सीरियल मल्टीटास्किंग पेरिफेरल सोर्स" },
+                { en: "Secure Microprocessor Protection System", hi: "सुरक्षित माइक्रोप्रोसेसर सुरक्षा प्रणाली" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the purpose of an Uninterruptible Power Supply (UPS)?", hi: "अनइरप्टिबल पावर सप्लाई (UPS) का उद्देश्य क्या है?" },
+            options: [
+                { en: "Provides immediate battery backup power to save open files during power cuts", hi: "बिजली कटौती के दौरान खुली फाइलों को सहेजने के लिए तुरंत बैटरी बैकअप पावर प्रदान करता है" },
+                { en: "Acts as a primary 3D graphics game booster", hi: "प्राथमिक 3D ग्राफिक्स गेम बूस्टर के रूप में कार्य करता है" },
+                { en: "Scans paper documents into digital PDF files", hi: "कागज के दस्तावेजों को डिजिटल PDF फाइलों में स्कैन करता है" },
+                { en: "Prints multi-part carbon receipts", hi: "मल्टी-पार्ट कार्बन रसीदें प्रिंट करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What shape and pin characteristic does a USB-C port feature?", hi: "USB-C पोर्ट में किस आकार और पिन विशेषता होती है?" },
+            options: [
+                { en: "Compact reversible oval shape supporting high-speed data, video display, and power delivery", hi: "कॉम्पैक्ट रिversible ओवल आकार जो हाई-स्पीड डेटा, वीडियो डिस्प्ले और पावर डिलीवरी का समर्थन करता है" },
+                { en: "A rigid rectangular single-direction plug", hi: "एक कठोर आयताकार एकल-दिशा प्लग" },
+                { en: "A 15-pin blue analog video connector", hi: "एक 15-पिन नीला एनालॉग वीडियो कनेक्टर" },
+                { en: "A 6-pin mini-DIN circular connector", hi: "एक 6-पिन मिनी-DIN गोलाकार कनेक्टर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How many pins does a standard VGA (Video Graphics Array) port have?", hi: "मानक VGA (वीडियो ग्राफिक्स सरणी) पोर्ट में कितने पिन होते हैं?" },
+            options: [
+                { en: "15 pins", hi: "15 पिन" },
+                { en: "24 pins", hi: "24 पिन" },
+                { en: "9 pins", hi: "9 पिन" },
+                { en: "25 pins", hi: "25 पिन" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What does HDMI stand for in hardware port interfaces?", hi: "हार्डवेयर पोर्ट इंटरफेस में HDMI का पूर्ण रूप क्या है?" },
+            options: [
+                { en: "High-Definition Multimedia Interface", hi: "हाई-डिफ़िनिशन मल्टीमीडिया इंटरफ़ेस" },
+                { en: "Hardware Digital Memory Integration", hi: "हार्डवेयर डिजिटल मेमोरी इंटीग्रेशन" },
+                { en: "High-Speed Data Management Index", hi: "हाई-स्पीड डेटा मैनेजमेंट इंडेक्स" },
+                { en: "Hybrid Digital Mainframe Interface", hi: "हाइब्रिड डिजिटल मेनफ्रेम इंटरफेस" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How many keys are standard on a full-size North American desktop keyboard?", hi: "उत्तरी अमेरिकी पूर्ण आकार के डेस्कटॉप कीबोर्ड पर कितनी कुंजियाँ मानक होती हैं?" },
+            options: [
+                { en: "104 keys", hi: "104 कुंजियाँ" },
+                { en: "105 keys", hi: "105 कुंजियाँ" },
+                { en: "87 keys", hi: "87 कुंजियाँ" },
+                { en: "12 keys", hi: "12 कुंजियाँ" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Who invented the computer mouse as a handheld pointing device?", hi: "हैंडहेल्ड पॉइंटिंग डिवाइस के रूप में कंप्यूटर माउस का आविष्कार किसने किया था?" },
+            options: [
+                { en: "Douglas Engelbart", hi: "डगलस एंजेलबार्ट" },
+                { en: "John Napier", hi: "जॉन नेपियर" },
+                { en: "Gottfried Leibniz", hi: "गॉटफ्रीड लिबनिज" },
+                { en: "Howard Aiken", hi: "हावर्ड ऐकेन" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary measurement unit for scanner resolution detail?", hi: "स्कैनर रिज़ॉल्यूशन विवरण के लिए प्राथमिक माप इकाई क्या है?" },
+            options: [
+                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" },
+                { en: "PPM (Pages Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
+                { en: "CPS (Characters Per Second)", hi: "CPS (वर्ण प्रति सेकंड)" },
+                { en: "LPM (Lines Per Minute)", hi: "LPM (लाइनें प्रति मिनट)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What does OCR stand for in scanner and text recognition software technology?", hi: "स्कैनर और टेक्स्ट रिकग्निशन सॉफ्टवेयर तकनीक में OCR का पूर्ण रूप क्या है?" },
+            options: [
+                { en: "Optical Character Recognition", hi: "ऑप्टिकल कैरेक्टर रिकग्निशन" },
+                { en: "Online Computer Response", hi: "ऑनलाइन कंप्यूटर रिस्पॉन्स" },
+                { en: "Operational Code Reader", hi: "ऑपरेशनल कोड रीडर" },
+                { en: "Optical Mark Register", hi: "ऑप्टिकल मार्क रजिस्टर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What specialized input device is used to evaluate Multiple Choice Question (MCQ) answer sheets with zero human error?", hi: "मानव त्रुटि के बिना बहुविकल्पीय प्रश्न (MCQ) उत्तर पत्रिकाओं का मूल्यांकन करने के लिए किस विशिष्ट इनपुट डिवाइस का उपयोग किया जाता है?" },
+            options: [
+                { en: "OMR (Optical Mark Reader)", hi: "OMR (ऑप्टिकल मार्क रीडर)" },
+                { en: "MICR Scanner", hi: "MICR स्कैनर" },
+                { en: "Sheet-fed Document Scanner", hi: "शीट-फेड डॉक्यूमेंट स्कैनर" },
+                { en: "Dot Matrix Impact Printer", hi: "डॉट मैट्रिक्स इम्पैक्ट प्रिंटर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary purpose of an Output Device in a computer system?", hi: "कंप्यूटर सिस्टम में आउटपुट डिवाइस का प्राथमिक उद्देश्य क्या है?" },
+            options: [
+                { en: "Shows or delivers the result after a computer processes binary data into human-readable form", hi: "कंप्यूटर द्वारा बाइनरी डेटा को मानव-पठनीय रूप में संसाधित करने के बाद परिणाम दिखाता या वितरित करता है" },
+                { en: "Sends raw data and user button click instructions into the CPU", hi: "CPU में कच्चा डेटा और उपयोगकर्ता बटन क्लिक निर्देश भेजता है" },
+                { en: "Stores operating system installation files permanently without electricity", hi: "बिजली के बिना ऑपरेटिंग सिस्टम इंस्टॉलेशन फाइलों को स्थायी रूप से संग्रहीत करता है" },
+                { en: "Converts alternating wall power into regulated low DC voltage", hi: "वैकल्पिक दीवार शक्ति को विनियमित कम DC वोल्टेज में परिवर्तित करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How is the quality or sharpness of any image on a monitor screen measured?", hi: "मॉनिटर स्क्रीन पर किसी भी छवि की गुणवत्ता या तीक्ष्णता को कैसे मापा जाता है?" },
+            options: [
+                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" },
+                { en: "PPM (Pages Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
+                { en: "CPS (Characters Per Second)", hi: "CPS (वर्ण प्रति सेकंड)" },
+                { en: "LPM (Lines Per Minute)", hi: "LPM (लाइनें प्रति मिनट)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What technology did old, bulky box-shaped CRT monitors use to display images?", hi: "छवियों को प्रदर्शित करने के लिए पुराने, भारी डिब्बे के आकार के CRT मॉनिटर किस तकनीक का उपयोग करते थे?" },
+            options: [
+                { en: "Vacuum tubes throwing light onto a glass screen", hi: "वैक्यूम ट्यूब कांच की स्क्रीन पर प्रकाश डालते हैं" },
+                { en: "Tiny light-emitting diodes (LEDs)", hi: "छोटे प्रकाश उत्सर्जक डायोड (LED)" },
+                { en: "Liquid crystals blocking and allowing backlight", hi: "तरल क्रिस्टल बैकलाइट को अवरुद्ध और अनुमति देते हैं" },
+                { en: "Automated mechanical ink pens moving across paper coordinates", hi: "पेपर कोऑर्डिनेट्स में घूमने वाले स्वचालित यांत्रिक स्याही पेन" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How is the printing speed of a printer measured?", hi: "प्रिंटर की मुद्रण गति कैसे मापी जाती है?" },
+            options: [
+                { en: "PPM (Page Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
+                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" },
+                { en: "GHz (Gigahertz)", hi: "GHz (गीगाहर्ट्ज़)" },
+                { en: "MB/s (Megabytes per second)", hi: "MB/s (मेगाबाइट प्रति सेकंड)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "How is the speed of a Dot Matrix printer measured?", hi: "डॉट मैट्रिक्स प्रिंटर की गति कैसे मापी जाती है?" },
+            options: [
+                { en: "CPS (Characters Per Second)", hi: "CPS (वर्ण प्रति सेकंड)" },
+                { en: "PPM (Pages Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
+                { en: "LPM (Lines Per Minute)", hi: "LPM (लाइनें प्रति मिनट)" },
+                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary function of RAM in a computer system?", hi: "कंप्यूटर सिस्टम में RAM का मुख्य कार्य क्या है?" },
+            options: [
+                { en: "Temporary fast working space for currently running applications", hi: "वर्तमान में चल रहे अनुप्रयोगों के लिए अस्थायी तेज कार्यक्षेत्र" },
+                { en: "Permanent backup storage for lifetime documents", hi: "जीवनभर के दस्तावेजों के लिए स्थायी बैकअप स्टोरेज" },
+                { en: "Converting alternating wall power into direct DC voltage", hi: "वैकल्पिक दीवार शक्ति को प्रत्यक्ष DC वोल्टेज में परिवर्तित करना" },
+                { en: "Displaying graphical video images on the monitor", hi: "मॉनिटर पर ग्राफिकल वीडियो इमेज प्रदर्शित करना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What distinguishes RAM from ROM in terms of data retention when power is turned off?", hi: "बिजली बंद होने पर डेटा प्रतिधारण के मामले में RAM को ROM से क्या अलग करता है?" },
+            options: [
+                { en: "RAM is volatile (data lost when power is OFF), while ROM is non-volatile (retained permanently)", hi: "RAM वाष्पशील है (बिजली बंद होने पर डेटा नष्ट हो जाता है), जबकि ROM गैर-वाष्पशील है (स्थाई रूप से सुरक्षित रहता है)" },
+                { en: "RAM is non-volatile backup storage, while ROM is volatile working space", hi: "RAM गैर-वाष्पशील बैकअप स्टोरेज है, जबकि ROM वाष्पशील कार्यक्षेत्र है" },
+                { en: "Both RAM and ROM permanently store user operating system files", hi: "RAM और ROM दोनों स्थायी रूप से उपयोगकर्ता ऑपरेटिंग सिस्टम फ़ाइलों को संग्रहीत करते हैं" },
+                { en: "RAM and ROM both lose all contents instantly upon rebooting", hi: "रिबूट होने पर RAM और ROM दोनों तुरंत अपनी सारी सामग्री खो देते हैं" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the key advantage of Solid State Drives (SSDs) over traditional Hard Disk Drives (HDDs)?", hi: "पारंपरिक हार्ड डिस्क ड्राइव (HDDs) की तुलना में सॉलिड स्टेट ड्राइव (SSDs) का मुख्य लाभ क्या है?" },
+            options: [
+                { en: "Up to 5x-10x faster speed, silent operation, and no moving mechanical parts", hi: "5x-10x तक तेज़ गति, शांत संचालन, और कोई चलने वाले यांत्रिक भाग नहीं" },
+                { en: "Significantly lower cost per Gigabyte of storage capacity", hi: "स्टोरेज क्षमता के प्रति गीगाबाइट काफी कम लागत" },
+                { en: "Magnetic platter spinning at 7200 RPM for heavy data caching", hi: "भारी डेटा कैशिंग के लिए 7200 RPM पर घूमने वाला चुंबकीय प्लैटर" },
+                { en: "Direct analog cassette tape audio signal storage compatibility", hi: "प्रत्यक्ष एनालॉग कैसेट टेप ऑडियो सिग्नल स्टोरेज संगतता" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the storage capacity limit specified for a standard digital versatile disc (DVD) in the storage module?", hi: "स्टोरेज मॉड्यूल में मानक डिजिटल वर्सेटाइल डिस्क (DVD) के लिए निर्दिष्ट स्टोरेज क्षमता सीमा क्या है?" },
+            options: [
+                { en: "Up to 4.7 GB", hi: "4.7 GB तक" },
+                { en: "Up to 700 MB", hi: "700 MB तक" },
+                { en: "25 GB to 50 GB", hi: "25 GB से 50 GB" },
+                { en: "1.44 MB", hi: "1.44 MB" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary role of System Software in a computer?", hi: "कंप्यूटर में सिस्टम सॉफ्टवेयर की प्राथमिक भूमिका क्या है?" },
+            options: [
+                { en: "Runs and manages computer hardware and acts as a bridge for applications", hi: "कंप्यूटर हार्डवेयर को चलाता और प्रबंधित करता है और अनुप्रयोगों के लिए एक पुल के रूप में कार्य करता है" },
+                { en: "Used by end-users specifically for typing documents and accounting", hi: "दस्तावेज़ टाइप करने और लेखांकन के लिए विशेष रूप से अंतिम-उपयोगकर्ताओं द्वारा उपयोग किया जाता है" },
+                { en: "Protects the computer from viruses and cleans temporary junk files", hi: "कंप्यूटर को वायरस से बचाता है और अस्थायी जंक फाइलों को साफ करता है" },
+                { en: "Helps programmers write and compile new source code", hi: "प्रोग्रामर्स को नया सोर्स कोड लिखने और संकलित करने में मदद करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "When was the UNIX operating system created at AT&T Bell Labs?", hi: "AT&T बेल लैब्स में UNIX ऑपरेटिंग सिस्टम कब बनाया गया था?" },
+            options: [
+                { en: "In the year 1969", hi: "वर्ष 1969 में" },
+                { en: "In the year 1981", hi: "वर्ष 1981 में" },
+                { en: "In the year 1991", hi: "वर्ष 1991 में" },
+                { en: "In the year 2007", hi: "वर्ष 2007 में" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the primary purpose of Utility Software in computer systems?", hi: "कंप्यूटर सिस्टम में Utility Software का प्राथमिक उद्देश्य क्या है?" },
+            options: [
+                { en: "Maintains and protects computer performance (e.g., antivirus software, disk cleanups, compression)", hi: "कंप्यूटर के प्रदर्शन को बनाए रखता है और उसकी रक्षा करता है (जैसे, एंटीवायरस सॉफ्टवेयर, डिस्क क्लीनअप, संपीड़न)" },
+                { en: "Performs specific user accounting and word document tasks", hi: "विशिष्ट उपयोगकर्ता लेखांकन और शब्द दस्तावेज़ कार्य करता है" },
+                { en: "Runs raw physical hardware components and manages OS kernels", hi: "कच्चे भौतिक हार्डवेयर घटकों को चलाता है और OS कर्नेल का प्रबंधन करता है" },
+                { en: "Compiles C programming code into executable machine binaries", hi: "C प्रोग्रामिंग कोड को निष्पादन योग्य मशीन बाइनरी में संकलित करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the binary number system base used by computers?", hi: "कंप्यूटर द्वारा उपयोग किया जाने वाला बाइनरी नंबर सिस्टम बेस क्या है?" },
+            options: [
+                { en: "Base-2 (using only 0 and 1)", hi: "बेस-2 (केवल 0 और 1 का उपयोग करके)" },
+                { en: "Base-10 (using digits 0 through 9)", hi: "बेस-10 (0 से 9 अंकों का उपयोग करके)" },
+                { en: "Base-8 (using digits 0 through 7)", hi: "बेस-8 (0 से 7 अंकों का उपयोग करके)" },
+                { en: "Base-16 (using digits and letters A-F)", hi: "बेस-16 (अंकों और अक्षरों A-F का उपयोग करके)" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is a Nibble equal to in computer data units?", hi: "कंप्यूटर डेटा यूनिट में एक निबल किसके बराबर होता है?" },
+            options: [
+                { en: "4 bits", hi: "4 बिट्स" },
+                { en: "8 bits", hi: "8 बिट्स" },
+                { en: "1024 bytes", hi: "1024 बाइट्स" },
+                { en: "1024 kilobytes", hi: "1024 किलोबाइट" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the key functional role of an Assembler in computer language translation?", hi: "कंप्यूटर भाषा अनुवाद में Assembler की मुख्य कार्यात्मक भूमिका क्या है?" },
+            options: [
+                { en: "Converts Assembly language code (mnemonics) directly into Machine language binary (0s and 1s)", hi: "असेंबली भाषा कोड (म्नोनिक्स) को सीधे मशीन भाषा बाइनरी (0s और 1s) में परिवर्तित करता है" },
+                { en: "Translates high-level Python code line by line during runtime execution", hi: "런타임 실행 중에 고수준 파이썬 코드를 한 줄씩 번역합니다" },
+                { en: "Links external DLL libraries to executable Windows .exe files", hi: "बाहरी DLL लाइब्रेरी को निष्पादन योग्य Windows .exe फ़ाइलों से जोड़ता है" },
+                { en: "Converts hardware electrical signals into human-readable text", hi: "हार्डवेयर विद्युत संकेतों को मानव-पठनीय पाठ में परिवर्तित करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the core startup sequence that activates hardware and loads the operating system called?", hi: "हार्डवेयर को सक्रिय करने और ऑपरेटिंग सिस्टम को लोड करने वाले कोर स्टार्टअप अनुक्रम को क्या कहा जाता है?" },
+            options: [
+                { en: "Booting", hi: "बूटिंग (Booting)" },
+                { en: "Formatting", hi: "फॉर्मेटिंग" },
+                { en: "Compiling", hi: "कंपाइलिंग" },
+                { en: "Multitasking", hi: "मल्टीटास्किंग" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What happens during the POST (Power-On Self-Test) phase of booting?", hi: "बूटिंग के POST (पॉवर-ऑन सेल्फ-टेस्ट) चरण के दौरान क्या होता है?" },
+            options: [
+                { en: "Verifies RAM, keyboard, and connected disk drives", hi: "RAM, कीबोर्ड और कनेक्टेड डिस्क ड्राइव को सत्यापित करता है" },
+                { en: "Loads high-level application software into cache memory", hi: "उच्च-स्तरीय एप्लिकेशन सॉफ्टवेयर को कैश मेमोरी में लोड करता है" },
+                { en: "Shuts down electrical current to motherboard circuits", hi: "मदरबोर्ड सर्किट में विद्युत प्रवाह को बंद कर देता है" },
+                { en: "Translates high-level code into binary machine language", hi: "उच्च-स्तरीय कोड को बाइनरी मशीन भाषा में अनुवादित करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which specific Windows keyboard shortcut opens File Explorer directly from any active desktop workspace?", hi: "कौन सा विशिष्ट विंडोज कीबोर्ड शॉर्टकट किसी भी सक्रिय डेस्कटॉप कार्यक्षेत्र से सीधे File Explorer खोलता है?" },
+            options: [
+                { en: "Windows Key + E", hi: "Windows Key + E" },
+                { en: "Windows Key + D", hi: "Windows Key + D" },
+                { en: "Windows Key + R", hi: "Windows Key + R" },
+                { en: "Windows Key + X", hi: "Windows Key + X" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What does the acronym BIOS stand for in computer startup firmware architecture?", hi: "कंप्यूटर स्टार्टअप फर्मवेयर आर्किटेक्चर में BIOS संक्षिप्त नाम का क्या अर्थ है?" },
+            options: [
+                { en: "Basic Input Output System", hi: "बेसिक इनपुट आउटपुट सिस्टम" },
+                { en: "Binary Integrated Operating Server", hi: "बाइनरी इंटीग्रेटेड ऑपरेटिंग सर्वर" },
+                { en: "Built-in Internal Operating Switch", hi: "बिल्ट-इन इंटरनल ऑपरेटिंग स्विच" },
+                { en: "Bus Interconnection & Organization Software", hi: "बस इंटरकनेक्शन एंड ऑर्गनाइजेशन सॉफ्टवेयर" }
             ],
             answer: 0
         }
@@ -848,7 +1045,7 @@
     let markedForReview = {}; // questionIndex -> boolean
     let visitedQuestions = new Set();
     let timerInterval = null;
-    let timeLeft = 30 * 60; // Exactly 30 minutes
+    let timeLeft = 50 * 60; // Exactly 50 minutes timer
     let startTime = null;
     let isSubmitted = false;
 
@@ -896,7 +1093,7 @@
         
         // Populate instructions
         document.getElementById("inst-total-q").textContent = CONFIG.numberOfQuestions;
-        document.getElementById("inst-time-limit").textContent = "30";
+        document.getElementById("inst-time-limit").textContent = "50";
 
         loginScreen.classList.add("hidden");
         instructionScreen.classList.remove("hidden");
@@ -981,7 +1178,7 @@
             };
         });
 
-        timeLeft = 30 * 60; // 30 minutes total timer
+        timeLeft = 50 * 60; // 50 minutes total timer
         currentIndex = 0;
         renderPaletteGrid();
         renderQuestion();
@@ -1063,7 +1260,7 @@
     }
 
     /* ========================================================
-       TIMER LOGIC (30 Minutes)
+       TIMER LOGIC (50 Minutes)
        ======================================================== */
     function startTimer() {
         timerInterval = setInterval(() => {
