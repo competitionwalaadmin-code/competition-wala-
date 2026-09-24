@@ -313,10 +313,12 @@
             justify-content: center;
         }
 
-        .palette-btn.attempted { background: var(--success); color: white; border-color: var(--success); }
-        .palette-btn.unattempted { background: var(--danger); color: white; border-color: var(--danger); }
-        .palette-btn.review { background: var(--warning); color: white; border-color: var(--warning); }
-        .palette-btn.current { border: 2px solid var(--primary); box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+        /* Fixed palette status colors with high specificity */
+        .palette-btn.attempted { background: var(--success) !important; color: white !important; border-color: var(--success) !important; }
+        .palette-btn.unattempted { background: var(--danger) !important; color: white !important; border-color: var(--danger) !important; }
+        .palette-btn.review { background: var(--warning) !important; color: white !important; border-color: var(--warning) !important; }
+        .palette-btn.neutral { background: var(--border-color) !important; color: var(--text-color) !important; border-color: var(--border-color) !important; }
+        .palette-btn.current { border: 2px solid var(--primary) !important; box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
 
         .result-card {
             max-width: 600px;
@@ -530,10 +532,9 @@
     }
 
     /* ========================================================
-       QUESTION BANK (30 Questions - 3 from Fundamentals/History + 27 from Types of Computers to Computer Ports)
+       QUESTION BANK (30 Questions)
        ======================================================== */
     const masterQuestionBank = [
-        // --- 3 Questions from Fundamentals / History / Generations ---
         {
             question: { en: "What is a computer defined as in the course presentation?", hi: "कोर्स प्रेजेंटेशन में कंप्यूटर को किस रूप में परिभाषित किया गया है?" },
             options: [
@@ -564,8 +565,6 @@
             ],
             answer: 0
         },
-
-        // --- 27 Questions from Types of Computers to Computer Ports ---
         {
             question: { en: "Which class of computers is the largest, fastest, and most expensive, used for weather forecasting and nuclear research?", hi: "मौसम पूर्वानुमान और परमाणु अनुसंधान के लिए उपयोग किए जाने वाले कंप्यूटरों की कौन सी श्रेणी सबसे बड़ी, सबसे तेज और सबसे महंगी है?" },
             options: [
@@ -672,8 +671,7 @@
                 { en: "Central Processing Unit", hi: "सेंट्रल प्रोसेसिंग यूनिट" },
                 { en: "Control Peripheral Unit", hi: "कंट्रोल पेरिफेरल यूनिट" },
                 { en: "Computer Primary Utility", hi: "कंप्यूटर प्राइमरी यूटिलिटी" },
-                { en: "Central Program Utility", hi: "सेंट्रल प्रोग्राम यूटिलिटी" },
-                { en: "Core Processing Utility", hi: "कोर प्रोसेसिंग यूटिलिटी" }
+                { en: "Central Program Utility", hi: "सेंट्रल प्रोग्राम यूटिलिटी" }
             ],
             answer: 0
         },
@@ -828,42 +826,12 @@
             answer: 0
         },
         {
-            question: { en: "What are the key capabilities of an HDMI port?", hi: "HDMI पोर्ट की मुख्य क्षमताएं क्या हैं?" },
-            options: [
-                { en: "Transmits uncompressed digital video and multi-channel audio simultaneously supporting Ultra HD 4K/8K resolutions", hi: "अल्ट्रा एचडी 4K/8K रिज़ॉल्यूशन का समर्थन करते हुए एक साथ असंपीड़ित डिजिटल वीडियो और मल्टी-चैनल ऑडियो प्रसारित करता है" },
-                { en: "Connects only older CRT monitors with analog signals", hi: "केवल एनालॉग संकेतों के साथ पुराने CRT मॉनिटर को जोड़ता है" },
-                { en: "Provides backup electricity during power cuts", hi: "बिजली कटौती के दौरान बैकअप बिजली प्रदान करता है" },
-                { en: "Prints documents onto physical paper using laser heat", hi: "लेजर हीट का उपयोग करके भौतिक कागज पर दस्तावेज प्रिंट करता है" }
-            ],
-            answer: 0
-        },
-        {
             question: { en: "What is the function of RAM in a computer system?", hi: "कंप्यूटर सिस्टम में RAM का कार्य क्या है?" },
             options: [
                 { en: "Temporary fast working space for currently running programs and active data", hi: "वर्तमान में चल रहे प्रोग्रामों और सक्रिय डेटा के लिए अस्थायी तेज कार्यक्षेत्र" },
                 { en: "Permanent mass storage for installed video games and movies", hi: "स्थापित वीडियो गेम और फिल्मों के लिए स्थायी मास स्टोरेज" },
                 { en: "Booting up the computer hardware during startup", hi: "स्टार्टअप के दौरान कंप्यूटर हार्डवेयर को बूट करना" },
                 { en: "Converting wall power socket AC to DC voltage", hi: "दीवार के पावर सॉकेट AC को DC वोल्टेज में बदलना" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is the primary role of ROM (Read Only Memory)?", hi: "ROM (रीड ओनली मेमोरी) की मुख्य भूमिका क्या है?" },
-            options: [
-                { en: "Holds permanent startup instructions (BIOS/booting program) needed to switch on the computer", hi: "कंप्यूटर चालू करने के लिए आवश्यक स्थायी स्टार्टअप निर्देश (BIOS/बूटिंग प्रोग्राम) रखता है" },
-                { en: "Acts as temporary working space for editing documents", hi: "दस्तावेजों को संपादित करने के लिए अस्थायी कार्यक्षेत्र के रूप में कार्य करता है" },
-                { en: "Provides high-speed internet Wi-Fi connectivity", hi: "हाई-स्पीड इंटरनेट वाई-फाई कनेक्टिविटी प्रदान करता है" },
-                { en: "Stores downloaded music and photos permanently", hi: "डाउनलोड किए गए संगीत और तस्वीरों को स्थायी रूप से संग्रहीत करता है" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is Cache Memory used for?", hi: "कैश मेमोरी का उपयोग किस लिए किया जाता है?" },
-            options: [
-                { en: "Ultra-fast special memory placed between CPU and RAM to store frequently accessed data and instructions", hi: "बार-बार एक्सेस किए जाने वाले डेटा और निर्देशों को संग्रहीत करने के लिए CPU और RAM के बीच रखी गई अति-तेज विशेष मेमोरी" },
-                { en: "Saving backup copies of operating system files on cloud servers", hi: "क्लाउड सर्वर पर ऑपरेटिंग सिस्टम फ़ाइलों की बैकअप प्रतियां सहेजना" },
-                { en: "Connecting external USB flash drives and printers", hi: "बाहरी यूएसबी फ्लैश ड्राइव और प्रिंटर को जोड़ना" },
-                { en: "Displaying 3D graphics on the monitor screen", hi: "मॉनिटर स्क्रीन पर 3D ग्राफिक्स प्रदर्शित करना" }
             ],
             answer: 0
         }
