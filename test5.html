@@ -422,7 +422,7 @@
             <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
             <div class="instructions-box">
                 <ul>
-                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions (Computer Memory, Storage & Input Device History/Generations).</li>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions (Computer Memory, Storage & Advanced Input Devices).</li>
                     <li><strong>Time Limit:</strong> <span id="inst-time-limit">30</span> minutes. Test auto-submits when time expires.</li>
                     <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
                     <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
@@ -530,10 +530,10 @@
     }
 
     /* ========================================================
-       QUESTION BANK (30 Questions: 25 Computer Memory & Storage + 5 Input Device History & Generations)
+       QUESTION BANK (30 Questions: 21 Memory/Storage + 9 Input Devices)
        ======================================================== */
     const masterQuestionBank = [
-        // --- 25 COMPUTER MEMORY & TYPES OF STORAGE QUESTIONS ---
+        // --- MEMORY & STORAGE QUESTIONS ---
         {
             question: { en: "What is the primary characteristic of RAM (Random Access Memory)?", hi: "RAM (रैंडम एक्सेस मेमोरी) की प्राथमिक विशेषता क्या है?" },
             options: [
@@ -589,7 +589,7 @@
             options: [
                 { en: "ROM (Read Only Memory)", hi: "ROM (रीड ओनली मेमोरी)" },
                 { en: "RAM (Random Access Memory)", hi: "RAM (रैंडम एक्सेस मेमोरी)" },
-                { en: "Cache Memory", hi: "कैश मेमोरी" },
+                { en: "Virtual Cache Memory", hi: "वर्चुअल कैश मेमोरी" },
                 { en: "Virtual Memory", hi: "वर्चुअल मेमोरी" }
             ],
             answer: 0
@@ -601,26 +601,6 @@
                 { en: "Standard Mask ROM", hi: "मानक मास्क ROM" },
                 { en: "UV EPROM", hi: "UV EPROM" },
                 { en: "Static PROM", hi: "स्टेटिक PROM" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What is the primary function of Cache Memory in a computer system?", hi: "कंप्यूटर सिस्टम में कैश मेमोरी का प्राथमिक कार्य क्या है?" },
-            options: [
-                { en: "Acts as an ultra-fast buffer storing frequently accessed data between CPU and RAM", hi: "CPU और RAM के बीच बार-बार एक्सेस किए जाने वाले डेटा को स्टोर करने वाले अति-तेज बफर के रूप में कार्य करता है" },
-                { en: "Provides permanent long-term mass storage for software games and movies", hi: "सॉफ्टवेयर गेम और फिल्मों के लिए स्थायी दीर्घकालिक मास स्टोरेज प्रदान करता है" },
-                { en: "Converts AC power into DC current for motherboard circuits", hi: "मदरबोर्ड सर्किट के लिए AC पावर को DC करंट में परिवर्तित करता है" },
-                { en: "Scans paper documents into digital PDF files", hi: "कागजी दस्तावेजों को डिजिटल पीडीएफ फाइलों में स्कैन करता है" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "Which level of cache memory is closest and fastest to the CPU core?", hi: "कैश मेमोरी का कौन सा स्तर CPU कोर के सबसे करीब और सबसे तेज होता है?" },
-            options: [
-                { en: "L1 Cache", hi: "L1 कैश" },
-                { en: "L2 Cache", hi: "L2 कैश" },
-                { en: "L3 Cache", hi: "L3 कैश" },
-                { en: "L4 Main Cache", hi: "L4 मुख्य कैश" }
             ],
             answer: 0
         },
@@ -710,7 +690,7 @@
                 { en: "Save and access files online on secure remote servers anytime from any device", hi: "किसी भी डिवाइस से किसी भी समय सुरक्षित रिमोट सर्वर पर ऑनलाइन फाइलें सहेजना और एक्सेस करना" },
                 { en: "Physically print paper documents using thermal ink ribbons", hi: "थर्मल इंक रिबन का उपयोग करके भौतिक रूप से कागजी दस्तावेज प्रिंट करना" },
                 { en: "Boost computer processor CPU clock speed beyond limits", hi: "कंप्यूटर प्रोसेसर CPU क्लॉक स्पीड को सीमा से आगे बढ़ाना" },
-                { en: "Convert analog audio sound waves into digital mp3 files", hi: "एनालॉग ऑडियो ध्वनि तरंगों को डिजिटल mp3 फाइलों में बदलना" },
+                { en: "Convert analog audio sound waves into digital mp3 files", hi: "एनालॉग ऑडियो ध्वनि तरंगों को डिजिटल mp3 फाइलों में बदलना" }
             ],
             answer: 0
         },
@@ -755,38 +735,97 @@
             answer: 0
         },
         {
-            question: { en: "What is a primary drawback of using an HDD compared to an SSD?", hi: "SSD की तुलना में HDD का उपयोग करने का प्राथमिक नुकसान क्या है?" },
-            options: [
-                { en: "Slower performance and susceptibility to physical shock damage from moving parts", hi: "धीमी प्रदर्शन गति और मूविंग पार्ट्स से फिजिकल शॉक डैमेज का खतरा" },
-                { en: "Higher cost per gigabyte of storage", hi: "भंडारण के प्रति गीगाबाइट अधिक लागत" },
-                { en: "Lack of large capacity storage options", hi: "बड़ी क्षमता वाले स्टोरेज विकल्पों की कमी" },
-                { en: "Inability to boot Windows operating systems", hi: "Windows ऑपरेटिंग सिस्टम बूट करने में असमर्थता" }
-            ],
-            answer: 0
-        },
-        {
             question: { en: "Which of the following is a classic example of optical storage media?", hi: "निम्नलिखित में से कौन सा ऑप्टिकल स्टोरेज मीडिया का एक उत्कृष्ट उदाहरण है?" },
             options: [
                 { en: "Blu-Ray Disc", hi: "ब्लू-रे डिस्क" },
                 { en: "DDR4 RAM Stick", hi: "DDR4 रैम स्टिक" },
-                { en: "CPU L3 Cache Chip", hi: "CPU L3 कैश चिप" },
                 { en: "Solid State Drive (SSD)", hi: "सॉलिड स्टेट ड्राइव (SSD)" },
-                
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What does the volatile nature of RAM mean for stored data?", hi: "संग्रहीत डेटा के लिए RAM की वोलाटाइल प्रकृति का क्या अर्थ है?" },
-            options: [
-                { en: "All data is completely erased when the computer is powered off", hi: "कंप्यूटर बंद होने पर सारा डेटा पूरी तरह से मिट जाता है" },
-                { en: "Data is permanently preserved for years without power", hi: "बिना बिजली के भी डेटा वर्षों तक स्थायी रूप से सुरक्षित रहता है" },
-                { en: "Data is converted into optical laser beam pits", hi: "डेटा को ऑप्टिकल लेजर बीम गड्ढों में परिवर्तित किया जाता है" },
-                { en: "Data can only be read and never modified", hi: "डेटा को केवल पढ़ा जा सकता है और कभी संशोधित नहीं किया जा सकता है" }
+                { en: "External Hard Drive", hi: "बाहरी हार्ड ड्राइव" }
             ],
             answer: 0
         },
 
-        // --- 5 INPUT DEVICE HISTORY & GENERATIONS OF COMPUTER QUESTIONS ---
+        // --- INPUT DEVICES QUESTIONS (Added in place of Cache Memory) ---
+        {
+            question: { en: "What device is commonly used in schools and colleges to check objective multiple-choice answer sheets using shaded pencil marks?", hi: "स्कूलों और कॉलेजों में पेंसिल के छायांकित निशानों का उपयोग करके वस्तुनिष्ठ बहुविकल्पीय उत्तर पुस्तिकाओं की जांच के लिए आमतौर पर किस उपकरण का उपयोग किया जाता है?" },
+            options: [
+                { en: "OMR (Optical Mark Recognition)", hi: "OMR (ऑप्टिकल मार्क रिकग्निशन)" },
+                { en: "MICR (Magnetic Ink Character Recognition)", hi: "MICR (मैग्नेटिक इंक कैरेक्टर रिकग्निशन)" },
+                { en: "Barcode Scanner", hi: "बारकोड स्कैनर" },
+                { en: "Flatbed Document Scanner", hi: "फ्लैटबेड डॉक्यूमेंट स्कैनर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What technology is used by banks at the bottom of check leaves to read magnetic ink numbers quickly and accurately?", hi: "चेक पत्तियों के निचले हिस्से में चुंबकीय स्याही संख्याओं को जल्दी और सटीक रूप से पढ़ने के लिए बैंकों द्वारा किस तकनीक का उपयोग किया जाता है?" },
+            options: [
+                { en: "MICR (Magnetic Ink Character Recognition)", hi: "MICR (मैग्नेटिक इंक कैरेक्टर रिकग्निशन)" },
+                { en: "OMR Sheet Reader", hi: "OMR शीट रीडर" },
+                { en: "Punch Card Tabulator", hi: "पंच कार्ड टैबुलेटर" },
+                { en: "Flatbed Optical Camera", hi: "फ्लैटबेड ऑप्टिकल कैमरा" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What input device is primarily designed for playing computer video games by controlling directional movement?", hi: "दिशात्मक संचलन को नियंत्रित करके कंप्यूटर वीडियो गेम खेलने के लिए मुख्य रूप से किस इनपुट डिवाइस को डिज़ाइन किया गया है?" },
+            options: [
+                { en: "Joystick", hi: "जॉयस्टिक" },
+                { en: "Standard Keyboard", hi: "मानक कीबोर्ड" },
+                { en: "Optical Mouse", hi: "ऑप्टिकल माउस" },
+                { en: "Flatbed Scanner", hi: "फ्लैटबेड स्कैनर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which input device uses a stationary base with a protruding movable ball on top to navigate the cursor on screen?", hi: "स्क्रीन पर कर्सर को नेविगेट करने के लिए किस इनपुट डिवाइस में ऊपर एक उभरती हुई चलने योग्य गेंद के साथ एक स्थिर आधार का उपयोग किया जाता है?" },
+            options: [
+                { en: "Trackball", hi: "ट्रैकबॉल" },
+                { en: "Barcode Reader", hi: "बारकोड रीडर" },
+                { en: "Light Pen", hi: "लाइट पेन" },
+                { en: "Microphone", hi: "माइक्रोफोन" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What type of input scanner is widely used in retail supermarkets to read product price barcodes?", hi: "खुदरा सुपरमार्केट में उत्पाद मूल्य बारकोड को पढ़ने के लिए किस प्रकार के इनपुट स्कैनर का व्यापक रूप से उपयोग किया जाता है?" },
+            options: [
+                { en: "Barcode Reader (POS Scanner)", hi: "बारकोड रीडर (POS स्कैनर)" },
+                { en: "Magnetic Stripe Card Swipe", hi: "मैग्नेटिक स्ट्राइप कार्ड स्वाइप" },
+                { en: "Audio Voice Microphone", hi: "ऑडियो वॉयस माइक्रोफोन" },
+                { en: "Thermal Receipt Printer", hi: "थर्मल रसीद प्रिंटर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What input hardware allows users to input handwritten sketches or digital signatures directly onto computer screens?", hi: "कौन सा इनपुट हार्डवेयर उपयोगकर्ताओं को सीधे कंप्यूटर स्क्रीन पर हस्तलिखित स्केच या डिजिटल हस्ताक्षर इनपुट करने की अनुमति देता है?" },
+            options: [
+                { en: "Graphics Tablet / Digitizer", hi: "ग्राफिक्स टैबलेट / डिजिटाइज़र" },
+                { en: "Computer Speakers", hi: "कंप्यूटर स्पीकर" },
+                { en: "Dot Matrix Impact Printer", hi: "डॉट मैट्रिक्स इम्पैक्ट प्रिंटर" },
+                { en: "External Hard Drive", hi: "बाहरी हार्ड ड्राइव" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What biometric input device identifies individuals using unique patterns in the colored ring of the human eye?", hi: "कौन सा बायोमेट्रिक इनपुट डिवाइस मानव आंख के रंगीन रिंग में अद्वितीय पैटर्न का उपयोग करके व्यक्तियों की पहचान करता है?" },
+            options: [
+                { en: "Iris Scanner", hi: "आइरिस स्कैनर" },
+                { en: "Fingerprint Scanner", hi: "फिंगरप्रिंट स्कैनर" },
+                { en: "Flatbed Document Scanner", hi: "फ्लैटबेड डॉक्यूमेंट स्कैनर" },
+                { en: "Webcam Video Sensor", hi: "वेबकैम वीडियो सेंसर" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is the core function of a Microphone when connected to a computer system?", hi: "कंप्यूटर सिस्टम से कनेक्ट होने पर माइक्रोफोन का मुख्य कार्य क्या है?" },
+            options: [
+                { en: "Converts physical acoustic sound waves into electrical digital audio signals", hi: "भौतिक ध्वनिक ध्वनि तरंगों को विद्युत डिजिटल ऑडियो सिग्नल में परिवर्तित करता है" },
+                { en: "Projects visual presentations onto a large classroom wall screen", hi: "एक बड़ी कक्षा की दीवार स्क्रीन पर दृश्य प्रस्तुतियाँ प्रोजेक्ट करता है" },
+                { en: "Scans printed hardcopy papers into PDF files", hi: "मुद्रित हार्डकॉपी कागजों को पीडीएफ फाइलों में स्कैन करता है" },
+                { en: "Outputs high decibel stereo sound for music listening", hi: "संगीत सुनने के लिए उच्च डेसिबल स्टीरियो ध्वनि आउटपुट करता है" }
+            ],
+            answer: 0
+        },
         {
             question: { en: "Who invented the computer mouse as a handheld pointing device in 1964?", hi: "1964 में हैंडहेल्ड पॉइंटिंग डिवाइस के रूप में कंप्यूटर माउस का आविष्कार किसने किया था?" },
             options: [
@@ -794,46 +833,6 @@
                 { en: "Christopher Latham Sholes", hi: "क्रिस्टोफर लैथम शोल्स" },
                 { en: "Charles Babbage", hi: "चार्ल्स बैबेज" },
                 { en: "John Napier", hi: "जॉन नेपियर" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "Who is credited with inventing the standard computer keyboard layout (QWERTY)?", hi: "मानक कंप्यूटर कीबोर्ड लेआउट (QWERTY) का आविष्कार करने का श्रेय किसे दिया जाता है?" },
-            options: [
-                { en: "Christopher Latham Sholes", hi: "क्रिस्टोफर लैथम शोल्स" },
-                { en: "Douglas Engelbart", hi: "डगलस एंजेलबार्ट" },
-                { en: "Blaise Pascal", hi: "ब्लेस पास्कल" },
-                { en: "Gottfried Leibniz", hi: "गॉटफ्रीड लिबनिज" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What core circuit technology defined 1st Generation computers (1940-1956)?", hi: "किस मुख्य सर्किट तकनीक ने पहली पीढ़ी के कंप्यूटर (1940-1956) को परिभाषित किया?" },
-            options: [
-                { en: "Vacuum Tubes", hi: "वैक्यूम ट्यूब" },
-                { en: "Transistors", hi: "ट्रांजिस्टर" },
-                { en: "Integrated Circuits (ICs)", hi: "इंटीग्रेटेड सर्किट (IC)" },
-                { en: "Microprocessors (VLSI)", hi: "माइक्रोप्रोसेसर (VLSI)" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "Which electronic component replaced bulky vacuum tubes in 2nd Generation computers (1956-1963)?", hi: "दूसरी पीढ़ी के कंप्यूटरों (1956-1963) में भारी वैक्यूम ट्यूबों की जगह किस इलेक्ट्रॉनिक घटक ने ली?" },
-            options: [
-                { en: "Transistors", hi: "ट्रांजिस्टर" },
-                { en: "Magnetic Core Drums", hi: "मैग्नेटिक कोर ड्रम" },
-                { en: "ULSI Artificial Neural Chips", hi: "ULSI कृत्रिम तंत्रिका चिप्स" },
-                { en: "Mechanical Relays", hi: "यांत्रिक रिले" }
-            ],
-            answer: 0
-        },
-        {
-            question: { en: "What revolutionary technology introduced in 1971 squeezed thousands/millions of transistors onto a single silicon chip, powering 4th Generation computers?", hi: "1971 में पेश की गई किस क्रांतिकारी तकनीक ने हजारों/लाखों ट्रांजिस्टर को एक ही सिलिकॉन चिप पर समेट दिया, जिससे चौथी पीढ़ी के कंप्यूटरों को शक्ति मिली?" },
-            options: [
-                { en: "Microprocessor (VLSI)", hi: "माइक्रोप्रोसेसर (VLSI)" },
-                { en: "Vacuum Tube Array", hi: "वैक्यूम ट्यूब ऐरे" },
-                { en: "Punch Card Reader", hi: "पंच कार्ड रीडर" },
-                { en: "Magnetic Tape Reel", hi: "मैग्नेटिक टेप रील" }
             ],
             answer: 0
         }
@@ -963,9 +962,9 @@
             numQ = masterQuestionBank.length;
         }
 
-        // Shuffle questions and select numQ
+        // Shuffle questions and select numQ with deep cloning to prevent master bank mutation
         let shuffledBank = [...masterQuestionBank].sort(() => 0.5 - Math.random());
-        let selected = shuffledBank.slice(0, numQ);
+        let selected = shuffledBank.slice(0, numQ).map(q => JSON.parse(JSON.stringify(q)));
 
         // Randomize options for each question while tracking correct answer index
         testQuestions = selected.map(q => {
