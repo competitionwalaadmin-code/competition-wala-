@@ -46,7 +46,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            max-height: 92vh;
+            min-height: 600px;
         }
 
         header {
@@ -70,6 +70,7 @@
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .timer-badge {
@@ -145,6 +146,7 @@
 
         .btn-secondary {
             background: #6b7280;
+            width: auto;
         }
         .btn-secondary:hover {
             background: #4b5563;
@@ -167,7 +169,6 @@
             grid-template-columns: 1fr 300px;
             gap: 20px;
             height: 100%;
-            min-height: 450px;
         }
 
         @media (max-width: 768px) {
@@ -404,12 +405,8 @@
                 </div>
                 <div class="form-group">
                     <label for="student-email">Email Address *</label>
-                    <select id="student-email" required>
-                        <option value="">Select Demo Email</option>
-                        <option value="student1.adca@gmail.com">student1.adca@gmail.com</option>
-                        <option value="learner.competitionwala@gmail.com">learner.competitionwala@gmail.com</option>
-                        <option value="aspirant.shashisir@gmail.com">aspirant.shashisir@gmail.com</option>
-                    </select>
+                    <!-- Fixed to text/email input so students can type or enter any email safely -->
+                    <input type="email" id="student-email" required placeholder="Enter your email address">
                 </div>
                 <button type="submit" class="btn">Start Test</button>
             </form>
@@ -422,18 +419,10 @@
             <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
             <div class="instructions-box">
                 <ul>
-                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions (Output Devices, Input Devices & Computer History).</li>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions.</li>
                     <li><strong>Time Limit:</strong> <span id="inst-time-limit">30</span> minutes. Test auto-submits when time expires.</li>
-                    <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
-                    <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
-                    <li><strong>Question Palette States:</strong>
-                        <ul style="margin-top: 5px;">
-                            <li><span class="dot dot-green" style="display:inline-block;"></span> Green = Attempted</li>
-                            <li><span class="dot dot-red" style="display:inline-block;"></span> Red = Not Attempted</li>
-                            <li><span class="dot dot-purple" style="display:inline-block;"></span> Purple = Marked for Review</li>
-                            <li><span class="dot dot-neutral" style="display:inline-block;"></span> Neutral = Not Visited</li>
-                        </ul>
-                    </li>
+                    <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong>.</li>
+                    <li><strong>Navigation:</strong> Use Previous, Next, or the Question Palette to jump across questions.</li>
                 </ul>
             </div>
             <button id="begin-test-btn" class="btn">Proceed to Test</button>
@@ -460,9 +449,9 @@
                         <button class="btn btn-secondary" id="next-btn">Next</button>
                     </div>
                     <div class="exam-controls-right">
-                        <button class="btn btn-secondary" id="clear-btn" style="background: #eab308;">Clear Response</button>
-                        <button class="btn btn-secondary" id="review-btn" style="background: var(--warning);">Mark for Review</button>
-                        <button class="btn" id="submit-test-btn" style="background: var(--success);">Submit Test</button>
+                        <button class="btn btn-secondary" id="clear-btn" style="background: #eab308; color:white;">Clear</button>
+                        <button class="btn btn-secondary" id="review-btn" style="background: var(--warning); color:white;">Review</button>
+                        <button class="btn" id="submit-test-btn" style="background: var(--success); width: auto;">Submit Test</button>
                     </div>
                 </div>
             </div>
@@ -522,18 +511,17 @@
         emailjsPublicKey:  "-7EDKicno-1aJnWPA"    
     };
 
-    // Initialize EmailJS
+    // Initialize EmailJS safely
     try {
         emailjs.init(CONFIG.emailjsPublicKey);
     } catch (e) {
-        console.warn("EmailJS initialization skipped or failed.", e);
+        console.warn("EmailJS initialization failed.", e);
     }
 
     /* ========================================================
-       QUESTION BANK (30 Questions: 25 Output Devices + 5 Input Devices & History)
+       QUESTION BANK (30 Questions)
        ======================================================== */
     const masterQuestionBank = [
-        // --- 25 OUTPUT DEVICE QUESTIONS ---
         {
             question: { en: "What is the primary function of an Output Device in a computer system?", hi: "कंप्यूटर सिस्टम में आउटपुट डिवाइस का प्राथमिक कार्य क्या है?" },
             options: [
@@ -590,7 +578,7 @@
                 { en: "PPM (Pages Per Minute)", hi: "PPM (पेज प्रति मिनट)" },
                 { en: "CPS (Characters Per Second)", hi: "CPS (वर्ण प्रति सेकंड)" },
                 { en: "LPM (Lines Per Minute)", hi: "LPM (लाइनें प्रति मिनट)" },
-                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" },
+                { en: "DPI (Dots Per Inch)", hi: "DPI (डॉट्स प्रति इंच)" }
             ],
             answer: 0
         },
@@ -657,10 +645,10 @@
         {
             question: { en: "How does an Inkjet Printer create images and text on paper?", hi: "इंकजेट प्रिंटर कागज पर छवियां और पाठ कैसे बनाता है?" },
             options: [
-                { en: "By spraying tiny drops of liquid ink through microscopic nozzles", hi: "सूक्ष्म नोज़ल के माध्यम से तरल स्याही की छोटी बूंदों का छिड़काव करके" },
+                { en: "By spraying tiny drops of liquid ink through microscopic nozzles", hi: "सूक्ष्म नोज़ल के माध्यम से तरल स्याही की छोटी बूंदों का छिड़काव करके" },
                 { en: "By melting powdered black toner using a heated laser drum unit", hi: "गर्म लेजर ड्रम इकाई का उपयोग करके पाउडर काले टोनर को पिघलाकर" },
                 { en: "By applying thermal heat directly onto special heat-sensitive paper", hi: "विशेष ताप-संवेदनशील कागज पर सीधे थर्मल गर्मी लागू करके" },
-                { en: "By striking an inked fabric ribbon with metallic dot pins", hi: "धातु बिंदु पिन के साथ एक श्याही वाले कपड़े के रिबन पर प्रहार करके" },
+                { en: "By striking an inked fabric ribbon with metallic dot pins", hi: "धातु बिंदु पिन के साथ एक श्याही वाले कपड़े के रिबन पर प्रहार करके" }
             ],
             answer: 0
         },
@@ -784,8 +772,6 @@
             ],
             answer: 0
         },
-
-        // --- 5 INPUT DEVICE & HISTORY QUESTIONS ---
         {
             question: { en: "What is the primary definition of an Input Device in a computer system?", hi: "कंप्यूटर सिस्टम में इनपुट डिवाइस की प्राथमिक परिभाषा क्या है?" },
             options: [
@@ -844,11 +830,11 @@
     let studentData = { name: "", course: "", email: "" };
     let testQuestions = [];
     let currentIndex = 0;
-    let userAnswers = {}; // questionIndex -> selectedOptionIndex
-    let markedForReview = {}; // questionIndex -> boolean
+    let userAnswers = {}; 
+    let markedForReview = {}; 
     let visitedQuestions = new Set();
     let timerInterval = null;
-    let timeLeft = 30 * 60; // Exactly 30 minutes
+    let timeLeft = 30 * 60; 
     let startTime = null;
     let isSubmitted = false;
 
@@ -866,7 +852,6 @@
     const timerDisplay = document.getElementById("timer-display");
     const beginTestBtn = document.getElementById("begin-test-btn");
 
-    // Exam Screen Elements
     const qCounter = document.getElementById("q-counter");
     const qEn = document.getElementById("q-en");
     const qHi = document.getElementById("q-hi");
@@ -885,7 +870,7 @@
         e.preventDefault();
         const name = document.getElementById("student-name").value.trim();
         const course = document.getElementById("student-course").value;
-        const email = document.getElementById("student-email").value;
+        const email = document.getElementById("student-email").value.trim();
 
         if (!name || !course || !email) {
             alert("Please fill in all required fields.");
@@ -894,7 +879,6 @@
 
         studentData = { name, course, email };
         
-        // Populate instructions
         document.getElementById("inst-total-q").textContent = CONFIG.numberOfQuestions;
         document.getElementById("inst-time-limit").textContent = "30";
 
@@ -958,15 +942,12 @@
         let numQ = CONFIG.numberOfQuestions;
         
         if (masterQuestionBank.length < numQ) {
-            alert(`Requested ${numQ} questions, but only ${masterQuestionBank.length} available in bank. Adjusting accordingly.`);
             numQ = masterQuestionBank.length;
         }
 
-        // Shuffle questions and select numQ
         let shuffledBank = [...masterQuestionBank].sort(() => 0.5 - Math.random());
         let selected = shuffledBank.slice(0, numQ);
 
-        // Randomize options for each question while tracking correct answer index
         testQuestions = selected.map(q => {
             let optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
             optionsWithIndex.sort(() => 0.5 - Math.random());
@@ -981,7 +962,7 @@
             };
         });
 
-        timeLeft = 30 * 60; // 30 minutes total timer
+        timeLeft = 30 * 60; 
         currentIndex = 0;
         renderPaletteGrid();
         renderQuestion();
@@ -1019,7 +1000,7 @@
         updatePalette();
     }
 
-    function selectOption(optIdx) {
+    window.selectOption = function(optIdx) {
         userAnswers[currentIndex] = optIdx;
         updatePalette();
     }
@@ -1063,7 +1044,7 @@
     }
 
     /* ========================================================
-       TIMER LOGIC (30 Minutes)
+       TIMER LOGIC
        ======================================================== */
     function startTimer() {
         timerInterval = setInterval(() => {
@@ -1108,7 +1089,7 @@
             }
         });
 
-        let marksObtained = correct; // No negative marking (+1 correct, 0 incorrect)
+        let marksObtained = correct; 
         let maxMarks = testQuestions.length;
         let percentage = Math.round((marksObtained / maxMarks) * 100);
 
@@ -1118,7 +1099,6 @@
         let timeTakenSecsRem = timeTakenSecs % 60;
         let timeTakenStr = `${timeTakenMins}m ${timeTakenSecsRem}s`;
 
-        // Performance message
         let perfBadge = document.getElementById("performance-badge");
         let perfText = "";
         let badgeColor = "";
@@ -1132,7 +1112,6 @@
         perfBadge.style.background = badgeColor;
         perfBadge.style.color = "#fff";
 
-        // Fill result metrics
         document.getElementById("res-student-info").textContent = `${studentData.name} | ${studentData.course} | ${studentData.email}`;
         document.getElementById("res-total").textContent = maxMarks;
         document.getElementById("res-attempted").textContent = attempted;
@@ -1146,7 +1125,6 @@
         examScreen.classList.add("hidden");
         resultScreen.classList.remove("hidden");
 
-        // Send Email to Admin via EmailJS
         sendAdminEmail({
             total: maxMarks,
             attempted,
@@ -1205,7 +1183,7 @@
             })
             .catch(error => {
                 console.error("Failed to send email result.", error);
-                banner.innerHTML = `<div class="error-banner">Notice: Your test was successfully evaluated, but the admin notification email could not be dispatched at this moment.</div>`;
+                banner.innerHTML = `<div class="error-banner">Notice: Your test was evaluated successfully, but the notification email couldn't be sent automatically.</div>`;
             });
     }
 </script>
