@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Wala Computer Classes - Online Examination</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #8b5cf6;
+            --neutral: #e5e7eb;
+            --bg-color: #f8fafc;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 92vh;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-info {
+            font-size: 0.9rem;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .timer-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .screen {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .instructions-box {
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .instructions-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .instructions-box li {
+            margin-bottom: 8px;
+        }
+
+        .exam-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            height: 100%;
+            min-height: 450px;
+        }
+
+        @media (max-width: 768px) {
+            .exam-layout {
+                grid-template-columns: 1fr;
+            }
+            .palette-sidebar {
+                order: -1;
+            }
+        }
+
+        .question-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .q-number {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .q-text-en {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .q-text-hi {
+            font-size: 1rem;
+            color: #4b5563;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-light);
+        }
+
+        .option-item input {
+            margin-top: 3px;
+        }
+
+        .option-text div {
+            font-size: 0.95rem;
+        }
+        .option-text .hi-opt {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .exam-controls {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .exam-controls-left, .exam-controls-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .palette-sidebar {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .palette-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .dot-green { background: var(--success); }
+        .dot-red { background: var(--danger); }
+        .dot-purple { background: var(--warning); }
+        .dot-neutral { background: var(--border-color); }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .palette-btn.attempted { background: var(--success); color: white; border-color: var(--success); }
+        .palette-btn.unattempted { background: var(--danger); color: white; border-color: var(--danger); }
+        .palette-btn.review { background: var(--warning); color: white; border-color: var(--warning); }
+        .palette-btn.current { border: 2px solid var(--primary); box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+
+        .result-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .error-banner {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1 id="institute-title">Competition Wala Computer Classes</h1>
+        <div class="header-info hidden" id="header-info">
+            <span id="hdr-student"></span>
+            <span id="hdr-course"></span>
+            <div class="timer-badge" id="timer-display">30:00</div>
+        </div>
+    </header>
+
+    <!-- 1. STUDENT LOGIN SCREEN -->
+    <div id="login-screen" class="screen">
+        <div class="login-card">
+            <h2>Online Test Portal</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="student-name">Student Name *</label>
+                    <input type="text" id="student-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="student-course">Course *</label>
+                    <select id="student-course" required>
+                        <option value="">Select Course</option>
+                        <option value="DCA">DCA</option>
+                        <option value="ADCA">ADCA</option>
+                        <option value="DCTT">DCTT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-email">Email Address *</label>
+                    <select id="student-email" required>
+                        <option value="">Select Demo Email</option>
+                        <option value="student1.adca@gmail.com">student1.adca@gmail.com</option>
+                        <option value="learner.competitionwala@gmail.com">learner.competitionwala@gmail.com</option>
+                        <option value="aspirant.shashisir@gmail.com">aspirant.shashisir@gmail.com</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Start Test</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. INSTRUCTIONS SCREEN -->
+    <div id="instruction-screen" class="screen hidden">
+        <div style="max-width: 700px; margin: 0 auto;">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
+            <div class="instructions-box">
+                <ul>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">30</span> questions based on Internet Presentation.</li>
+                    <li><strong>Time Limit:</strong> <span id="inst-time-limit">30</span> minutes. Test auto-submits when time expires.</li>
+                    <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
+                    <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
+                    <li><strong>Question Palette States:</strong>
+                        <ul style="margin-top: 5px;">
+                            <li><span class="dot dot-green" style="display:inline-block;"></span> Green = Attempted</li>
+                            <li><span class="dot dot-red" style="display:inline-block;"></span> Red = Not Attempted</li>
+                            <li><span class="dot dot-purple" style="display:inline-block;"></span> Purple = Marked for Review</li>
+                            <li><span class="dot dot-neutral" style="display:inline-block;"></span> Neutral = Not Visited</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button id="begin-test-btn" class="btn">Proceed to Test</button>
+        </div>
+    </div>
+
+    <!-- 3. EXAMINATION SCREEN -->
+    <div id="exam-screen" class="screen hidden">
+        <div class="exam-layout">
+            <div class="question-area">
+                <div>
+                    <div class="q-number" id="q-counter">Question 1 of 30</div>
+                    <div class="q-text-en" id="q-en">Loading question...</div>
+                    <div class="q-text-hi" id="q-hi">प्रश्न लोड हो रहा है...</div>
+
+                    <div class="options-list" id="options-container">
+                        <!-- Options injected dynamically -->
+                    </div>
+                </div>
+
+                <div class="exam-controls">
+                    <div class="exam-controls-left">
+                        <button class="btn btn-secondary" id="prev-btn">Previous</button>
+                        <button class="btn btn-secondary" id="next-btn">Next</button>
+                    </div>
+                    <div class="exam-controls-right">
+                        <button class="btn btn-secondary" id="clear-btn" style="background: #eab308;">Clear Response</button>
+                        <button class="btn btn-secondary" id="review-btn" style="background: var(--warning);">Mark for Review</button>
+                        <button class="btn" id="submit-test-btn" style="background: var(--success);">Submit Test</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette-sidebar">
+                <h3>Question Palette</h3>
+                <div class="palette-legend">
+                    <div class="legend-item"><span class="dot dot-green"></span> Attempted</div>
+                    <div class="legend-item"><span class="dot dot-red"></span> Not Attempted</div>
+                    <div class="legend-item"><span class="dot dot-purple"></span> Review</div>
+                    <div class="legend-item"><span class="dot dot-neutral"></span> Not Visited</div>
+                </div>
+                <div class="palette-grid" id="palette-grid">
+                    <!-- Palette buttons injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RESULT SCREEN -->
+    <div id="result-screen" class="screen hidden">
+        <div class="result-card">
+            <div class="result-header">
+                <h2>ONLINE TEST RESULT</h2>
+                <p id="res-student-info" style="color: #4b5563; margin-top: 4px;"></p>
+                <div id="performance-badge" class="performance-badge">Good Performance!</div>
+            </div>
+
+            <div id="email-status-banner"></div>
+
+            <div class="stats-grid">
+                <div class="stat-item"><span>Total Questions:</span> <strong id="res-total">0</strong></div>
+                <div class="stat-item"><span>Attempted:</span> <strong id="res-attempted">0</strong></div>
+                <div class="stat-item"><span>Unattempted:</span> <strong id="res-unattempted">0</strong></div>
+                <div class="stat-item"><span>Correct Answers:</span> <strong id="res-correct" style="color:var(--success)">0</strong></div>
+                <div class="stat-item"><span>Incorrect Answers:</span> <strong id="res-incorrect" style="color:var(--danger)">0</strong></div>
+                <div class="stat-item"><span>Marks Obtained:</span> <strong id="res-marks">0</strong></div>
+                <div class="stat-item"><span>Percentage:</span> <strong id="res-percentage">0%</strong></div>
+                <div class="stat-item"><span>Time Taken:</span> <strong id="res-time">00:00</strong></div>
+            </div>
+            
+            <button class="btn" onclick="location.reload()">Finish & Exit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ========================================================
+       ADMIN & SYSTEM CONFIGURATION
+       ======================================================== */
+    const CONFIG = {
+        instituteName: "Competition Wala Computer Classes",
+        numberOfQuestions: 30,
+        adminEmail: "competitionwalaadmin@gmail.com",
+        emailjsServiceId: "service_d15114h",     
+        emailjsTemplateId: "template_2yx0cwh",    
+        emailjsPublicKey:  "-7EDKicno-1aJnWPA"    
+    };
+
+    // Initialize EmailJS
+    try {
+        emailjs.init(CONFIG.emailjsPublicKey);
+    } catch (e) {
+        console.warn("EmailJS initialization skipped or failed.", e);
+    }
+
+    /* ========================================================
+       QUESTION BANK (30 Questions generated from PowerPoint)
+       ======================================================== */
+    const masterQuestionBank = [
+        { question: { en: "What is a protocol according to the study material?", hi: "अध्ययन सामग्री के अनुसार प्रोटोकॉल क्या है?" }, options: [
+            { en: "A physical cable connecting devices", hi: "उपकरणों को जोड़ने वाली भौतिक केबल" },
+            { en: "A set of standardized rules that allows devices to exchange data online or offline", hi: "मानकीकृत नियमों का एक सेट जो उपकरणों को ऑनलाइन या ऑफलाइन डेटा का आदान-प्रदान करने की अनुमति देता है" },
+            { en: "A software application for viewing web pages", hi: "वेब पेज देखने के लिए एक सॉफ्टवेयर एप्लिकेशन" },
+            { en: "A type of web hosting server", hi: "एक प्रकार का वेब होस्टिंग सर्वर" }
+        ], answer: 1 },
+        { question: { en: "Which protocol is primarily used for loading web pages?", hi: "मुख्य रूप से वेब पेज लोड करने के लिए किस प्रोटोकॉल का उपयोग किया जाता है?" }, options: [
+            { en: "FTP", hi: "FTP" }, { en: "HTTP", hi: "HTTP" }, { en: "SMTP", hi: "SMTP" }, { en: "POP3", hi: "POP3" }
+        ], answer: 1 },
+        { question: { en: "What is a potential risk associated with using standard HTTP websites?", hi: "मानक HTTP वेबसाइटों का उपयोग करने से जुड़ा संभावित जोखिम क्या है?" }, options: [
+            { en: "There may be harm to your computer", hi: "आपके कंप्यूटर को नुकसान हो सकता है" },
+            { en: "It permanently deletes hard drive files", hi: "यह हार्ड ड्राइव की फाइलों को स्थायी रूप से हटा देता है" },
+            { en: "It blocks all internet connectivity",hi: "यह सभी इंटरनेट कनेक्टिविटी को ब्लॉक कर देता है" },
+            { en: "It requires a paid subscription", hi: "इसके लिए सशुल्क सदस्यता की आवश्यकता होती है" }
+        ], answer: 0 },
+        { question: { en: "Which protocol is a dedicated rule set for uploading and downloading large files between client and server?", hi: "क्लाइंट और सर्वर के बीच बड़ी फ़ाइलों को अपलोड और डाउनलोड करने के लिए कौन सा प्रोटोकॉल समर्पित नियम सेट है?" }, options: [
+            { en: "HTTP", hi: "HTTP" }, { en: "FTP", hi: "FTP" }, { en: "SMTP", hi: "SMTP" }, { en: "IMAP", hi: "IMAP" }
+        ], answer: 1 },
+        { question: { en: "What security feature does HTTPS use to encrypt data securely?", hi: "डेटा को सुरक्षित रूप से एन्क्रिप्ट करने के लिए HTTPS किस सुरक्षा सुविधा का उपयोग करता है?" }, options: [
+            { en: "SSL encryption", hi: "SSL एन्क्रिप्शन" }, { en: "HTML tags", hi: "HTML टैग" }, { en: "IP masking", hi: "IP मास्किंग" }, { en: "Bluetooth pairing", hi: "ब्लूटूथ पेयरिंग" }
+        ], answer: 0 },
+        { question: { en: "What does POP3 stand for in email protocols?", hi: "ईमेल प्रोटोकॉल में POP3 का पूर्ण रूप क्या है?" }, options: [
+            { en: "Post Office Protocol Type 3", hi: "पोस्ट ऑफिस प्रोटोकॉल टाइप 3" },
+            { en: "Private Online Provider 3", hi: "प्राइवेट ऑनलाइन प्रोवाइडर 3" },
+            { en: "Public Output Packet 3", hi: "पब्लिक आउटपुट पैकेट 3" },
+            { en: "Pre-configured Operation Protocol 3", hi: "प्री-कॉन्फ़िगरर्ड ऑपरेशन प्रोटोकॉल 3" }
+        ], answer: 0 },
+        { question: { en: "Which protocol helps in sending messages and emails from one computer to another?", hi: "कौन सा प्रोटोकॉल एक कंप्यूटर से दूसरे कंप्यूटर में संदेश और ईमेल भेजने में मदद करता है?" }, options: [
+            { en: "POP3", hi: "POP3" }, { en: "SMTP", hi: "SMTP" }, { en: "FTP", hi: "FTP" }, { en: "HTTP", hi: "HTTP" }
+        ], answer: 1 },
+        { question: { en: "Which email protocol allows a person to make changes like deleting or reacting to messages?", hi: "कौन सा ईमेल प्रोटोकॉल किसी व्यक्ति को संदेशों को हटाने या प्रतिक्रिया देने जैसे परिवर्तन करने की अनुमति देता है?" }, options: [
+            { en: "SMTP", hi: "SMTP" }, { en: "IMAP", hi: "IMAP" }, { en: "POP3", hi: "POP3" }, { en: "FTP", hi: "FTP" }
+        ], answer: 1 },
+        { question: { en: "What does Wi-Fi stand for?", hi: "Wi-Fi का पूर्ण रूप क्या है?" }, options: [
+            { en: "Wireless Field", hi: "वायरलेस फील्ड" }, { en: "Wireless Fidelity", hi: "वायरलेस फिडेलिटी" }, { en: "Wired Frequency", hi: "वायर्ड फ़्रीक्वेंसी" }, { en: "Wide Finder", hi: "वाइड फाइंडर" }
+        ], answer: 1 },
+        { question: { en: "Wi-Fi connects devices to a router using which type of waves?", hi: "Wi-Fi किस प्रकार की तरंगों का उपयोग करके उपकरणों को राउटर से जोड़ता है?" }, options: [
+            { en: "Radio frequency waves", hi: "रेडियो आवृत्ति तरंगें" }, { en: "Sound waves", hi: "ध्वनि तरंगें" }, { en: "Light waves", hi: "प्रकाश तरंगें" }, { en: "Infrared waves", hi: "इन्फ्रारेड तरंगें" }
+        ], answer: 0 },
+        { question: { en: "Which standard governs Wi-Fi wireless connectivity?", hi: "Wi-Fi वायरलेस कनेक्टिविटी को कौन सा मानक नियंत्रित करता है?" }, options: [
+            { en: "IEEE 802.3", hi: "IEEE 802.3" }, { en: "IEEE 802.11", hi: "IEEE 802.11" }, { en: "IEEE 802.15", hi: "IEEE 802.15" }, { en: "IEEE 802.1Q", hi: "IEEE 802.1Q" }
+        ], answer: 1 },
+        { question: { en: "What are the standard international wireless frequencies used by Wi-Fi?", hi: "Wi-Fi द्वारा उपयोग की जाने वाली मानक अंतर्राष्ट्रीय वायरलेस आवृत्तियाँ क्या हैं?" }, options: [
+            { en: "2.4 GHz and 5 GHz", hi: "2.4 GHz और 5 GHz" }, { en: "1.2 GHz and 3.4 GHz", hi: "1.2 GHz और 3.4 GHz" }, { en: "900 MHz and 10 GHz", hi: "900 MHz और 10 GHz" }, { en: "6 GHz and 12 GHz", hi: "6 GHz और 12 GHz" }
+        ], answer: 0 },
+        { question: { en: "What is a major downside of running a mobile hotspot mentioned in the slides?", hi: "स्लाइड्स में उल्लेखित मोबाइल हॉटस्पॉट चलाने का एक बड़ा नुकसान क्या है?" }, options: [
+            { en: "It consumes phone battery quickly and uses a cellular data plan", hi: "यह फोन की बैटरी जल्दी खत्म करता है और सेलुलर डेटा प्लान का उपयोग करता है" },
+            { en: "It permanently damages the device processor", hi: "यह डिवाइस प्रोसेसर को स्थायी रूप से नुकसान पहुँचाता है" },
+            { en: "It only works without a password", hi: "यह केवल बिना पासवर्ड के काम करता है" },
+            { en: "It cannot connect laptops", hi: "यह लैपटॉप को कनेक्ट नहीं कर सकता" }
+        ], answer: 0 },
+        { question: { en: "What is defined as the software client tool you open to visit any website?", hi: "किसी भी वेबसाइट पर जाने के लिए खोले जाने वाले सॉफ्टवेयर क्लाइंट टूल के रूप में किसे परिभाषित किया गया है?" }, options: [
+            { en: "Search Engine", hi: "सर्च इंजन" }, { en: "Web Browser", hi: "वेब ब्राउज़र" }, { en: "Web Server", hi: "वेब सर्वर" }, { en: "HTML Editor", hi: "HTML एडिटर" }
+        ], answer: 1 },
+        { question: { en: "What do web browsers fetch and render into visual web pages?", hi: "वेब ब्राउज़र क्या प्राप्त करते हैं और विजुअल वेब पेजों में रेंडर करते हैं?" }, options: [
+            { en: "HTML, CSS, and JavaScript from servers", hi: "सर्वर से HTML, CSS और JavaScript" }, { en: "Raw database files directly", hi: "सीधे कच्चे डेटाबेस फाइलें" }, { en: "Compressed video streams only", hi: "केवल संपीड़ित वीडियो स्ट्रीम" }, { en: "Operating system kernel instructions", hi: "ऑपरेटिंग सिस्टम कर्नेल निर्देश" }
+        ], answer: 0 },
+        { question: { en: "Which of the following is a Web Browser rather than a Search Engine?", hi: "निम्नलिखित में से कौन सा सर्च इंजन के बजाय एक वेब ब्राउज़र है?" }, options: [
+            { en: "Google Chrome", hi: "गूगल क्रोम" }, { en: "Google", hi: "गूगल" }, { en: "Bing", hi: "बिंग" }, { en: "DuckDuckGo", hi: "डकडकगो" }
+        ], answer: 0 },
+        { question: { en: "What does a Search Engine use to index web pages and rank relevant answers?", hi: "वेब पेजों को अनुक्रमित करने और प्रासंगिक उत्तरों को रैंक करने के लिए सर्च इंजन क्या उपयोग करता है?" }, options: [
+            { en: "Web Crawlers & Algorithms", hi: "वेब क्रॉलर और एल्गोरिदम" }, { en: "Manual user submissions only", hi: "केवल मैन्युअल उपयोगकर्ता सबमिशन" }, { en: "Local hard drive scans", hi: "स्थानीय हार्ड ड्राइव स्कैन" }, { en: "Physical postal mail indexing", hi: "भौतिक पोस्टल मेल इंडेक्सिंग" }
+        ], answer: 0 },
+        { question: { en: "What is a collection of related web pages under a single domain name called?", hi: "एक ही डोमेन नाम के अंतर्गत संबंधित वेब पेजों के संग्रह को क्या कहा जाता है?" }, options: [
+            { en: "A webpage", hi: "एक वेबपेज" }, { en: "A website", hi: "एक वेबसाइट" }, { en: "A browser cache", hi: "एक ब्राउज़र कैश" }, { en: "An IP address", hi: "एक IP पता" }
+        ], answer: 1 },
+        { question: { en: "What does URL stand for?", hi: "URL का पूर्ण रूप क्या है?" }, options: [
+            { en: "Uniform Resource Locator", hi: "यूनिफ़ॉर्म रिसोर्स लोकेटर" }, { en: "Universal Remote Link", hi: "यूनिवर्सल रिमोट लिंक" }, { en: "Unified Routing Language", hi: "यूनिफाइड रुटिंग लैंग्वेज" }, { en: "User Registration Link", hi: "यूजर रजिस्ट्रेशन Link" }
+        ], answer: 0 },
+        { question: { en: "What does the 'Phonebook of the Internet' refer to?", hi: "'इंटरनेट की टेलीफोन निर्देशिका' किसे कहा जाता है?" }, options: [
+            { en: "Domain Name System (DNS)", hi: "डोमेन नेम सिस्टम (DNS)" }, { en: "Internet Service Provider (ISP)", hi: "इंटरनेट सेवा प्रदाता (ISP)" }, { en: "Web Browser History", hi: "वेब ब्राउज़र इतिहास" }, { en: "IP Address Registry", hi: "IP पता रजिस्ट्री" }
+        ], answer: 0 },
+        { question: { en: "Which of the following are examples of domain name registrars?", hi: "निम्नलिखित में से कौन से डोमेन नाम रजिस्ट्रार के उदाहरण हैं?" }, options: [
+            { en: "GoDaddy, Big rock, Domain.com", hi: "GoDaddy, Big rock, Domain.com" }, { en: "Chrome, Edge, Safari", hi: "Chrome, Edge, Safari" }, { en: "Gmail, Outlook, Yahoo", hi: "Gmail, Outlook, Yahoo" }, { en: "HTML, CSS, JavaScript", hi: "HTML, CSS, JavaScript" }
+        ], answer: 0 },
+        { question: { en: "What does CC stand for in email recipients?", hi: "ईमेल प्राप्तकर्ताओं में CC का पूर्ण रूप क्या है?" }, options: [
+            { en: "Carbon Copy", hi: "कार्बन कॉपी" }, { en: "Computer Communication", hi: "कंप्यूटर कम्युनिकेशन" }, { en: "Confidential Code", hi: "गोपनीय कोड" }, { en: "Cached Content", hi: "कैश्ड सामग्री" }
+        ], answer: 0 },
+        { question: { en: "When should you use BCC (Blind Carbon Copy) in emails?", hi: "ईमेल में BCC (ब्लाइंड कार्बन कॉपी) का उपयोग कब करना चाहिए?" }, options: [
+            { en: "When sending an email to a large group of people to protect their privacy", hi: "जब उनकी गोपनीयता की रक्षा के लिए बड़ी संख्या में लोगों को ईमेल भेजना हो" },
+            { en: "When you want everyone to see all recipient email addresses", hi: "जब आप चाहते हैं कि हर कोई सभी प्राप्तकर्ता ईमेल पते देखे" },
+            { en: "When sending official files to your internal boss", hi: "जब अपने आंतरिक बॉस को आधिकारिक फाइलें भेजनी हों" },
+            { en: "When you need immediate read receipts", hi: "जब आपको तत्काल रीड रसीद की आवश्यकता हो" }
+        ], answer: 0 },
+        { question: { en: "What is a Network Client?", hi: "नेटवर्क क्लाइंट क्या है?" }, options: [
+            { en: "A hardware device or software app that requests resources or services from a central server", hi: "एक हार्डवेयर डिवाइस या सॉफ्टवेयर ऐप जो केंद्रीय सर्वर से संसाधनों या सेवाओं का अनुरोध करता है" },
+            { en: "A powerful computer running 24/7 to host websites", hi: "वेबसाइटों को होस्ट करने के लिए 24/7 चलने वाला एक शक्तिशाली कंप्यूटर" },
+            { en: "An internet cable provider", hi: "एक इंटरनेट केबल प्रदाता" },
+            { en: "A hardware router firewall", hi: "एक हार्डवेयर राउटर फ़ायरवॉल" }
+        ], answer: 0 },
+        { question: { en: "What is the primary language used to structure and build web pages?", hi: "वेब पेजों को संरचित और निर्मित करने के लिए उपयोग की जाने वाली प्राथमिक भाषा कौन सी है?" }, options: [
+            { en: "HTML (HyperText Markup Language)", hi: "HTML (हाइपरटेक्स्ट मार्कअप लैंग्वेज)" }, { en: "Python", hi: "पायथन" }, { en: "SQL", hi: "SQL" }, { en: "C++", hi: "C++" }
+        ], answer: 0 },
+        { question: { en: "What are Web Cookies (HTTP Cookies)?", hi: "वेब कुकीज़ (HTTP कुकीज़) क्या हैं?" }, options: [
+            { en: "Small text files stored on your computer by websites to remember your settings and preferences", hi: "आपकी सेटिंग और प्राथमिकताओं को याद रखने के लिए वेबसाइटों द्वारा आपके कंप्यूटर पर संग्रहीत छोटी पाठ फ़ाइलें" },
+            { en: "Malicious files sent via email spam", hi: "ईमेल स्पैम के माध्यम से भेजी गई दुर्भावनापूर्ण फाइलें" }, { en: "Browser extensions for ad blocking", hi: "विज्ञापन अवरोधन के लिए ब्राउज़र एक्सटेंशन" }, { en: "Temporary memory used by RAM", hi: "RAM द्वारा उपयोग की जाने वाली अस्थायी मेमोरी" }
+        ], answer: 0 },
+        { question: { en: "Which network type covers a very short range of up to 10 meters, such as Bluetooth?", hi: "कौन सा नेटवर्क प्रकार 10 मीटर तक की बहुत कम दूरी को कवर करता है, जैसे ब्लूटूथ?" }, options: [
+            { en: "PAN (Personal Area Network)", hi: "PAN (पर्सनल एरिया नेटवर्क)" }, { en: "LAN (Local Area Network)", hi: "LAN (लोकल एरिया नेटवर्क)" }, { en: "MAN (Metropolitan Area Network)", hi: "MAN (मेट्रोपॉलिटन एरिया नेटवर्क)" }, { en: "WAN (Wide Area Network)", hi: "WAN (वाइड एरिया नेटवर्क)" }
+        ], answer: 0 },
+        { question: { en: "Which network connects computers within a limited area like a home, school, or office building?", hi: "कौन सा नेटवर्क घर, स्कूल या कार्यालय भवन जैसे सीमित क्षेत्र के भीतर कंप्यूटरों को जोड़ता है?" }, options: [
+            { en: "LAN", hi: "LAN" }, { en: "MAN", hi: "MAN" }, { en: "WAN", hi: "WAN" }, { en: "PAN", hi: "PAN" }
+        ], answer: 0 },
+        { question: { en: "Which keyboard shortcut opens a new blank tab in a web browser?", hi: "कौन सा कीबोर्ड शॉर्टकट वेब ब्राउज़र में एक नया खाली टैब खोलता है?" }, options: [
+            { en: "Ctrl + T", hi: "Ctrl + T" }, { en: "Ctrl + W", hi: "Ctrl + W" }, { en: "Ctrl + R", hi: "Ctrl + R" }, { en: "Ctrl + L", hi: "Ctrl + L" }
+        ], answer: 0 },
+        { question: { en: "Which keyboard shortcut reopens the last closed tab in a browser?", hi: "कौन सा कीबोर्ड शॉर्टकट ब्राउज़र में अंतिम बंद किए गए टैब को फिर से खोलता है?" }, options: [
+            { en: "Ctrl + Shift + T", hi: "Ctrl + Shift + T" }, { en: "Ctrl + H", hi: "Ctrl + H" }, { en: "Ctrl + J", hi: "Ctrl + J" }, { en: "Ctrl + N", hi: "Ctrl + N" }
+        ], answer: 0 }
+    ];
+
+    /* ========================================================
+       APPLICATION STATE
+       ======================================================== */
+    let studentData = { name: "", course: "", email: "" };
+    let testQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = {}; // questionIndex -> selectedOptionIndex
+    let markedForReview = {}; // questionIndex -> boolean
+    let visitedQuestions = new Set();
+    let timerInterval = null;
+    let timeLeft = 30 * 60; // Exactly 30 minutes timer
+    let startTime = null;
+    let isSubmitted = false;
+
+    /* ========================================================
+       DOM REFERENCES
+       ======================================================== */
+    const loginScreen = document.getElementById("login-screen");
+    const instructionScreen = document.getElementById("instruction-screen");
+    const examScreen = document.getElementById("exam-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const loginForm = document.getElementById("login-form");
+    const headerInfo = document.getElementById("header-info");
+    const hdrStudent = document.getElementById("hdr-student");
+    const hdrCourse = document.getElementById("hdr-course");
+    const timerDisplay = document.getElementById("timer-display");
+    const beginTestBtn = document.getElementById("begin-test-btn");
+
+    // Exam Screen Elements
+    const qCounter = document.getElementById("q-counter");
+    const qEn = document.getElementById("q-en");
+    const qHi = document.getElementById("q-hi");
+    const optionsContainer = document.getElementById("options-container");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const reviewBtn = document.getElementById("review-btn");
+    const submitTestBtn = document.getElementById("submit-test-btn");
+    const paletteGrid = document.getElementById("palette-grid");
+
+    /* ========================================================
+       EVENT LISTENERS & FLOW
+       ======================================================== */
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("student-name").value.trim();
+        const course = document.getElementById("student-course").value;
+        const email = document.getElementById("student-email").value;
+
+        if (!name || !course || !email) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        studentData = { name, course, email };
+        
+        // Populate instructions
+        document.getElementById("inst-total-q").textContent = CONFIG.numberOfQuestions;
+        document.getElementById("inst-time-limit").textContent = "30";
+
+        loginScreen.classList.add("hidden");
+        instructionScreen.classList.remove("hidden");
+    });
+
+    beginTestBtn.addEventListener("click", () => {
+        initTest();
+        instructionScreen.classList.add("hidden");
+        examScreen.classList.remove("hidden");
+        headerInfo.classList.remove("hidden");
+        
+        hdrStudent.textContent = `Student: ${studentData.name}`;
+        hdrCourse.textContent = `Course: ${studentData.course}`;
+
+        startTimer();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (currentIndex < testQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion();
+        }
+    });
+
+    clearBtn.addEventListener("click", () => {
+        delete userAnswers[currentIndex];
+        renderQuestion();
+        updatePalette();
+    });
+
+    reviewBtn.addEventListener("click", () => {
+        if (markedForReview[currentIndex]) {
+            delete markedForReview[currentIndex];
+        } else {
+            markedForReview[currentIndex] = true;
+        }
+        renderQuestion();
+        updatePalette();
+    });
+
+    submitTestBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to submit the test?")) {
+            submitTest();
+        }
+    });
+
+    /* ========================================================
+       TEST INITIALIZATION & RANDOMIZATION
+       ======================================================== */
+    function initTest() {
+        startTime = new Date();
+        let numQ = CONFIG.numberOfQuestions;
+        
+        if (masterQuestionBank.length < numQ) {
+            alert(`Requested ${numQ} questions, but only ${masterQuestionBank.length} available in bank. Adjusting accordingly.`);
+            numQ = masterQuestionBank.length;
+        }
+
+        // Shuffle questions and select numQ
+        let shuffledBank = [...masterQuestionBank].sort(() => 0.5 - Math.random());
+        let selected = shuffledBank.slice(0, numQ);
+
+        // Randomize options for each question while tracking correct answer index
+        testQuestions = selected.map(q => {
+            let optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+            optionsWithIndex.sort(() => 0.5 - Math.random());
+            
+            let newOptions = optionsWithIndex.map(item => item.opt);
+            let newAnswerIndex = optionsWithIndex.findIndex(item => item.originalIndex === q.answer);
+
+            return {
+                question: q.question,
+                options: newOptions,
+                answer: newAnswerIndex
+            };
+        });
+
+        timeLeft = 30 * 60; // 30 minutes total timer
+        currentIndex = 0;
+        renderPaletteGrid();
+        renderQuestion();
+    }
+
+    /* ========================================================
+       RENDER QUESTION & PALETTE
+       ======================================================== */
+    function renderQuestion() {
+        visitedQuestions.add(currentIndex);
+        const q = testQuestions[currentIndex];
+
+        qCounter.textContent = `Question ${currentIndex + 1} of ${testQuestions.length}`;
+        qEn.textContent = q.question.en;
+        qHi.textContent = q.question.hi;
+
+        optionsContainer.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+            const isChecked = userAnswers[currentIndex] === idx ? "checked" : "";
+            const div = document.createElement("label");
+            div.className = "option-item";
+            div.innerHTML = `
+                <input type="radio" name="question_option" value="${idx}" ${isChecked} onchange="selectOption(${idx})">
+                <div class="option-text">
+                    <div><strong>${String.fromCharCode(65 + idx)}.</strong> ${opt.en}</div>
+                    <div class="hi-opt">${opt.hi}</div>
+                </div>
+            `;
+            optionsContainer.appendChild(div);
+        });
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === testQuestions.length - 1;
+        
+        updatePalette();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentIndex] = optIdx;
+        updatePalette();
+    }
+
+    function renderPaletteGrid() {
+        paletteGrid.innerHTML = "";
+        testQuestions.forEach((_, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "palette-btn neutral";
+            btn.textContent = idx + 1;
+            btn.id = `palette-btn-${idx}`;
+            btn.onclick = () => {
+                currentIndex = idx;
+                renderQuestion();
+            };
+            paletteGrid.appendChild(btn);
+        });
+    }
+
+    function updatePalette() {
+        testQuestions.forEach((_, idx) => {
+            const btn = document.getElementById(`palette-btn-${idx}`);
+            if (!btn) return;
+
+            btn.className = "palette-btn";
+
+            if (idx === currentIndex) {
+                btn.classList.add("current");
+            }
+
+            if (userAnswers[idx] !== undefined) {
+                btn.classList.add("attempted");
+            } else if (markedForReview[idx]) {
+                btn.classList.add("review");
+            } else if (visitedQuestions.has(idx)) {
+                btn.classList.add("unattempted");
+            } else {
+                btn.classList.add("neutral");
+            }
+        });
+    }
+
+    /* ========================================================
+       TIMER LOGIC (30 Minutes)
+       ======================================================== */
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will be submitted automatically.");
+                submitTest();
+                return;
+            }
+
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            if (timeLeft === 300) {
+                alert("Warning: Only 5 minutes remaining!");
+            }
+        }, 1000);
+    }
+
+    /* ========================================================
+       SUBMISSION & RESULT CALCULATION
+       ======================================================== */
+    function submitTest() {
+        if (isSubmitted) return;
+        isSubmitted = true;
+        clearInterval(timerInterval);
+
+        let attempted = Object.keys(userAnswers).length;
+        let unattempted = testQuestions.length - attempted;
+        let correct = 0;
+        let incorrect = 0;
+
+        testQuestions.forEach((q, idx) => {
+            if (userAnswers[idx] !== undefined) {
+                if (userAnswers[idx] === q.answer) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
+            }
+        });
+
+        let marksObtained = correct; // No negative marking (+1 correct, 0 incorrect)
+        let maxMarks = testQuestions.length;
+        let percentage = Math.round((marksObtained / maxMarks) * 100);
+
+        let endTime = new Date();
+        let timeTakenSecs = Math.floor((endTime - startTime) / 1000);
+        let timeTakenMins = Math.floor(timeTakenSecs / 60);
+        let timeTakenSecsRem = timeTakenSecs % 60;
+        let timeTakenStr = `${timeTakenMins}m ${timeTakenSecsRem}s`;
+
+        // Performance message
+        let perfBadge = document.getElementById("performance-badge");
+        let perfText = "";
+        let badgeColor = "";
+        if (percentage >= 90) { perfText = "Excellent Performance!"; badgeColor = "#10b981"; }
+        else if (percentage >= 75) { perfText = "Very Good Performance!"; badgeColor = "#3b82f6"; }
+        else if (percentage >= 60) { perfText = "Good Performance!"; badgeColor = "#8b5cf6"; }
+        else if (percentage >= 40) { perfText = "Keep Practicing!"; badgeColor = "#f59e0b"; }
+        else { perfText = "More Practice Required!"; badgeColor = "#ef4444"; }
+
+        perfBadge.textContent = perfText;
+        perfBadge.style.background = badgeColor;
+        perfBadge.style.color = "#fff";
+
+        // Fill result metrics
+        document.getElementById("res-student-info").textContent = `${studentData.name} | ${studentData.course} | ${studentData.email}`;
+        document.getElementById("res-total").textContent = maxMarks;
+        document.getElementById("res-attempted").textContent = attempted;
+        document.getElementById("res-unattempted").textContent = unattempted;
+        document.getElementById("res-correct").textContent = correct;
+        document.getElementById("res-incorrect").textContent = incorrect;
+        document.getElementById("res-marks").textContent = `${marksObtained} / ${maxMarks}`;
+        document.getElementById("res-percentage").textContent = `${percentage}%`;
+        document.getElementById("res-time").textContent = timeTakenStr;
+
+        examScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+
+        // Send Email to Admin via EmailJS
+        sendAdminEmail({
+            total: maxMarks,
+            attempted,
+            unattempted,
+            correct,
+            incorrect,
+            marks: marksObtained,
+            percentage,
+            timeTaken: timeTakenStr
+        });
+    }
+
+    /* ========================================================
+       EMAIL DISPATCH VIA EMAILJS
+       ======================================================== */
+    function sendAdminEmail(stats) {
+        let questionDetailsHtml = "<table border='1' cellpadding='5' cellspacing='0' style='border-collapse:collapse;font-size:12px;'><tr><th>Q.No</th><th>Question</th><th>Student Answer</th><th>Correct Answer</th><th>Status</th></tr>";
+        
+        testQuestions.forEach((q, idx) => {
+            let studentAnsIdx = userAnswers[idx];
+            let studentAnsText = studentAnsIdx !== undefined ? q.options[studentAnsIdx].en : "Unattempted";
+            let correctAnsText = q.options[q.answer].en;
+            let status = "Unattempted";
+            if (studentAnsIdx !== undefined) {
+                status = studentAnsIdx === q.answer ? "Correct" : "Incorrect";
+            }
+            questionDetailsHtml += `<tr><td>${idx+1}</td><td>${q.question.en}</td><td>${studentAnsText}</td><td>${correctAnsText}</td><td>${status}</td></tr>`;
+        });
+        questionDetailsHtml += "</table>";
+
+        const templateParams = {
+            to_email: CONFIG.adminEmail,
+            institute_name: CONFIG.instituteName,
+            student_name: studentData.name,
+            student_course: studentData.course,
+            student_email: studentData.email,
+            test_date: new Date().toLocaleDateString(),
+            test_time: new Date().toLocaleTimeString(),
+            total_questions: stats.total,
+            attempted_questions: stats.attempted,
+            unattempted_questions: stats.unattempted,
+            correct_answers: stats.correct,
+            incorrect_answers: stats.incorrect,
+            marks_obtained: stats.marks,
+            max_marks: stats.total,
+            percentage: stats.percentage + "%",
+            time_taken: stats.timeTaken,
+            question_details: questionDetailsHtml
+        };
+
+        const banner = document.getElementById("email-status-banner");
+
+        emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, templateParams)
+            .then(response => {
+                console.log("Email sent successfully!", response.status, response.text);
+            })
+            .catch(error => {
+                console.error("Failed to send email result.", error);
+                banner.innerHTML = `<div class="error-banner">Notice: Your test was successfully evaluated, but the admin notification email could not be dispatched at this moment.</div>`;
+            });
+    }
+</script>
+
+</body>
+</html>
