@@ -390,14 +390,14 @@
             <h2>Online Test Portal</h2>
             <form id="login-form">
                 <div class="form-group">
-    <label for="student-email">Email Address *</label>
-    <select id="student-email" required>
-        <option value="">Select Student Email</option>
-        <option value="student1.anshu@gmail.com">student1.anshu@gmail.com</option>
-        <option value="student2.anshu@gmail.com">student2.anshu@gmail.com</option>
-        <option value="student3.anshu@gmail.com">student3.anshu@gmail.com</option>
-    </select>
-</div>
+                    <label for="student-email">Email Address *</label>
+                    <select id="student-email" required>
+                        <option value="">Select Student Email</option>
+                        <option value="student1.anshu@gmail.com">student1.anshu@gmail.com</option>
+                        <option value="student2.anshu@gmail.com">student2.anshu@gmail.com</option>
+                        <option value="student3.anshu@gmail.com">student3.anshu@gmail.com</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="student-course">Course *</label>
                     <select id="student-course" required>
@@ -408,8 +408,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="student-email">student name*</label>
-                    <input type="name" id="name">
+                    <label for="student-name">Student Name *</label>
+                    <input type="text" id="student-name" required placeholder="Enter your full name">
                 </div>
                 <button type="submit" class="btn">Start Test</button>
             </form>
@@ -531,21 +531,21 @@
     }
 
     /* ========================================================
-       QUESTION BANK (40 MS Word Bilingual Questions)[cite: 2]
+       QUESTION BANK (40 MS Word Bilingual Questions)[cite: 1]
        ======================================================== */
     const masterQuestionBank = [
         {
-            question: { en: "Which group on the Home tab contains Bold, Italic and Underline commands?", hi: "Home टैब में Bold, इटैलिक और अंडरलाइन कमांड किस समूह में हैं?" },
+            question: { en: "Which group on the Home tab contains Bold, Italic and Underline commands?", hi: "Home टैब में Bold, Italic और Underline commands किस group में होते हैं?" },
             options: [
-                { en: "Clipboard", hi: "क्लिपबोर्ड" },
-                { en: "Font", hi: "फ़ॉन्ट" },
-                { en: "Paragraph", hi: "पैराग्राफ" },
-                { en: "Styles", hi: "शैलियाँ" }
+                { en: "Clipboard", hi: "Clipboard" },
+                { en: "Font", hi: "Font" },
+                { en: "Paragraph", hi: "Paragraph" },
+                { en: "Styles", hi: "Styles" }
             ],
             answer: 1
         },
         {
-            question: { en: "Which shortcut is used to copy selected text?", hi: "चयनित टेक्स्ट को कॉपी करने के लिए किस शॉर्टकट का उपयोग किया जाता है?" },
+            question: { en: "Which shortcut is used to copy selected text?", hi: "चयनित text को copy करने के लिए कौन-सा shortcut प्रयोग होता है?" },
             options: [
                 { en: "Ctrl + X", hi: "Ctrl + X" },
                 { en: "Ctrl + V", hi: "Ctrl + V" },
@@ -555,47 +555,47 @@
             answer: 2
         },
         {
-            question: { en: "Which alignment makes both left and right edges of a paragraph even?", hi: "कौन सा संरेखण एक पैराग्राफ के बाएं और दाएं दोनों किनारों को समान बनाता है?" },
+            question: { en: "Which alignment makes both left and right edges of a paragraph even?", hi: "कौन-सा alignment paragraph के बाएँ और दाएँ दोनों किनारों को समान करता है?" },
             options: [
-                { en: "Center", hi: "केंद्र" },
-                { en: "Align Left", hi: "बाएँ संरेखित करें" },
-                { en: "Justify", hi: "चित्त करना (Justify)" },
-                { en: "Align Right", hi: "दाएँ संरेखित करें" }
+                { en: "Center", hi: "Center" },
+                { en: "Align Left", hi: "Align Left" },
+                { en: "Justify", hi: "Justify" },
+                { en: "Align Right", hi: "Align Right" }
             ],
             answer: 2
         },
         {
-            question: { en: "What is the main purpose of Format Painter?", hi: "फ़ॉर्मेट पेंटर का मुख्य उद्देश्य क्या है?" },
+            question: { en: "What is the main purpose of Format Painter?", hi: "Format Painter का मुख्य उद्देश्य क्या है?" },
             options: [
-                { en: "To copy formatting", hi: "फ़ॉर्मेटिंग कॉपी करने के लिए" },
-                { en: "To insert a picture", hi: "चित्र डालने के लिए" },
-                { en: "To check spelling", hi: "वर्तनी जाँचने के लिए" },
-                { en: "To change page size", hi: "पृष्ठ का आकार बदलने के लिए" }
+                { en: "To copy formatting", hi: "Formatting copy करना" },
+                { en: "To insert a picture", hi: "Picture insert करना" },
+                { en: "To check spelling", hi: "Spelling check करना" },
+                { en: "To change page size", hi: "Page size बदलना" }
             ],
             answer: 0
         },
         {
-            question: { en: "Which group on the Home tab contains Bullets and Numbering?", hi: "Home टैब में बुलेट्स और नंबरिंग किस समूह में होती है?" },
+            question: { en: "Which group on the Home tab contains Bullets and Numbering?", hi: "Home टैब में Bullets और Numbering किस group में होते हैं?" },
             options: [
-                { en: "Font", hi: "फ़ॉन्ट" },
-                { en: "Clipboard", hi: "क्लिपबोर्ड" },
-                { en: "Paragraph", hi: "पैराग्राफ" },
-                { en: "Editing", hi: "संपादन" }
+                { en: "Font", hi: "Font" },
+                { en: "Clipboard", hi: "Clipboard" },
+                { en: "Paragraph", hi: "Paragraph" },
+                { en: "Editing", hi: "Editing" }
             ],
             answer: 2
         },
         {
-            question: { en: "Which command removes direct formatting from selected text?", hi: "कौन सा कमांड चयनित टेक्स्ट से प्रत्यक्ष फ़ॉर्मेटिंग को हटाता है?" },
+            question: { en: "Which command removes direct formatting from selected text?", hi: "Selected text से direct formatting हटाने के लिए कौन-सा command प्रयोग होता है?" },
             options: [
-                { en: "Clear All Formatting", hi: "सभी फ़ॉर्मेटिंग साफ़ करें" },
-                { en: "Format Painter", hi: "फ़ॉर्मेट पेंटर" },
-                { en: "Change Case", hi: "केस बदलें" },
-                { en: "Text Effects", hi: "पाठ प्रभाव" }
+                { en: "Clear All Formatting", hi: "Clear All Formatting" },
+                { en: "Format Painter", hi: "Format Painter" },
+                { en: "Change Case", hi: "Change Case" },
+                { en: "Text Effects", hi: "Text Effects" }
             ],
             answer: 0
         },
         {
-            question: { en: "Which shortcut opens the Find pane?", hi: "ढूंढें फलक (Find pane) खोलने के लिए कौन सा शॉर्टकट है?" },
+            question: { en: "Which shortcut opens the Find pane?", hi: "Find pane खोलने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + G", hi: "Ctrl + G" },
                 { en: "Ctrl + F", hi: "Ctrl + F" },
@@ -605,7 +605,7 @@
             answer: 1
         },
         {
-            question: { en: "Which shortcut opens Find and Replace?", hi: "ढूंढें और बदलें (Find and Replace) कौन सा शॉर्टकट खोलता है?" },
+            question: { en: "Which shortcut opens Find and Replace?", hi: "Find and Replace खोलने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + R", hi: "Ctrl + R" },
                 { en: "Ctrl + H", hi: "Ctrl + H" },
@@ -615,7 +615,7 @@
             answer: 1
         },
         {
-            question: { en: "Which shortcut creates a new Word document?", hi: "नया Word दस्तावेज़ कौन सा शॉर्टकट बनाता है?" },
+            question: { en: "Which shortcut creates a new Word document?", hi: "नया Word document बनाने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + N", hi: "Ctrl + N" },
                 { en: "Ctrl + O", hi: "Ctrl + O" },
@@ -625,7 +625,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut saves the current document?", hi: "वर्तमान दस्तावेज़ को कौन सा शॉर्टकट सहेजता है?" },
+            question: { en: "Which shortcut saves the current document?", hi: "Current document को save करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + P", hi: "Ctrl + P" },
                 { en: "Ctrl + S", hi: "Ctrl + S" },
@@ -635,7 +635,7 @@
             answer: 1
         },
         {
-            question: { en: "Which shortcut opens the Print interface?", hi: "प्रिंट इंटरफ़ेस कौन सा शॉर्टकट खोलता है?" },
+            question: { en: "Which shortcut opens the Print interface?", hi: "Print interface खोलने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + P", hi: "Ctrl + P" },
                 { en: "Ctrl + Shift + P", hi: "Ctrl + Shift + P" },
@@ -645,7 +645,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut selects all content in a document?", hi: "दस्तावेज़ में सभी सामग्री का चयन कौन सा शॉर्टकट करता है?" },
+            question: { en: "Which shortcut selects all content in a document?", hi: "Document के सभी content को select करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + E", hi: "Ctrl + E" },
                 { en: "Ctrl + A", hi: "Ctrl + A" },
@@ -655,7 +655,7 @@
             answer: 1
         },
         {
-            question: { en: "Which shortcut reverses the most recent action?", hi: "हाल की कार्रवाई को पूर्ववत कौन सा शॉर्टकट करता है?" },
+            question: { en: "Which shortcut reverses the most recent action?", hi: "सबसे हाल की action को वापस लेने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + Y", hi: "Ctrl + Y" },
                 { en: "Ctrl + U", hi: "Ctrl + U" },
@@ -665,7 +665,7 @@
             answer: 2
         },
         {
-            question: { en: "Which shortcut repeats or redoes an undone action?", hi: "पूर्ववत कार्रवाई को फिर से कौन सा शॉर्टकट करता है?" },
+            question: { en: "Which shortcut repeats or redoes an undone action?", hi: "Undo की गई action को फिर से करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + Y", hi: "Ctrl + Y" },
                 { en: "Ctrl + R", hi: "Ctrl + R" },
@@ -675,7 +675,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut applies Bold formatting?", hi: "बोल्ड फ़ॉर्मेटिंग कौन सा शॉर्टकट लागू करता है?" },
+            question: { en: "Which shortcut applies Bold formatting?", hi: "Bold formatting लगाने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + B", hi: "Ctrl + B" },
                 { en: "Ctrl + I", hi: "Ctrl + I" },
@@ -685,7 +685,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut applies Italic formatting?", hi: "इटैलिक फ़ॉर्मेटिंग कौन सा शॉर्टकट लागू करता है?" },
+            question: { en: "Which shortcut applies Italic formatting?", hi: "Italic formatting लगाने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + B", hi: "Ctrl + B" },
                 { en: "Ctrl + I", hi: "Ctrl + I" },
@@ -695,7 +695,7 @@
             answer: 1
         },
         {
-            question: { en: "Which shortcut applies Underline formatting?", hi: "अंडरलाइन फ़ॉर्मेटिंग कौन सा शॉर्टकट लागू करता है?" },
+            question: { en: "Which shortcut applies Underline formatting?", hi: "Underline formatting लगाने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + U", hi: "Ctrl + U" },
                 { en: "Ctrl + I", hi: "Ctrl + I" },
@@ -705,7 +705,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut centers a paragraph?", hi: "पैराग्राफ को केंद्र में कौन सा शॉर्टकट संरेखित करता है?" },
+            question: { en: "Which shortcut centers a paragraph?", hi: "Paragraph को center करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + L", hi: "Ctrl + L" },
                 { en: "Ctrl + R", hi: "Ctrl + R" },
@@ -715,7 +715,7 @@
             answer: 2
         },
         {
-            question: { en: "Which shortcut aligns a paragraph to the left?", hi: "पैराग्राफ को बाईं ओर कौन सा शॉर्टकट संरेखित करता है?" },
+            question: { en: "Which shortcut aligns a paragraph to the left?", hi: "Paragraph को left align करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + L", hi: "Ctrl + L" },
                 { en: "Ctrl + E", hi: "Ctrl + E" },
@@ -725,7 +725,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut aligns a paragraph to the right?", hi: "पैराग्राफ को दाईं ओर कौन सा शॉर्टकट संरेखित करता है?" },
+            question: { en: "Which shortcut aligns a paragraph to the right?", hi: "Paragraph को right align करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + R", hi: "Ctrl + R" },
                 { en: "Ctrl + L", hi: "Ctrl + L" },
@@ -735,7 +735,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut applies Justify alignment?", hi: "चित्त संरेखण (Justify) कौन सा शॉर्टकट लागू करता है?" },
+            question: { en: "Which shortcut applies Justify alignment?", hi: "Justify alignment लगाने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + J", hi: "Ctrl + J" },
                 { en: "Ctrl + Q", hi: "Ctrl + Q" },
@@ -745,77 +745,77 @@
             answer: 0
         },
         {
-            question: { en: "Which tab is used to insert a table?", hi: "तालिका (table) डालने के लिए किस टैब का उपयोग किया जाता है?" },
+            question: { en: "Which tab is used to insert a table?", hi: "Table insert करने के लिए कौन-सा tab प्रयोग होता है?" },
             options: [
-                { en: "Home", hi: "होम" },
-                { en: "Insert", hi: "इंसर्ट" },
-                { en: "Design", hi: "डिज़ाइन" },
-                { en: "Layout", hi: "लेआउट" }
+                { en: "Home", hi: "Home" },
+                { en: "Insert", hi: "Insert" },
+                { en: "Design", hi: "Design" },
+                { en: "Layout", hi: "Layout" }
             ],
             answer: 1
         },
         {
-            question: { en: "Pictures can normally be inserted through which tab?", hi: "चित्रों को सामान्यतः किस टैब के माध्यम से डाला जा सकता है?" },
+            question: { en: "Pictures can normally be inserted through which tab?", hi: "Pictures को सामान्यतः किस tab से insert किया जाता है?" },
             options: [
-                { en: "Home", hi: "होम" },
-                { en: "Layout", hi: "लेआउट" },
-                { en: "Design", hi: "डिज़ाइन" },
-                { en: "Insert", hi: "इंसर्ट" }
+                { en: "Home", hi: "Home" },
+                { en: "Layout", hi: "Layout" },
+                { en: "Design", hi: "Design" },
+                { en: "Insert", hi: "Insert" }
             ],
             answer: 3
         },
         {
-            question: { en: "Which group on the Insert tab contains the Table command?", hi: "Insert टैब में Table कमांड किस समूह में होता है?" },
+            question: { en: "Which group on the Insert tab contains the Table command?", hi: "Insert tab में Table command किस group में होता है?" },
             options: [
-                { en: "Pages", hi: "पेज" },
-                { en: "Tables", hi: "टेबल्स" },
-                { en: "Illustrations", hi: "इलस्ट्रेशन" },
-                { en: "Text", hi: "टेक्स्ट" }
+                { en: "Pages", hi: "Pages" },
+                { en: "Tables", hi: "Tables" },
+                { en: "Illustrations", hi: "Illustrations" },
+                { en: "Text", hi: "Text" }
             ],
             answer: 1
         },
         {
-            question: { en: "Which Insert-tab group contains Pictures, Shapes and SmartArt?", hi: "Insert टैब के किस समूह में चित्र, आकृतियाँ और स्मार्टआर्ट होते हैं?" },
+            question: { en: "Which Insert-tab group contains Pictures, Shapes and SmartArt?", hi: "Insert tab का कौन-सा group Pictures, Shapes और SmartArt रखता है?" },
             options: [
-                { en: "Links", hi: "लिंक्स" },
-                { en: "Illustrations", hi: "इलस्ट्रेशन" },
-                { en: "Text", hi: "टेक्स्ट" },
-                { en: "Pages", hi: "पेज" }
+                { en: "Links", hi: "Links" },
+                { en: "Illustrations", hi: "Illustrations" },
+                { en: "Text", hi: "Text" },
+                { en: "Pages", hi: "Pages" }
             ],
             answer: 1
         },
         {
-            question: { en: "Where is the Header & Footer command located?", hi: "हेडर और फूटर कमांड कहाँ स्थित है?" },
+            question: { en: "Where is the Header & Footer command located?", hi: "Header & Footer command कहाँ मिलता है?" },
             options: [
-                { en: "Insert tab", hi: "इंसर्ट टैब" },
-                { en: "Layout tab", hi: "लेआउट टैब" },
-                { en: "Design tab", hi: "डिज़ाइन टैब" },
-                { en: "Home tab", hi: "होम टैब" }
+                { en: "Insert tab", hi: "Insert tab" },
+                { en: "Layout tab", hi: "Layout tab" },
+                { en: "Design tab", hi: "Design tab" },
+                { en: "Home tab", hi: "Home tab" }
             ],
             answer: 0
         },
         {
-            question: { en: "Which Insert-tab group contains WordArt and Text Box?", hi: "Insert टैब के किस समूह में वर्डआर्ट और टेक्स्ट बॉक्स होते हैं?" },
+            question: { en: "Which Insert-tab group contains WordArt and Text Box?", hi: "Insert tab में WordArt और Text Box किस group में होते हैं?" },
             options: [
-                { en: "Illustrations", hi: "इलस्ट्रेशन" },
-                { en: "Symbols", hi: "सिंबल्स" },
-                { en: "Text", hi: "टेक्स्ट" },
-                { en: "Links", hi: "लिंक्स" }
+                { en: "Illustrations", hi: "Illustrations" },
+                { en: "Symbols", hi: "Symbols" },
+                { en: "Text", hi: "Text" },
+                { en: "Links", hi: "Links" }
             ],
             answer: 2
         },
         {
-            question: { en: "Which command inserts special characters such as © or ™?", hi: "© या ™ जैसे विशेष वर्ण कौन सा कमांड डालता है?" },
+            question: { en: "Which command inserts special characters such as © or ™?", hi: "© या ™ जैसे special characters insert करने के लिए कौन-सा command है?" },
             options: [
-                { en: "Symbol", hi: "सिंबल" },
-                { en: "WordArt", hi: "वर्डआर्ट" },
-                { en: "Object", hi: "ऑब्जेक्ट" },
-                { en: "Equation", hi: "समीकरण" }
+                { en: "Symbol", hi: "Symbol" },
+                { en: "WordArt", hi: "WordArt" },
+                { en: "Object", hi: "Object" },
+                { en: "Equation", hi: "Equation" }
             ],
             answer: 0
         },
         {
-            question: { en: "Which shortcut inserts a hyperlink?", hi: "हाइपरलिंक कौन सा शॉर्टकट डालता है?" },
+            question: { en: "Which shortcut inserts a hyperlink?", hi: "Hyperlink insert करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + K", hi: "Ctrl + K" },
                 { en: "Ctrl + L", hi: "Ctrl + L" },
@@ -825,7 +825,7 @@
             answer: 0
         },
         {
-            question: { en: "Which shortcut inserts a manual page break?", hi: "मैनुअल पेज ब्रेक कौन सा शॉर्टकट डालता है?" },
+            question: { en: "Which shortcut inserts a manual page break?", hi: "Manual page break insert करने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Alt + Enter", hi: "Alt + Enter" },
                 { en: "Ctrl + Shift + Enter", hi: "Ctrl + Shift + Enter" },
@@ -835,77 +835,77 @@
             answer: 2
         },
         {
-            question: { en: "Which tab contains the Margins command?", hi: "हाशिया (Margins) कमांड किस टैब में होता है?" },
+            question: { en: "Which tab contains the Margins command?", hi: "Margins command किस tab में होता है?" },
             options: [
-                { en: "Insert", hi: "इंसर्ट" },
-                { en: "Layout", hi: "लेआउट" },
-                { en: "Home", hi: "होम" },
-                { en: "Design", hi: "डिज़ाइन" }
+                { en: "Insert", hi: "Insert" },
+                { en: "Layout", hi: "Layout" },
+                { en: "Home", hi: "Home" },
+                { en: "Design", hi: "Design" }
             ],
             answer: 1
         },
         {
-            question: { en: "Which Layout option changes Portrait to Landscape?", hi: "पोर्ट्रेट को लैंडस्केप में कौन सा लेआउट विकल्प बदलता है?" },
+            question: { en: "Which Layout option changes Portrait to Landscape?", hi: "Portrait को Landscape में बदलने के लिए कौन-सा Layout option है?" },
             options: [
-                { en: "Columns", hi: "कॉलम" },
-                { en: "Orientation", hi: "अभिविन्यास (Orientation)" },
-                { en: "Breaks", hi: "ब्रेक" },
-                { en: "Size", hi: "आकार" }
+                { en: "Columns", hi: "Columns" },
+                { en: "Orientation", hi: "Orientation" },
+                { en: "Breaks", hi: "Breaks" },
+                { en: "Size", hi: "Size" }
             ],
             answer: 1
         },
         {
-            question: { en: "Which Layout command divides text into newspaper-style columns?", hi: "टेक्स्ट को अखबार की शैली वाले कॉलम में कौन सा लेआउट कमांड विभाजित करता है?" },
+            question: { en: "Which Layout command divides text into newspaper-style columns?", hi: "Text को newspaper-style columns में बाँटने के लिए कौन-सा Layout command है?" },
             options: [
-                { en: "Margins", hi: "मार्जिन" },
-                { en: "Line Numbers", hi: "लाइन नंबर" },
-                { en: "Indent", hi: "इंडेंट" },
-                { en: "Columns", hi: "कॉलम" }
+                { en: "Margins", hi: "Margins" },
+                { en: "Line Numbers", hi: "Line Numbers" },
+                { en: "Indent", hi: "Indent" },
+                { en: "Columns", hi: "Columns" }
             ],
             answer: 3
         },
         {
-            question: { en: "Which option controls paper dimensions such as A4 or Letter?", hi: "A4 या Letter जैसे पेपर आयामों को कौन सा विकल्प नियंत्रित करता है?" },
+            question: { en: "Which option controls paper dimensions such as A4 or Letter?", hi: "A4 या Letter जैसी paper dimensions किस option से निर्धारित होती हैं?" },
             options: [
-                { en: "Columns", hi: "कॉलम" },
-                { en: "Size", hi: "आकार (Size)" },
-                { en: "Orientation", hi: "अभिविन्यास" },
-                { en: "Margins", hi: "मार्जिन" }
+                { en: "Columns", hi: "Columns" },
+                { en: "Size", hi: "Size" },
+                { en: "Orientation", hi: "Orientation" },
+                { en: "Margins", hi: "Margins" }
             ],
             answer: 1
         },
         {
-            question: { en: "Which tab contains Themes, Colors and Fonts for document design?", hi: "दस्तावेज़ डिज़ाइन के लिए थीम, रंग और फ़ॉन्ट किस टैब में होते हैं?" },
+            question: { en: "Which tab contains Themes, Colors and Fonts for document design?", hi: "Document design के लिए Themes, Colors और Fonts किस tab में होते हैं?" },
             options: [
-                { en: "Insert", hi: "इंसर्ट" },
-                { en: "Home", hi: "होम" },
-                { en: "Layout", hi: "लेआउट" },
-                { en: "Design", hi: "डिज़ाइन" }
+                { en: "Insert", hi: "Insert" },
+                { en: "Home", hi: "Home" },
+                { en: "Layout", hi: "Layout" },
+                { en: "Design", hi: "Design" }
             ],
             answer: 3
         },
         {
-            question: { en: "Where is the Watermark command found in current desktop versions of Word?", hi: "Word के वर्तमान डेस्कटॉप संस्करणों में वॉटरमार्क कमांड कहाँ पाया जाता है?" },
+            question: { en: "Where is the Watermark command found in current desktop versions of Word?", hi: "Word के current desktop versions में Watermark command कहाँ मिलता है?" },
             options: [
-                { en: "Layout tab", hi: "लेआउट टैब" },
-                { en: "Design tab", hi: "डिज़ाइन टैब" },
-                { en: "Insert tab", hi: "इंसर्ट टैब" },
-                { en: "Home tab", hi: "होम टैब" }
+                { en: "Layout tab", hi: "Layout tab" },
+                { en: "Design tab", hi: "Design tab" },
+                { en: "Insert tab", hi: "Insert tab" },
+                { en: "Home tab", hi: "Home tab" }
             ],
             answer: 1
         },
         {
-            question: { en: "Which feature places faint text or an image behind document content?", hi: "कौन सी सुविधा दस्तावेज़ सामग्री के पीछे हल्का पाठ या छवि रखती है?" },
+            question: { en: "Which feature places faint text or an image behind document content?", hi: "Document content के पीछे हल्का text या image रखने वाली feature कौन-सी है?" },
             options: [
-                { en: "Text Box", hi: "टेक्स्ट बॉक्स" },
-                { en: "Drop Cap", hi: "ड्रॉप कैप" },
-                { en: "Page Color", hi: "पृष्ठ रंग" },
-                { en: "Watermark", hi: "वॉटरमार्क" }
+                { en: "Text Box", hi: "Text Box" },
+                { en: "Drop Cap", hi: "Drop Cap" },
+                { en: "Page Color", hi: "Page Color" },
+                { en: "Watermark", hi: "Watermark" }
             ],
             answer: 3
         },
         {
-            question: { en: "Which shortcut increases font size by one preset step?", hi: "फ़ॉन्ट आकार को एक निश्चित चरण बढ़ाने के लिए कौन सा शॉर्टकट है?" },
+            question: { en: "Which shortcut increases font size by one preset step?", hi: "Font size को एक preset step बढ़ाने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Alt + ]", hi: "Alt + ]" },
                 { en: "Ctrl + ]", hi: "Ctrl + ]" },
@@ -915,7 +915,7 @@
             answer: 1
         },
         {
-            question: { en: "Which shortcut decreases font size by one preset step?", hi: "फ़ॉन्ट आकार को एक निश्चित चरण घटाने के लिए कौन सा शॉर्टकट है?" },
+            question: { en: "Which shortcut decreases font size by one preset step?", hi: "Font size को एक preset step घटाने के लिए कौन-सा shortcut है?" },
             options: [
                 { en: "Ctrl + Shift + [", hi: "Ctrl + Shift + [" },
                 { en: "Alt + [", hi: "Alt + [" },
@@ -925,7 +925,7 @@
             answer: 3
         },
         {
-            question: { en: "What is the standard default file extension for a modern Word document?", hi: "आधुनिक Word दस्तावेज़ के लिए मानक डिफ़ॉल्ट फ़ाइल एक्सटेंशन क्या है?" },
+            question: { en: "What is the standard default file extension for a modern Word document?", hi: "Modern Word document की standard default file extension क्या है?" },
             options: [
                 { en: ".pptx", hi: ".pptx" },
                 { en: ".docx", hi: ".docx" },
@@ -980,11 +980,11 @@
        ======================================================== */
     loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const name = document.getElementById("student-name").value.trim();
+        const email = document.getElementById("student-email").value;
         const course = document.getElementById("student-course").value;
-        const email = document.getElementById("student-email").value.trim();
+        const name = document.getElementById("student-name").value.trim();
 
-        if (!name || !course || !email) {
+        if (!email || !course || !name) {
             alert("Please fill in all required fields.");
             return;
         }
