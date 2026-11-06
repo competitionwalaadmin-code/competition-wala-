@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anshu Computer Classes - Online Examination</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #8b5cf6;
+            --neutral: #e5e7eb;
+            --bg-color: #f8fafc;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 92vh;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-info {
+            font-size: 0.9rem;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .timer-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .screen {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .instructions-box {
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .instructions-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .instructions-box li {
+            margin-bottom: 8px;
+        }
+
+        .exam-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            height: 100%;
+            min-height: 450px;
+        }
+
+        @media (max-width: 768px) {
+            .exam-layout {
+                grid-template-columns: 1fr;
+            }
+            .palette-sidebar {
+                order: -1;
+            }
+        }
+
+        .question-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .q-number {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .q-text-en {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .q-text-hi {
+            font-size: 1rem;
+            color: #4b5563;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-light);
+        }
+
+        .option-item input {
+            margin-top: 3px;
+        }
+
+        .option-text div {
+            font-size: 0.95rem;
+        }
+        .option-text .hi-opt {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .exam-controls {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .exam-controls-left, .exam-controls-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .palette-sidebar {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .palette-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .dot-green { background: var(--success); }
+        .dot-red { background: var(--danger); }
+        .dot-purple { background: var(--warning); }
+        .dot-neutral { background: var(--border-color); }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .palette-btn.attempted { background: var(--success); color: white; border-color: var(--success); }
+        .palette-btn.unattempted { background: var(--danger); color: white; border-color: var(--danger); }
+        .palette-btn.review { background: var(--warning); color: white; border-color: var(--warning); }
+        .palette-btn.current { border: 2px solid var(--primary); box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+
+        .result-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .error-banner {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1 id="institute-title">Anshu Computer Classes</h1>
+        <div class="header-info hidden" id="header-info">
+            <span id="hdr-student"></span>
+            <span id="hdr-course"></span>
+            <div class="timer-badge" id="timer-display">--:--</div>
+        </div>
+    </header>
+
+    <!-- 1. STUDENT LOGIN SCREEN -->
+    <div id="login-screen" class="screen">
+        <div class="login-card">
+            <h2>Online Test Portal</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="student-email">Email Address *</label>
+                    <select id="student-email" required>
+                        <option value="">Select Student Email</option>
+                        <option value="student1.anshu@gmail.com">student1.anshu@gmail.com</option>
+                        <option value="student2.anshu@gmail.com">student2.anshu@gmail.com</option>
+                        <option value="student3.anshu@gmail.com">student3.anshu@gmail.com</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-course">Course *</label>
+                    <select id="student-course" required>
+                        <option value="">Select Course</option>
+                        <option value="DCA">DCA</option>
+                        <option value="ADCA">ADCA</option>
+                        <option value="DCTT">DCTT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-name">Student Name *</label>
+                    <input type="text" id="student-name" required placeholder="Enter your full name">
+                </div>
+                <button type="submit" class="btn">Start Test</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. INSTRUCTIONS SCREEN -->
+    <div id="instruction-screen" class="screen hidden">
+        <div style="max-width: 700px; margin: 0 auto;">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
+            <div class="instructions-box">
+                <ul>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">40</span> questions.</li>
+                    <li><strong>Time Limit:</strong> <span id="inst-time-limit">50</span> minutes. Test auto-submits when time expires.</li>
+                    <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
+                    <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
+                    <li><strong>Question Palette States:</strong>
+                        <ul style="margin-top: 5px;">
+                            <li><span class="dot dot-green" style="display:inline-block;"></span> Green = Attempted</li>
+                            <li><span class="dot dot-red" style="display:inline-block;"></span> Red = Not Attempted</li>
+                            <li><span class="dot dot-purple" style="display:inline-block;"></span> Purple = Marked for Review</li>
+                            <li><span class="dot dot-neutral" style="display:inline-block;"></span> Neutral = Not Visited</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button id="begin-test-btn" class="btn">Proceed to Test</button>
+        </div>
+    </div>
+
+    <!-- 3. EXAMINATION SCREEN -->
+    <div id="exam-screen" class="screen hidden">
+        <div class="exam-layout">
+            <div class="question-area">
+                <div>
+                    <div class="q-number" id="q-counter">Question 1 of 40</div>
+                    <div class="q-text-en" id="q-en">Loading question...</div>
+                    <div class="q-text-hi" id="q-hi">प्रश्न लोड हो रहा है...</div>
+
+                    <div class="options-list" id="options-container">
+                        <!-- Options injected dynamically -->
+                    </div>
+                </div>
+
+                <div class="exam-controls">
+                    <div class="exam-controls-left">
+                        <button class="btn btn-secondary" id="prev-btn">Previous</button>
+                        <button class="btn btn-secondary" id="next-btn">Next</button>
+                    </div>
+                    <div class="exam-controls-right">
+                        <button class="btn btn-secondary" id="clear-btn" style="background: #eab308;">Clear Response</button>
+                        <button class="btn btn-secondary" id="review-btn" style="background: var(--warning);">Mark for Review</button>
+                        <button class="btn" id="submit-test-btn" style="background: var(--success);">Submit Test</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette-sidebar">
+                <h3>Question Palette</h3>
+                <div class="palette-legend">
+                    <div class="legend-item"><span class="dot dot-green"></span> Attempted</div>
+                    <div class="legend-item"><span class="dot dot-red"></span> Not Attempted</div>
+                    <div class="legend-item"><span class="dot dot-purple"></span> Review</div>
+                    <div class="legend-item"><span class="dot dot-neutral"></span> Not Visited</div>
+                </div>
+                <div class="palette-grid" id="palette-grid">
+                    <!-- Palette buttons injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RESULT SCREEN -->
+    <div id="result-screen" class="screen hidden">
+        <div class="result-card">
+            <div class="result-header">
+                <h2>ONLINE TEST RESULT</h2>
+                <p id="res-student-info" style="color: #4b5563; margin-top: 4px;"></p>
+                <div id="performance-badge" class="performance-badge">Good Performance!</div>
+            </div>
+
+            <div id="email-status-banner"></div>
+
+            <div class="stats-grid">
+                <div class="stat-item"><span>Total Questions:</span> <strong id="res-total">0</strong></div>
+                <div class="stat-item"><span>Attempted:</span> <strong id="res-attempted">0</strong></div>
+                <div class="stat-item"><span>Unattempted:</span> <strong id="res-unattempted">0</strong></div>
+                <div class="stat-item"><span>Correct Answers:</span> <strong id="res-correct" style="color:var(--success)">0</strong></div>
+                <div class="stat-item"><span>Incorrect Answers:</span> <strong id="res-incorrect" style="color:var(--danger)">0</strong></div>
+                <div class="stat-item"><span>Marks Obtained:</span> <strong id="res-marks">0</strong></div>
+                <div class="stat-item"><span>Percentage:</span> <strong id="res-percentage">0%</strong></div>
+                <div class="stat-item"><span>Time Taken:</span> <strong id="res-time">00:00</strong></div>
+            </div>
+            
+            <button class="btn" onclick="location.reload()">Finish & Exit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ========================================================
+       ADMIN & SYSTEM CONFIGURATION
+       ======================================================== */
+    const CONFIG = {
+        instituteName: "Anshu Computer Classes",
+        numberOfQuestions: 40,
+        timeLimitMinutes: 50,
+        adminEmail: "competitionwalaadmin@gmail.com",
+        emailjsServiceId: "service_d15114h",     
+        emailjsTemplateId: "template_2yx0cwh",   
+        emailjsPublicKey:  "-7EDKicno-1aJnWPA"    
+    };
+
+    // Initialize EmailJS
+    try {
+        emailjs.init(CONFIG.emailjsPublicKey);
+    } catch (e) {
+        console.warn("EmailJS initialization skipped or failed.", e);
+    }
+
+    /* ========================================================
+       QUESTION BANK (40 AI + HTML BILINGUAL QUESTIONS)
+       ======================================================== */
+    const masterQuestionBank = [
+        {
+            question: { en: "What is Artificial Intelligence (AI)?", hi: "Artificial Intelligence (AI) क्या है?" },
+            options: [
+                { en: "A technology that enables machines to perform tasks that normally require human intelligence", hi: "ऐसी technology जो machines को सामान्यतः human intelligence वाले tasks करने में सक्षम बनाती है" },
+                { en: "A type of computer hardware", hi: "Computer hardware का एक प्रकार" },
+                { en: "A method of printing documents", hi: "Documents print करने की एक method" },
+                { en: "A type of internet connection", hi: "Internet connection का एक प्रकार" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which AI tool is mainly designed for conversational interaction and generating text?", hi: "कौन-सा AI tool मुख्य रूप से बातचीत और text generate करने के लिए बनाया गया है?" },
+            options: [
+                { en: "HTML", hi: "HTML" },
+                { en: "ChatGPT", hi: "ChatGPT" },
+                { en: "CSS", hi: "CSS" },
+                { en: "Paint", hi: "Paint" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "What is a prompt in an AI tool?", hi: "AI tool में prompt क्या होता है?" },
+            options: [
+                { en: "A computer virus", hi: "Computer virus" },
+                { en: "A storage device", hi: "Storage device" },
+                { en: "An instruction or input given to AI", hi: "AI को दिया गया instruction या input" },
+                { en: "A web browser", hi: "Web browser" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "Which prompt is generally better for getting a specific AI response?", hi: "Specific AI response पाने के लिए सामान्यतः कौन-सा prompt बेहतर होता है?" },
+            options: [
+                { en: "A prompt with no instructions", hi: "बिना instructions वाला prompt" },
+                { en: "Only random words", hi: "केवल random words" },
+                { en: "Only a single punctuation mark", hi: "केवल एक punctuation mark" },
+                { en: "A clear and detailed prompt with proper context", hi: "Proper context के साथ clear और detailed prompt" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "Which AI technology can generate an image from a written description?", hi: "कौन-सी AI technology written description से image generate कर सकती है?" },
+            options: [
+                { en: "Text-to-image AI", hi: "Text-to-image AI" },
+                { en: "Text-to-table", hi: "Text-to-table" },
+                { en: "File compression", hi: "File compression" },
+                { en: "Disk formatting", hi: "Disk formatting" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is a major use of AI image generation?", hi: "AI image generation का एक प्रमुख उपयोग क्या है?" },
+            options: [
+                { en: "Increasing RAM physically", hi: "RAM को physically बढ़ाना" },
+                { en: "Creating images from prompts", hi: "Prompts से images create करना" },
+                { en: "Connecting a printer cable", hi: "Printer cable connect करना" },
+                { en: "Formatting a hard disk", hi: "Hard disk format करना" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which type of AI tool can create a video from a text description?", hi: "किस प्रकार का AI tool text description से video बना सकता है?" },
+            options: [
+                { en: "Spreadsheet software", hi: "Spreadsheet software" },
+                { en: "File manager", hi: "File manager" },
+                { en: "Text-to-video AI", hi: "Text-to-video AI" },
+                { en: "Antivirus software", hi: "Antivirus software" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "What should a good AI video prompt describe clearly?", hi: "एक अच्छे AI video prompt में क्या clearly describe करना चाहिए?" },
+            options: [
+                { en: "Only the computer model", hi: "केवल computer model" },
+                { en: "Only the file extension", hi: "केवल file extension" },
+                { en: "Only the keyboard layout", hi: "केवल keyboard layout" },
+                { en: "Scene, subject, action and desired visual details", hi: "Scene, subject, action और desired visual details" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "Which AI application can help create presentation slides from a topic or prompt?", hi: "कौन-सा AI application topic या prompt से presentation slides बनाने में मदद कर सकता है?" },
+            options: [
+                { en: "AI presentation tool", hi: "AI presentation tool" },
+                { en: "Calculator", hi: "Calculator" },
+                { en: "File Explorer", hi: "File Explorer" },
+                { en: "Notepad only", hi: "केवल Notepad" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What can AI generate from a written script using text-to-speech technology?", hi: "Text-to-speech technology का उपयोग करके AI written script से क्या generate कर सकता है?" },
+            options: [
+                { en: "RAM", hi: "RAM" },
+                { en: "Speech or voice audio", hi: "Speech या voice audio" },
+                { en: "Keyboard keys", hi: "Keyboard keys" },
+                { en: "Hard disk partitions", hi: "Hard disk partitions" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which type of AI tool can generate music or a song from a prompt?", hi: "किस प्रकार का AI tool prompt से music या song generate कर सकता है?" },
+            options: [
+                { en: "File compression tool", hi: "File compression tool" },
+                { en: "Disk cleanup tool", hi: "Disk cleanup tool" },
+                { en: "AI music generation tool", hi: "AI music generation tool" },
+                { en: "Calculator", hi: "Calculator" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "What is AI image editing?", hi: "AI image editing क्या है?" },
+            options: [
+                { en: "Creating a computer motherboard", hi: "Computer motherboard बनाना" },
+                { en: "Installing RAM", hi: "RAM install करना" },
+                { en: "Formatting a USB drive", hi: "USB drive format करना" },
+                { en: "Using AI to modify or improve an existing image", hi: "AI का उपयोग करके existing image को modify या improve करना" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "Which task can AI image editing commonly perform?", hi: "AI image editing commonly कौन-सा task कर सकता है?" },
+            options: [
+                { en: "Removing or changing an image background", hi: "Image background को remove या change करना" },
+                { en: "Increasing CPU pins", hi: "CPU pins बढ़ाना" },
+                { en: "Changing a monitor cable", hi: "Monitor cable बदलना" },
+                { en: "Repairing a keyboard physically", hi: "Keyboard को physically repair करना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "What is one useful application of AI in coding?", hi: "Coding में AI का एक useful application क्या है?" },
+            options: [
+                { en: "Physically replacing a CPU", hi: "CPU physically replace करना" },
+                { en: "Generating and explaining code from instructions", hi: "Instructions से code generate और explain करना" },
+                { en: "Printing a motherboard", hi: "Motherboard print करना" },
+                { en: "Increasing internet speed automatically", hi: "Internet speed automatically बढ़ाना" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "How can AI help a beginner learn HTML?", hi: "AI beginner को HTML सीखने में कैसे help कर सकता है?" },
+            options: [
+                { en: "By installing a physical monitor", hi: "Physical monitor install करके" },
+                { en: "By replacing the keyboard", hi: "Keyboard replace करके" },
+                { en: "By explaining tags and generating example HTML code", hi: "Tags explain करके और example HTML code generate करके" },
+                { en: "By increasing RAM automatically", hi: "RAM automatically बढ़ाकर" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "Which AI tool is known for generating natural-sounding voice from text?", hi: "कौन-सा AI tool text से natural-sounding voice generate करने के लिए जाना जाता है?" },
+            options: [
+                { en: "HTML", hi: "HTML" },
+                { en: "Excel", hi: "Excel" },
+                { en: "Paint", hi: "Paint" },
+                { en: "ElevenLabs", hi: "ElevenLabs" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "What is the purpose of refining an AI prompt?", hi: "AI prompt को refine करने का उद्देश्य क्या है?" },
+            options: [
+                { en: "To improve the relevance and quality of the AI output", hi: "AI output की relevance और quality improve करना" },
+                { en: "To damage the computer", hi: "Computer को damage करना" },
+                { en: "To delete the operating system", hi: "Operating system delete करना" },
+                { en: "To reduce keyboard size", hi: "Keyboard का size कम करना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which AI-generated content should a user verify before using it as factual information?", hi: "किस AI-generated content को factual information के रूप में use करने से पहले verify करना चाहिए?" },
+            options: [
+                { en: "Only keyboard shortcuts", hi: "केवल keyboard shortcuts" },
+                { en: "Information generated by AI", hi: "AI द्वारा generated information" },
+                { en: "Only monitor brightness", hi: "केवल monitor brightness" },
+                { en: "Only mouse buttons", hi: "केवल mouse buttons" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which AI assistant is developed by Google?", hi: "Google द्वारा developed AI assistant कौन-सा है?" },
+            options: [
+                { en: "Notepad", hi: "Notepad" },
+                { en: "Paint", hi: "Paint" },
+                { en: "Gemini", hi: "Gemini" },
+                { en: "File Explorer", hi: "File Explorer" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "Which AI assistant is integrated with Microsoft products such as Word and PowerPoint?", hi: "Word और PowerPoint जैसे Microsoft products के साथ कौन-सा AI assistant integrated है?" },
+            options: [
+                { en: "Google Maps", hi: "Google Maps" },
+                { en: "VLC", hi: "VLC" },
+                { en: "Calculator", hi: "Calculator" },
+                { en: "Microsoft Copilot", hi: "Microsoft Copilot" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "What is an AI avatar?", hi: "AI avatar क्या है?" },
+            options: [
+                { en: "A digitally generated character that can represent or speak using AI", hi: "AI से generated digital character जो represent या speak कर सकता है" },
+                { en: "A physical computer cable", hi: "Physical computer cable" },
+                { en: "A storage partition", hi: "Storage partition" },
+                { en: "A keyboard shortcut", hi: "Keyboard shortcut" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which AI capability can convert written text into spoken audio?", hi: "कौन-सी AI capability written text को spoken audio में convert कर सकती है?" },
+            options: [
+                { en: "Speech-to-disk", hi: "Speech-to-disk" },
+                { en: "Text-to-speech", hi: "Text-to-speech" },
+                { en: "Image-to-RAM", hi: "Image-to-RAM" },
+                { en: "Code-to-keyboard", hi: "Code-to-keyboard" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which AI capability can create an image based on a text prompt?", hi: "कौन-सी AI capability text prompt के आधार पर image create कर सकती है?" },
+            options: [
+                { en: "Text-to-CPU", hi: "Text-to-CPU" },
+                { en: "Text-to-RAM", hi: "Text-to-RAM" },
+                { en: "Text-to-image", hi: "Text-to-image" },
+                { en: "Text-to-cable", hi: "Text-to-cable" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "Which AI capability is used to generate a video from a written description?", hi: "Written description से video generate करने के लिए कौन-सी AI capability use होती है?" },
+            options: [
+                { en: "Text-to-printer", hi: "Text-to-printer" },
+                { en: "Text-to-mouse", hi: "Text-to-mouse" },
+                { en: "Text-to-monitor", hi: "Text-to-monitor" },
+                { en: "Text-to-video", hi: "Text-to-video" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "Which is a good practice when using AI-generated code?", hi: "AI-generated code use करते समय कौन-सी good practice है?" },
+            options: [
+                { en: "Read, test and verify the code before using it", hi: "Code को use करने से पहले read, test और verify करना" },
+                { en: "Run every code without checking", hi: "हर code को बिना check किए run करना" },
+                { en: "Delete all comments automatically", hi: "सभी comments automatically delete करना" },
+                { en: "Never test the code", hi: "Code को कभी test न करना" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which HTML tag is used to define the main heading?", hi: "Main heading define करने के लिए कौन-सा HTML tag use होता है?" },
+            options: [
+                { en: "<p>", hi: "<p>" },
+                { en: "<h1>", hi: "<h1>" },
+                { en: "<img>", hi: "<img>" },
+                { en: "<br>", hi: "<br>" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which HTML tag is used to create a paragraph?", hi: "Paragraph create करने के लिए कौन-सा HTML tag use होता है?" },
+            options: [
+                { en: "<h1>", hi: "<h1>" },
+                { en: "<title>", hi: "<title>" },
+                { en: "<p>", hi: "<p>" },
+                { en: "<body>", hi: "<body>" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "Which HTML tag is used to insert an image?", hi: "Image insert करने के लिए कौन-सा HTML tag use होता है?" },
+            options: [
+                { en: "<image>", hi: "<image>" },
+                { en: "<pic>", hi: "<pic>" },
+                { en: "<photo>", hi: "<photo>" },
+                { en: "<img>", hi: "<img>" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "Which HTML tag is used to create a hyperlink?", hi: "Hyperlink create करने के लिए कौन-सा HTML tag use होता है?" },
+            options: [
+                { en: "<a>", hi: "<a>" },
+                { en: "<linktext>", hi: "<linktext>" },
+                { en: "<url>", hi: "<url>" },
+                { en: "<href>", hi: "<href>" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which HTML tag contains the visible content of a webpage?", hi: "Webpage का visible content किस HTML tag के अंदर होता है?" },
+            options: [
+                { en: "<head>", hi: "<head>" },
+                { en: "<body>", hi: "<body>" },
+                { en: "<meta>", hi: "<meta>" },
+                { en: "<title>", hi: "<title>" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which AI task is most suitable for creating a first draft of an HTML webpage?", hi: "HTML webpage का first draft बनाने के लिए कौन-सा AI task सबसे suitable है?" },
+            options: [
+                { en: "Formatting a hard disk", hi: "Hard disk format करना" },
+                { en: "Installing a printer", hi: "Printer install करना" },
+                { en: "Generating HTML code from a clear prompt", hi: "Clear prompt से HTML code generate करना" },
+                { en: "Changing a CPU", hi: "CPU बदलना" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "What should you provide to AI when asking it to create a specific HTML website?", hi: "Specific HTML website बनाने के लिए AI को क्या provide करना चाहिए?" },
+            options: [
+                { en: "Only a random word", hi: "केवल random word" },
+                { en: "Only the monitor size", hi: "केवल monitor size" },
+                { en: "Only the keyboard brand", hi: "केवल keyboard brand" },
+                { en: "Clear requirements, layout and features", hi: "Clear requirements, layout और features" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "What is the main advantage of using AI to explain HTML code to a beginner?", hi: "Beginner को HTML code समझाने में AI use करने का मुख्य advantage क्या है?" },
+            options: [
+                { en: "It can explain code in simpler language and provide examples", hi: "यह code को सरल भाषा में explain करके examples दे सकता है" },
+                { en: "It physically repairs the computer", hi: "यह computer को physically repair करता है" },
+                { en: "It increases storage capacity", hi: "यह storage capacity बढ़ाता है" },
+                { en: "It replaces the internet connection", hi: "यह internet connection replace करता है" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Which HTML element is commonly used to create a line break?", hi: "Line break create करने के लिए commonly कौन-सा HTML element use होता है?" },
+            options: [
+                { en: "<lb>", hi: "<lb>" },
+                { en: "<br>", hi: "<br>" },
+                { en: "<break>", hi: "<break>" },
+                { en: "<line>", hi: "<line>" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which part of an HTML document commonly contains metadata and the page title?", hi: "HTML document का कौन-सा part metadata और page title contain करता है?" },
+            options: [
+                { en: "<body>", hi: "<body>" },
+                { en: "<footer>", hi: "<footer>" },
+                { en: "<head>", hi: "<head>" },
+                { en: "<section>", hi: "<section>" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "Which attribute is commonly used in an HTML <img> tag to specify the image file location?", hi: "HTML <img> tag में image file location specify करने के लिए कौन-सा attribute commonly use होता है?" },
+            options: [
+                { en: "href", hi: "href" },
+                { en: "alttext", hi: "alttext" },
+                { en: "link", hi: "link" },
+                { en: "src", hi: "src" }
+            ],
+            answer: 3
+        },
+        {
+            question: { en: "Which AI-generated output can be used to create a complete HTML page after testing and editing?", hi: "Testing और editing के बाद complete HTML page बनाने के लिए कौन-सा AI-generated output use किया जा सकता है?" },
+            options: [
+                { en: "HTML code", hi: "HTML code" },
+                { en: "A keyboard driver", hi: "Keyboard driver" },
+                { en: "A monitor cable", hi: "Monitor cable" },
+                { en: "A printer cartridge", hi: "Printer cartridge" }
+            ],
+            answer: 0
+        },
+        {
+            question: { en: "Why should a student avoid blindly trusting every AI-generated answer?", hi: "Student को हर AI-generated answer पर blindly trust क्यों नहीं करना चाहिए?" },
+            options: [
+                { en: "AI never generates text", hi: "AI कभी text generate नहीं करता" },
+                { en: "AI can sometimes produce incorrect or misleading information", hi: "AI कभी-कभी incorrect या misleading information दे सकता है" },
+                { en: "AI cannot understand any prompt", hi: "AI कोई prompt समझ नहीं सकता" },
+                { en: "AI only works without computers", hi: "AI केवल computers के बिना काम करता है" }
+            ],
+            answer: 1
+        },
+        {
+            question: { en: "Which sequence is a sensible workflow for creating a website with AI?", hi: "AI से website create करने के लिए sensible workflow कौन-सा है?" },
+            options: [
+                { en: "Delete browser → print code → format disk → stop", hi: "Browser delete करें → code print करें → disk format करें → stop" },
+                { en: "Install RAM → open calculator → remove HTML → stop", hi: "RAM install करें → calculator खोलें → HTML remove करें → stop" },
+                { en: "Write requirements → prompt AI → generate code → test → improve", hi: "Requirements लिखें → AI को prompt दें → code generate करें → test करें → improve करें" },
+                { en: "Change keyboard → restart monitor → delete prompt → stop", hi: "Keyboard बदलें → monitor restart करें → prompt delete करें → stop" }
+            ],
+            answer: 2
+        },
+        {
+            question: { en: "What is the best way to improve an AI-generated result when the first output is not satisfactory?", hi: "जब पहला AI output satisfactory न हो तो उसे improve करने का best तरीका क्या है?" },
+            options: [
+                { en: "Turn off the monitor", hi: "Monitor बंद करना" },
+                { en: "Format the computer", hi: "Computer format करना" },
+                { en: "Remove the keyboard", hi: "Keyboard remove करना" },
+                { en: "Give a clearer or more detailed follow-up prompt", hi: "Clearer या more detailed follow-up prompt देना" }
+            ],
+            answer: 3
+        }
+    ];
+
+    /* ========================================================
+       APPLICATION STATE
+       ======================================================== */
+    let studentData = { name: "", course: "", email: "" };
+    let testQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = {}; 
+    let markedForReview = {}; 
+    let visitedQuestions = new Set();
+    let timerInterval = null;
+    let timeLeft = 0;
+    let startTime = null;
+    let isSubmitted = false;
+
+    /* ========================================================
+       DOM REFERENCES
+       ======================================================== */
+    const loginScreen = document.getElementById("login-screen");
+    const instructionScreen = document.getElementById("instruction-screen");
+    const examScreen = document.getElementById("exam-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const loginForm = document.getElementById("login-form");
+    const headerInfo = document.getElementById("header-info");
+    const hdrStudent = document.getElementById("hdr-student");
+    const hdrCourse = document.getElementById("hdr-course");
+    const timerDisplay = document.getElementById("timer-display");
+    const beginTestBtn = document.getElementById("begin-test-btn");
+
+    const qCounter = document.getElementById("q-counter");
+    const qEn = document.getElementById("q-en");
+    const qHi = document.getElementById("q-hi");
+    const optionsContainer = document.getElementById("options-container");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const reviewBtn = document.getElementById("review-btn");
+    const submitTestBtn = document.getElementById("submit-test-btn");
+    const paletteGrid = document.getElementById("palette-grid");
+
+    /* ========================================================
+       EVENT LISTENERS & FLOW
+       ======================================================== */
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("student-email").value;
+        const course = document.getElementById("student-course").value;
+        const name = document.getElementById("student-name").value.trim();
+
+        if (!email || !course || !name) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        studentData = { name, course, email };
+        
+        document.getElementById("inst-total-q").textContent = CONFIG.numberOfQuestions;
+        document.getElementById("inst-time-limit").textContent = CONFIG.timeLimitMinutes;
+
+        loginScreen.classList.add("hidden");
+        instructionScreen.classList.remove("hidden");
+    });
+
+    beginTestBtn.addEventListener("click", () => {
+        initTest();
+        instructionScreen.classList.add("hidden");
+        examScreen.classList.remove("hidden");
+        headerInfo.classList.remove("hidden");
+        
+        hdrStudent.textContent = `Student: ${studentData.name}`;
+        hdrCourse.textContent = `Course: ${studentData.course}`;
+
+        startTimer();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (currentIndex < testQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion();
+        }
+    });
+
+    clearBtn.addEventListener("click", () => {
+        delete userAnswers[currentIndex];
+        renderQuestion();
+        updatePalette();
+    });
+
+    reviewBtn.addEventListener("click", () => {
+        if (markedForReview[currentIndex]) {
+            delete markedForReview[currentIndex];
+        } else {
+            markedForReview[currentIndex] = true;
+        }
+        renderQuestion();
+        updatePalette();
+    });
+
+    submitTestBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to submit the test?")) {
+            submitTest();
+        }
+    });
+
+    /* ========================================================
+       TEST INITIALIZATION & RANDOMIZATION
+       ======================================================== */
+    function initTest() {
+        startTime = new Date();
+        let numQ = CONFIG.numberOfQuestions;
+        
+        if (masterQuestionBank.length < numQ) {
+            numQ = masterQuestionBank.length;
+        }
+
+        let shuffledBank = [...masterQuestionBank].sort(() => 0.5 - Math.random());
+        let selected = shuffledBank.slice(0, numQ);
+
+        testQuestions = selected.map(q => {
+            let optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+            optionsWithIndex.sort(() => 0.5 - Math.random());
+            
+            let newOptions = optionsWithIndex.map(item => item.opt);
+            let newAnswerIndex = optionsWithIndex.findIndex(item => item.originalIndex === q.answer);
+
+            return {
+                question: q.question,
+                options: newOptions,
+                answer: newAnswerIndex
+            };
+        });
+
+        timeLeft = CONFIG.timeLimitMinutes * 60; 
+        currentIndex = 0;
+        renderPaletteGrid();
+        renderQuestion();
+    }
+
+    /* ========================================================
+       RENDER QUESTION & PALETTE
+       ======================================================== */
+    function renderQuestion() {
+        visitedQuestions.add(currentIndex);
+        const q = testQuestions[currentIndex];
+
+        qCounter.textContent = `Question ${currentIndex + 1} of ${testQuestions.length}`;
+        qEn.textContent = q.question.en;
+        qHi.textContent = q.question.hi;
+
+        optionsContainer.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+            const isChecked = userAnswers[currentIndex] === idx ? "checked" : "";
+            const div = document.createElement("label");
+            div.className = "option-item";
+            div.innerHTML = `
+                <input type="radio" name="question_option" value="${idx}" ${isChecked} onchange="selectOption(${idx})">
+                <div class="option-text">
+                    <div><strong>${String.fromCharCode(65 + idx)}.</strong> ${opt.en}</div>
+                    <div class="hi-opt">${opt.hi}</div>
+                </div>
+            `;
+            optionsContainer.appendChild(div);
+        });
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === testQuestions.length - 1;
+        
+        updatePalette();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentIndex] = optIdx;
+        updatePalette();
+    }
+
+    function renderPaletteGrid() {
+        paletteGrid.innerHTML = "";
+        testQuestions.forEach((_, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "palette-btn neutral";
+            btn.textContent = idx + 1;
+            btn.id = `palette-btn-${idx}`;
+            btn.onclick = () => {
+                currentIndex = idx;
+                renderQuestion();
+            };
+            paletteGrid.appendChild(btn);
+        });
+    }
+
+    function updatePalette() {
+        testQuestions.forEach((_, idx) => {
+            const btn = document.getElementById(`palette-btn-${idx}`);
+            if (!btn) return;
+
+            btn.className = "palette-btn";
+
+            if (idx === currentIndex) {
+                btn.classList.add("current");
+            }
+
+            if (userAnswers[idx] !== undefined) {
+                btn.classList.add("attempted");
+            } else if (markedForReview[idx]) {
+                btn.classList.add("review");
+            } else if (visitedQuestions.has(idx)) {
+                btn.classList.add("unattempted");
+            } else {
+                btn.classList.add("neutral");
+            }
+        });
+    }
+
+    /* ========================================================
+       TIMER LOGIC
+       ======================================================== */
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will be submitted automatically.");
+                submitTest();
+                return;
+            }
+
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            if (timeLeft === 300) {
+                alert("Warning: Only 5 minutes remaining!");
+            }
+        }, 1000);
+    }
+
+    /* ========================================================
+       SUBMISSION & RESULT CALCULATION
+       ======================================================== */
+    function submitTest() {
+        if (isSubmitted) return;
+        isSubmitted = true;
+        clearInterval(timerInterval);
+
+        let attempted = Object.keys(userAnswers).length;
+        let unattempted = testQuestions.length - attempted;
+        let correct = 0;
+        let incorrect = 0;
+
+        testQuestions.forEach((q, idx) => {
+            if (userAnswers[idx] !== undefined) {
+                if (userAnswers[idx] === q.answer) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
+            }
+        });
+
+        let marksObtained = correct; 
+        let maxMarks = testQuestions.length;
+        let percentage = Math.round((marksObtained / maxMarks) * 100);
+
+        let endTime = new Date();
+        let timeTakenSecs = Math.floor((endTime - startTime) / 1000);
+        let timeTakenMins = Math.floor(timeTakenSecs / 60);
+        let timeTakenSecsRem = timeTakenSecs % 60;
+        let timeTakenStr = `${timeTakenMins}m ${timeTakenSecsRem}s`;
+
+        let perfBadge = document.getElementById("performance-badge");
+        let perfText = "";
+        let badgeColor = "";
+        if (percentage >= 90) { perfText = "Excellent Performance!"; badgeColor = "#10b981"; }
+        else if (percentage >= 75) { perfText = "Very Good Performance!"; badgeColor = "#3b82f6"; }
+        else if (percentage >= 60) { perfText = "Good Performance!"; badgeColor = "#8b5cf6"; }
+        else if (percentage >= 40) { perfText = "Keep Practicing!"; badgeColor = "#f59e0b"; }
+        else { perfText = "More Practice Required!"; badgeColor = "#ef4444"; }
+
+        perfBadge.textContent = perfText;
+        perfBadge.style.background = badgeColor;
+        perfBadge.style.color = "#fff";
+
+        document.getElementById("res-student-info").textContent = `${studentData.name} | ${studentData.course} | ${studentData.email}`;
+        document.getElementById("res-total").textContent = maxMarks;
+        document.getElementById("res-attempted").textContent = attempted;
+        document.getElementById("res-unattempted").textContent = unattempted;
+        document.getElementById("res-correct").textContent = correct;
+        document.getElementById("res-incorrect").textContent = incorrect;
+        document.getElementById("res-marks").textContent = `${marksObtained} / ${maxMarks}`;
+        document.getElementById("res-percentage").textContent = `${percentage}%`;
+        document.getElementById("res-time").textContent = timeTakenStr;
+
+        examScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+
+        sendAdminEmail({
+            total: maxMarks,
+            attempted,
+            unattempted,
+            correct,
+            incorrect,
+            marks: marksObtained,
+            percentage,
+            timeTaken: timeTakenStr
+        });
+    }
+
+    /* ========================================================
+       EMAIL DISPATCH VIA EMAILJS
+       ======================================================== */
+    function sendAdminEmail(stats) {
+        let questionDetailsHtml = "<table border='1' cellpadding='5' cellspacing='0' style='border-collapse:collapse;font-size:12px;'><tr><th>Q.No</th><th>Question</th><th>Student Answer</th><th>Correct Answer</th><th>Status</th></tr>";
+        
+        testQuestions.forEach((q, idx) => {
+            let studentAnsIdx = userAnswers[idx];
+            let studentAnsText = studentAnsIdx !== undefined ? q.options[studentAnsIdx].en : "Unattempted";
+            let correctAnsText = q.options[q.answer].en;
+            let status = "Unattempted";
+            if (studentAnsIdx !== undefined) {
+                status = studentAnsIdx === q.answer ? "Correct" : "Incorrect";
+            }
+            questionDetailsHtml += `<tr><td>${idx+1}</td><td>${q.question.en}</td><td>${studentAnsText}</td><td>${correctAnsText}</td><td>${status}</td></tr>`;
+        });
+        questionDetailsHtml += "</table>";
+
+        const templateParams = {
+            to_email: CONFIG.adminEmail,
+            institute_name: CONFIG.instituteName,
+            student_name: studentData.name,
+            student_course: studentData.course,
+            student_email: studentData.email,
+            test_date: new Date().toLocaleDateString(),
+            test_time: new Date().toLocaleTimeString(),
+            total_questions: stats.total,
+            attempted_questions: stats.attempted,
+            unattempted_questions: stats.unattempted,
+            correct_answers: stats.correct,
+            incorrect_answers: stats.incorrect,
+            marks_obtained: stats.marks,
+            max_marks: stats.total,
+            percentage: stats.percentage + "%",
+            time_taken: stats.timeTaken,
+            question_details: questionDetailsHtml
+        };
+
+        const banner = document.getElementById("email-status-banner");
+
+        emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, templateParams)
+            .then(response => {
+                console.log("Email sent successfully!", response.status, response.text);
+            })
+            .catch(error => {
+                console.error("Failed to send email result.", error);
+                banner.innerHTML = `<div class="error-banner">Notice: Your test was successfully evaluated, but the admin notification email could not be dispatched at this moment.</div>`;
+            });
+    }
+</script>
+
+</body>
+</html>
