@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Wala Computer Classes - Online Examination</title>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #8b5cf6;
+            --neutral: #e5e7eb;
+            --bg-color: #f8fafc;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 92vh;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-info {
+            font-size: 0.9rem;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .timer-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .screen {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+        }
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .instructions-box {
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .instructions-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .instructions-box li {
+            margin-bottom: 8px;
+        }
+
+        .exam-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            height: 100%;
+            min-height: 450px;
+        }
+
+        @media (max-width: 768px) {
+            .exam-layout {
+                grid-template-columns: 1fr;
+            }
+            .palette-sidebar {
+                order: -1;
+            }
+        }
+
+        .question-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .q-number {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .q-text-en {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .q-text-hi {
+            font-size: 1rem;
+            color: #4b5563;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-light);
+        }
+
+        .option-item input {
+            margin-top: 3px;
+        }
+
+        .option-text div {
+            font-size: 0.95rem;
+        }
+        .option-text .hi-opt {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .exam-controls {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .exam-controls-left, .exam-controls-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .palette-sidebar {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .palette-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .dot-green { background: var(--success); }
+        .dot-red { background: var(--danger); }
+        .dot-purple { background: var(--warning); }
+        .dot-neutral { background: var(--border-color); }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+
+        .palette-btn {
+            aspect-ratio: 1;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .palette-btn.attempted { background: var(--success); color: white; border-color: var(--success); }
+        .palette-btn.unattempted { background: var(--danger); color: white; border-color: var(--danger); }
+        .palette-btn.review { background: var(--warning); color: white; border-color: var(--warning); }
+        .palette-btn.current { border: 2px solid var(--primary); box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+
+        .result-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .error-banner {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <h1 id="institute-title">Competition Wala Computer Classes</h1>
+        <div class="header-info hidden" id="header-info">
+            <span id="hdr-student"></span>
+            <span id="hdr-course"></span>
+            <div class="timer-badge" id="timer-display">60:00</div>
+        </div>
+    </header>
+
+    <!-- 1. STUDENT LOGIN SCREEN -->
+    <div id="login-screen" class="screen">
+        <div class="login-card">
+            <h2>Online Test Portal</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="student-name">Student Name *</label>
+                    <input type="text" id="student-name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="student-course">Course *</label>
+                    <select id="student-course" required>
+                        <option value="">Select Course</option>
+                        <option value="DCA">DCA</option>
+                        <option value="ADCA">ADCA</option>
+                        <option value="DCTT">DCTT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-email">Email Address *</label>
+                    <select id="student-email" required>
+                        <option value="">Select Demo Email</option>
+                        <option value="student1.adca@gmail.com">student1.adca@gmail.com</option>
+                        <option value="learner.competitionwala@gmail.com">learner.competitionwala@gmail.com</option>
+                        <option value="aspirant.shashisir@gmail.com">aspirant.shashisir@gmail.com</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Start Test</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. INSTRUCTIONS SCREEN -->
+    <div id="instruction-screen" class="screen hidden">
+        <div style="max-width: 700px; margin: 0 auto;">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">Exam Instructions & Guidelines</h2>
+            <div class="instructions-box">
+                <ul>
+                    <li><strong>Total Questions:</strong> <span id="inst-total-q">50</span> questions based on MS Excel Home Tab.</li>
+                    <li><strong>Time Limit:</strong> <span id="inst-time-limit">60</span> minutes (1 hour). Test auto-submits when time expires.</li>
+                    <li><strong>Marking Scheme:</strong> +1 mark for every correct answer. <strong>No Negative Marking</strong> for incorrect answers.</li>
+                    <li><strong>Navigation:</strong> Only one question is displayed at a time. Use Previous, Next, or the Question Palette to move around.</li>
+                    <li><strong>Question Palette States:</strong>
+                        <ul style="margin-top: 5px;">
+                            <li><span class="dot dot-green" style="display:inline-block;"></span> Green = Attempted</li>
+                            <li><span class="dot dot-red" style="display:inline-block;"></span> Red = Not Attempted</li>
+                            <li><span class="dot dot-purple" style="display:inline-block;"></span> Purple = Marked for Review</li>
+                            <li><span class="dot dot-neutral" style="display:inline-block;"></span> Neutral = Not Visited</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button id="begin-test-btn" class="btn">Proceed to Test</button>
+        </div>
+    </div>
+
+    <!-- 3. EXAMINATION SCREEN -->
+    <div id="exam-screen" class="screen hidden">
+        <div class="exam-layout">
+            <div class="question-area">
+                <div>
+                    <div class="q-number" id="q-counter">Question 1 of 50</div>
+                    <div class="q-text-en" id="q-en">Loading question...</div>
+                    <div class="q-text-hi" id="q-hi">प्रश्न लोड हो रहा है...</div>
+
+                    <div class="options-list" id="options-container">
+                        <!-- Options injected dynamically -->
+                    </div>
+                </div>
+
+                <div class="exam-controls">
+                    <div class="exam-controls-left">
+                        <button class="btn btn-secondary" id="prev-btn">Previous</button>
+                        <button class="btn btn-secondary" id="next-btn">Next</button>
+                    </div>
+                    <div class="exam-controls-right">
+                        <button class="btn btn-secondary" id="clear-btn" style="background: #eab308;">Clear Response</button>
+                        <button class="btn btn-secondary" id="review-btn" style="background: var(--warning);">Mark for Review</button>
+                        <button class="btn" id="submit-test-btn" style="background: var(--success);">Submit Test</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette-sidebar">
+                <h3>Question Palette</h3>
+                <div class="palette-legend">
+                    <div class="legend-item"><span class="dot dot-green"></span> Attempted</div>
+                    <div class="legend-item"><span class="dot dot-red"></span> Not Attempted</div>
+                    <div class="legend-item"><span class="dot dot-purple"></span> Review</div>
+                    <div class="legend-item"><span class="dot dot-neutral"></span> Not Visited</div>
+                </div>
+                <div class="palette-grid" id="palette-grid">
+                    <!-- Palette buttons injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RESULT SCREEN -->
+    <div id="result-screen" class="screen hidden">
+        <div class="result-card">
+            <div class="result-header">
+                <h2>ONLINE TEST RESULT</h2>
+                <p id="res-student-info" style="color: #4b5563; margin-top: 4px;"></p>
+                <div id="performance-badge" class="performance-badge">Good Performance!</div>
+            </div>
+
+            <div id="email-status-banner"></div>
+
+            <div class="stats-grid">
+                <div class="stat-item"><span>Total Questions:</span> <strong id="res-total">0</strong></div>
+                <div class="stat-item"><span>Attempted:</span> <strong id="res-attempted">0</strong></div>
+                <div class="stat-item"><span>Unattempted:</span> <strong id="res-unattempted">0</strong></div>
+                <div class="stat-item"><span>Correct Answers:</span> <strong id="res-correct" style="color:var(--success)">0</strong></div>
+                <div class="stat-item"><span>Incorrect Answers:</span> <strong id="res-incorrect" style="color:var(--danger)">0</strong></div>
+                <div class="stat-item"><span>Marks Obtained:</span> <strong id="res-marks">0</strong></div>
+                <div class="stat-item"><span>Percentage:</span> <strong id="res-percentage">0%</strong></div>
+                <div class="stat-item"><span>Time Taken:</span> <strong id="res-time">00:00</strong></div>
+            </div>
+            
+            <button class="btn" onclick="location.reload()">Finish & Exit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ========================================================
+       ADMIN & SYSTEM CONFIGURATION
+       ======================================================== */
+    const CONFIG = {
+        instituteName: "Competition Wala Computer Classes",
+        numberOfQuestions: 50,
+        testDurationMinutes: 60,
+        adminEmail: "competitionwalaadmin@gmail.com",
+        emailjsServiceId: "service_d15114h",     
+        emailjsTemplateId: "template_2yx0cwh",   
+        emailjsPublicKey:  "-7EDKicno-1aJnWPA"    
+    };
+
+    // Initialize EmailJS
+    try {
+        emailjs.init(CONFIG.emailjsPublicKey);
+    } catch (e) {
+        console.warn("EmailJS initialization skipped or failed.", e);
+    }
+
+    /* ========================================================
+       QUESTION BANK (50 Questions — MS Excel Home Tab)
+       ======================================================== */
+    const masterQuestionBank = [
+        { question:{en:"Which groups are located on the default MS Excel Home tab?",hi:"डिफ़ॉल्ट MS Excel Home टैब पर कौन-कौन से ग्रुप होते हैं?"}, options:[
+            {en:"Clipboard, Font, Alignment, Number, Styles, Cells, Editing",hi:"Clipboard, Font, Alignment, Number, Styles, Cells, Editing"},
+            {en:"Tables, Illustrations, Charts, Sparklines, Filters, Links, Text",hi:"Tables, Illustrations, Charts, Sparklines, Filters, Links, Text"},
+            {en:"Themes, Page Setup, Scale to Fit, Sheet Options, Arrange",hi:"Themes, Page Setup, Scale to Fit, Sheet Options, Arrange"},
+            {en:"Function Library, Defined Names, Formula Auditing, Calculation",hi:"Function Library, Defined Names, Formula Auditing, Calculation"}], answer:0 },
+        { question:{en:"What does Format Painter on the Home tab copy?",hi:"Home टैब पर Format Painter क्या कॉपी करता है?"}, options:[
+            {en:"Cell formatting such as font, color, borders, and number format",hi:"फॉन्ट, रंग, बॉर्डर और नंबर फॉर्मेट जैसी सेल फॉर्मेटिंग"},
+            {en:"Only cell formulas without visual styles",hi:"विज़ुअल स्टाइल के बिना केवल सेल फ़ॉर्मूला"},
+            {en:"Only data validation rules and comments",hi:"केवल डेटा वैलिडेशन नियम और टिप्पणियाँ"},
+            {en:"Entire worksheet tab colors and print titles",hi:"पूरी वर्कशीट टैब के रंग और प्रिंट टाइटल"}], answer:0 },
+        { question:{en:"Which shortcut copies formatting from a selected cell in Excel?",hi:"Excel में चयनित सेल से फॉर्मेटिंग कॉपी करने का शॉर्टकट कौन सा है?"}, options:[
+            {en:"Ctrl + Shift + C",hi:"Ctrl + Shift + C"},
+            {en:"Ctrl + Alt + C",hi:"Ctrl + Alt + C"},
+            {en:"Alt + Shift + F",hi:"Alt + Shift + F"},
+            {en:"Ctrl + F2",hi:"Ctrl + F2"}], answer:0 },
+        { question:{en:"Which shortcut pastes copied formatting in Excel?",hi:"Excel में कॉपी की गई फॉर्मेटिंग पेस्ट करने का शॉर्टकट कौन सा है?"}, options:[
+            {en:"Ctrl + Shift + V",hi:"Ctrl + Shift + V"},
+            {en:"Ctrl + Alt + V",hi:"Ctrl + Alt + V"},
+            {en:"Alt + Shift + V",hi:"Alt + Shift + V"},
+            {en:"Ctrl + F4",hi:"Ctrl + F4"}], answer:0 },
+        { question:{en:"When you Cut a cell range in Excel, what happens to the original cells after Paste?",hi:"जब आप Excel में सेल रेंज को Cut करते हैं, तो Paste के बाद मूल सेलों का क्या होता है?"}, options:[
+            {en:"The original cells are cleared and moved to the destination",hi:"मूल सेल साफ़ हो जाते हैं और गंतव्य स्थान पर चले जाते हैं"},
+            {en:"The original cells remain unchanged and are duplicated",hi:"मूल सेल अपरिवर्तित रहते हैं और डुप्लिकेट हो जाते हैं"},
+            {en:"Only formulas are removed while values stay behind",hi:"केवल फ़ॉर्मूला हटते हैं जबकि मान वहीं रहते हैं"},
+            {en:"The entire column is deleted automatically",hi:"पूरा कॉलम स्वचालित रूप से हट जाता है"}], answer:0 },
+        { question:{en:"Which Paste option inserts only the calculated result of a formula rather than the formula itself?",hi:"कौन सा Paste विकल्प फ़ॉर्मूला के बजाय केवल उसकी गणना किया गया परिणाम डालता है?"}, options:[
+            {en:"Values (V)",hi:"Values (V)"},
+            {en:"Formulas (F)",hi:"Formulas (F)"},
+            {en:"Transpose (T)",hi:"Transpose (T)"},
+            {en:"Link Cells (N)",hi:"Link Cells (N)"}], answer:0 },
+        { question:{en:"What does Paste Transpose do to a horizontal row of cells?",hi:"Paste Transpose सेल की क्षैतिज पंक्ति के साथ क्या करता है?"}, options:[
+            {en:"Arranges the row data into a vertical column (and vice versa)",hi:"पंक्ति डेटा को ऊर्ध्वाधर कॉलम में व्यवस्थित करता है (और इसके विपरीत)"},
+            {en:"Sorts the row in descending alphabetical order",hi:"पंक्ति को अवरोही वर्णानुक्रम में क्रमबद्ध करता है"},
+            {en:"Converts text into uppercase letters",hi:"टेक्स्ट को बड़े अक्षरों में बदलता है"},
+            {en:"Locks all cells in the row against editing",hi:"संपादन के विरुद्ध पंक्ति के सभी सेलों को लॉक करता है"}], answer:0 },
+        { question:{en:"How do you open the Paste Special dialog box quickly using the keyboard?",hi:"कीबोर्ड का उपयोग करके Paste Special डायलॉग बॉक्स जल्दी कैसे खोलते हैं?"}, options:[
+            {en:"Ctrl + Alt + V",hi:"Ctrl + Alt + V"},
+            {en:"Ctrl + Shift + P",hi:"Ctrl + Shift + P"},
+            {en:"Alt + H + V + S",hi:"Alt + H + V + S"},
+            {en:"Both Ctrl + Alt + V and Alt + H + V + S",hi:"Ctrl + Alt + V और Alt + H + V + S दोनों"}], answer:3 },
+        { question:{en:"What is the default vertical alignment of text entries in an Excel cell?",hi:"Excel सेल में टेक्स्ट प्रविष्टियों का डिफ़ॉल्ट ऊर्ध्वाधर संरेखण (vertical alignment) क्या है?"}, options:[
+            {en:"Bottom Align",hi:"Bottom Align"},
+            {en:"Middle Align",hi:"Middle Align"},
+            {en:"Top Align",hi:"Top Align"},
+            {en:"Justify",hi:"Justify"}], answer:0 },
+        { question:{en:"What is the default horizontal alignment of text versus numbers in Excel?",hi:"Excel में टेक्स्ट और संख्याओं का डिफ़ॉल्ट क्षैतिज संरेखण क्या है?"}, options:[
+            {en:"Text is left-aligned; numbers are right-aligned",hi:"टेक्स्ट बाएँ संरेखित होता है; संख्याएँ दाएँ संरेखित होती हैं"},
+            {en:"Text is right-aligned; numbers are left-aligned",hi:"टेक्स्ट दाएँ संरेखित होता है; संख्याएँ बाएँ संरेखित होती हैं"},
+            {en:"Both text and numbers are center-aligned",hi:"टेक्स्ट और संख्याएँ दोनों केंद्र में संरेखित होते हैं"},
+            {en:"Text is center-aligned; numbers are left-aligned",hi:"टेक्स्ट केंद्र में संरेखित होता है; संख्याएँ बाएँ संरेखित होती हैं"}], answer:0 },
+        { question:{en:"What does Wrap Text on the Home tab do inside a single cell?",hi:"Home टैब पर Wrap Text एक सेल के अंदर क्या करता है?"}, options:[
+            {en:"Displays long text on multiple lines within the same cell",hi:"एक ही सेल के भीतर लंबे टेक्स्ट को कई पंक्तियों में दिखाता है"},
+            {en:"Spills text across adjacent empty columns",hi:"टेक्स्ट को आस-पास के खाली कॉलम में फैलाता है"},
+            {en:"Truncates text permanently beyond the column width",hi:"कॉलम की चौड़ाई से आगे टेक्स्ट को स्थायी रूप से काटता है"},
+            {en:"Splits one cell into two separate cells",hi:"एक सेल को दो अलग-अलग सेलों में बाँटता है"}], answer:0 },
+        { question:{en:"Which keyboard shortcut inserts a manual line break inside an Excel cell?",hi:"Excel सेल के अंदर मैन्युअल लाइन ब्रेक डालने का कीबोर्ड शॉर्टकट कौन सा है?"}, options:[
+            {en:"Alt + Enter",hi:"Alt + Enter"},
+            {en:"Ctrl + Enter",hi:"Ctrl + Enter"},
+            {en:"Shift + Enter",hi:"Shift + Enter"},
+            {en:"Tab + Enter",hi:"Tab + Enter"}], answer:0 },
+        { question:{en:"What is the main difference between Merge & Center and Merge Across?",hi:"Merge & Center और Merge Across में मुख्य अंतर क्या है?"}, options:[
+            {en:"Merge Across merges cells in each row separately without merging across rows",hi:"Merge Across प्रत्येक पंक्ति के सेलों को अलग-अलग मर्ज करता है, पंक्तियों के पार मर्ज किए बिना"},
+            {en:"Merge Across deletes all data in non-center cells",hi:"Merge Across गैर-केंद्र सेलों का सारा डेटा हटा देता है"},
+            {en:"Merge Across cannot be undone once applied",hi:"लागू होने के बाद Merge Across को पूर्ववत नहीं किया जा सकता"},
+            {en:"Merge Across only works on a single cell",hi:"Merge Across केवल एक सेल पर काम करता है"}], answer:0 },
+        { question:{en:"When you merge multiple cells in Excel, which cell's value is retained by default?",hi:"जब आप Excel में कई सेलों को मर्ज करते हैं, तो डिफ़ॉल्ट रूप से किस सेल का मान रहता है?"}, options:[
+            {en:"The upper-leftmost cell's value",hi:"सबसे ऊपर-बाएँ सेल का मान"},
+            {en:"The lower-rightmost cell's value",hi:"सबसे नीचे-दाएँ सेल का मान"},
+            {en:"The sum of all numeric values in the selection",hi:"चयन में सभी संख्यात्मक मानों का योग"},
+            {en:"No value is retained; all become blank",hi:"कोई मान नहीं रहता; सभी खाली हो जाते हैं"}], answer:0 },
+        { question:{en:"What does the Orientation button in the Alignment group allow you to change?",hi:"Alignment ग्रुप में Orientation बटन आपको क्या बदलने की अनुमति देता है?"}, options:[
+            {en:"The angle or rotation of text inside cells",hi:"सेलों के भीतर टेक्स्ट का कोण या घुमाव"},
+            {en:"Page portrait vs. landscape layout",hi:"पेज पोर्ट्रेट बनाम लैंडस्केप लेआउट"},
+            {en:"Worksheet tab order from left to right",hi:"वर्कशीट टैब क्रम बाएँ से दाएँ"},
+            {en:"Column header letters to numbers",hi:"कॉलम हेडर अक्षरों को संख्याओं में"}], answer:0 },
+        { question:{en:"What do the Increase Indent and Decrease Indent buttons do?",hi:"Increase Indent और Decrease Indent बटन क्या करते हैं?"}, options:[
+            {en:"Move cell content further away from or closer to the cell border",hi:"सेल सामग्री को सेल बॉर्डर से दूर या उसके करीब ले जाते हैं"},
+            {en:"Increase or decrease row height automatically",hi:"पंक्ति की ऊँचाई स्वचालित रूप से बढ़ाते या घटाते हैं"},
+            {en:"Zoom the worksheet view in or out",hi:"वर्कशीट दृश्य को ज़ूम इन या आउट करते हैं"},
+            {en:"Add or remove gridlines on the sheet",hi:"शीट पर ग्रिडलाइन जोड़ते या हटाते हैं"}], answer:0 },
+        { question:{en:"Why does Excel sometimes display ### in a cell formatted as Currency or Date?",hi:"Currency या Date के रूप में फ़ॉर्मेट किए गए सेल में Excel कभी-कभी ### क्यों दिखाता है?"}, options:[
+            {en:"The column is too narrow to display the formatted value",hi:"फ़ॉर्मेट किए गए मान को दिखाने के लिए कॉलम बहुत संकरा है"},
+            {en:"The formula contains a division by zero error",hi:"फ़ॉर्मूला में शून्य से विभाजन की त्रुटि है"},
+            {en:"The cell is protected with a password",hi:"सेल पासवर्ड से सुरक्षित है"},
+            {en:"The number is negative and needs parentheses",hi:"संख्या ऋणात्मक है और कोष्ठक की आवश्यकता है"}], answer:0 },
+        { question:{en:"What does the General number format do in Excel?",hi:"Excel में General नंबर फ़ॉर्मेट क्या करता है?"}, options:[
+            {en:"Displays numbers mostly as entered without specific number formatting",hi:"विशिष्ट नंबर फ़ॉर्मेटिंग के बिना संख्याओं को ज़्यादातर वैसे ही दिखाता है जैसे दर्ज की गई हैं"},
+            {en:"Automatically adds a dollar sign and two decimal places",hi:"स्वचालित रूप से डॉलर चिह्न और दो दशमलव स्थान जोड़ता है"},
+            {en:"Converts every entry into a percentage",hi:"प्रत्येक प्रविष्टि को प्रतिशत में बदलता है"},
+            {en:"Formats every number as a short date",hi:"प्रत्येक संख्या को संक्षिप्त तिथि के रूप में फ़ॉर्मेट करता है"}], answer:0 },
+        { question:{en:"What does the Accounting number format align differently from Currency?",hi:"Accounting नंबर फ़ॉर्मेट, Currency से किस प्रकार भिन्न संरेखित (align) करता है?"}, options:[
+            {en:"Aligns currency symbols and decimal points vertically in a column",hi:"कॉलम में मुद्रा चिह्नों और दशमलव बिंदुओं को ऊर्ध्वाधर रूप से संरेखित करता है"},
+            {en:"Displays negative numbers in bright red font",hi:"ऋणात्मक संख्याओं को चमकीले लाल फॉन्ट में दिखाता है"},
+            {en:"Hides trailing zeros after the decimal point",hi:"दशमलव बिंदु के बाद अनुगामी शून्य छिपाता है"},
+            {en:"Removes all thousands separators",hi:"सभी हज़ार विभाजकों को हटाता है"}], answer:0 },
+        { question:{en:"What happens when you apply Percentage format to the number 0.25 in a cell?",hi:"जब आप किसी सेल में संख्या 0.25 पर Percentage फ़ॉर्मेट लागू करते हैं, तो क्या होता है?"}, options:[
+            {en:"It displays as 25% (multiplies by 100 and adds %)",hi:"यह 25% के रूप में दिखता है (100 से गुणा करता है और % जोड़ता है)"},
+            {en:"It displays as 0.25%",hi:"यह 0.25% के रूप में दिखता है"},
+            {en:"It displays as 2.5%",hi:"यह 2.5% के रूप में दिखता है"},
+            {en:"It converts the cell into text '0.25'",hi:"यह सेल को टेक्स्ट '0.25' में बदल देता है"}], answer:0 },
+        { question:{en:"What do the Increase Decimal and Decrease Decimal buttons do in the Number group?",hi:"Number ग्रुप में Increase Decimal और Decrease Decimal बटन क्या करते हैं?"}, options:[
+            {en:"Show more or fewer digits after the decimal point",hi:"दशमलव बिंदु के बाद अधिक या कम अंक दिखाते हैं"},
+            {en:"Round the underlying stored value to zero",hi:"अंतर्निहित संग्रहीत मान को शून्य पर पूर्णांकित करते हैं"},
+            {en:"Change commas into periods",hi:"कॉमा को पीरियड में बदलते हैं"},
+            {en:"Convert decimal numbers into binary",hi:"दशमलव संख्याओं को बाइनरी में बदलते हैं"}], answer:0 },
+        { question:{en:"Which command in the Styles group highlights cells meeting specific conditions like greater than or top 10?",hi:"Styles ग्रुप का कौन सा कमांड 'greater than' या 'top 10' जैसी विशिष्ट शर्तों को पूरा करने वाले सेलों को हाइलाइट करता है?"}, options:[
+            {en:"Conditional Formatting",hi:"Conditional Formatting"},
+            {en:"Format as Table",hi:"Format as Table"},
+            {en:"Cell Styles",hi:"Cell Styles"},
+            {en:"Clear Rules",hi:"Clear Rules"}], answer:0 },
+        { question:{en:"What does Format as Table on the Home tab add to a data range?",hi:"Format as Table डेटा रेंज में क्या जोड़ता है?"}, options:[
+            {en:"Table styling, filter dropdowns, and structured table features",hi:"टेबल स्टाइलिंग, फ़िल्टर ड्रॉपडाउन और संरचित टेबल सुविधाएँ"},
+            {en:"A pivot chart on a new sheet",hi:"नई शीट पर एक पिवट चार्ट"},
+            {en:"Password encryption to the workbook",hi:"वर्कबुक में पासवर्ड एन्क्रिप्शन"},
+            {en:"Automatic macro recording",hi:"स्वचालित मैक्रो रिकॉर्डिंग"}], answer:0 },
+        { question:{en:"What do Cell Styles in the Styles group provide?",hi:"Styles ग्रुप में Cell Styles क्या प्रदान करते हैं?"}, options:[
+            {en:"Predefined combinations of fill color, border, and font styles",hi:"फिल कलर, बॉर्डर और फॉन्ट स्टाइल के पूर्वनिर्धारित संयोजन"},
+            {en:"Data validation drop-down lists",hi:"डेटा वैलिडेशन ड्रॉप-डाउन सूचियाँ"},
+            {en:"Formula error checking rules",hi:"फ़ॉर्मूला त्रुटि जाँच नियम"},
+            {en:"Worksheet freeze panes options",hi:"वर्कशीट फ़्रीज़ पेन विकल्प"}], answer:0 },
+        { question:{en:"In Conditional Formatting, what do Data Bars show inside cells?",hi:"Conditional Formatting में, सेलों के अंदर Data Bars क्या दिखाते हैं?"}, options:[
+            {en:"Horizontal bars whose length represents each cell's value relative to others",hi:"क्षैतिज बार जिनकी लंबाई अन्य की तुलना में प्रत्येक सेल के मान को दर्शाती है"},
+            {en:"Bar charts placed outside the worksheet grid",hi:"वर्कशीट ग्रिड के बाहर रखे गए बार चार्ट"},
+            {en:"Progress of file saving in percentage",hi:"प्रतिशत में फ़ाइल सहेजने की प्रगति"},
+            {en:"Number of hidden rows in a range",hi:"रेंज में छिपी हुई पंक्तियों की संख्या"}], answer:0 },
+        { question:{en:"What do Icon Sets in Conditional Formatting use to categorize values?",hi:"Conditional Formatting में Icon Sets मानों को वर्गीकृत करने के लिए किसका उपयोग करते हैं?"}, options:[
+            {en:"Small visual symbols such as arrows, stars, or traffic lights",hi:"छोटे दृश्य प्रतीक जैसे तीर, तारे या ट्रैफ़िक लाइट"},
+            {en:"Custom VBA user forms",hi:"कस्टम VBA यूज़र फ़ॉर्म"},
+            {en:"External image files from disk",hi:"डिस्क से बाहरी इमेज फ़ाइलें"},
+            {en:"Hyperlinks to web pages",hi:"वेब पेजों के हाइपरलिंक"}], answer:0 },
+        { question:{en:"What is the difference between Delete Sheet Rows and Clear Contents on a row?",hi:"किसी पंक्ति पर Delete Sheet Rows और Clear Contents में क्या अंतर है?"}, options:[
+            {en:"Delete Sheet Rows removes the entire row and shifts lower rows up; Clear Contents only empties cell values/formulas",hi:"Delete Sheet Rows पूरी पंक्ति हटाता है और निचली पंक्तियों को ऊपर खिसकाता है; Clear Contents केवल सेल मान/फ़ॉर्मूला खाली करता है"},
+            {en:"Clear Contents deletes the row header permanently",hi:"Clear Contents पंक्ति हेडर को स्थायी रूप से हटाता है"},
+            {en:"Delete Sheet Rows keeps the row height unchanged while keeping values",hi:"Delete Sheet Rows मान रखते हुए पंक्ति की ऊँचाई अपरिवर्तित रखता है"},
+            {en:"There is no difference between them",hi:"उनके बीच कोई अंतर नहीं है"}], answer:0 },
+        { question:{en:"Which menu in the Cells group lets you lock or hide cells, hide/unhide rows and columns, or rename a sheet?",hi:"Cells ग्रुप का कौन सा मेनू सेलों को लॉक/छिपाने, पंक्तियों/कॉलम को छिपाने/दिखाने या शीट का नाम बदलने की सुविधा देता है?"}, options:[
+            {en:"Format",hi:"Format"},
+            {en:"Insert",hi:"Insert"},
+            {en:"Delete",hi:"Delete"},
+            {en:"Conditional Formatting",hi:"Conditional Formatting"}], answer:0 },
+        { question:{en:"What does AutoFit Column Width do in the Format menu?",hi:"Format मेनू में AutoFit Column Width क्या करता है?"}, options:[
+            {en:"Adjusts column width to fit the longest entry in that column",hi:"कॉलम की चौड़ाई को उस कॉलम की सबसे लंबी प्रविष्टि के अनुसार समायोजित करता है"},
+            {en:"Fits all columns onto a single printed page",hi:"सभी कॉलम को एक मुद्रित पृष्ठ पर फ़िट करता है"},
+            {en:"Sets every column to 8.43 characters wide",hi:"प्रत्येक कॉलम को 8.43 वर्ण चौड़ा सेट करता है"},
+            {en:"Hides columns with blank cells",hi:"खाली सेलों वाले कॉलम को छिपाता है"}], answer:0 },
+        { question:{en:"Which option in the Home tab Editing group automatically adds a SUM formula?",hi:"Home टैब के Editing ग्रुप में कौन सा विकल्प स्वचालित रूप से SUM फ़ॉर्मूला जोड़ता है?"}, options:[
+            {en:"AutoSum",hi:"AutoSum"},
+            {en:"Fill",hi:"Fill"},
+            {en:"Find & Select",hi:"Find & Select"},
+            {en:"Clear",hi:"Clear"}], answer:0 },
+        { question:{en:"Which keyboard shortcut inserts the AutoSum formula in Excel?",hi:"Excel में AutoSum फ़ॉर्मूला डालने का कीबोर्ड शॉर्टकट कौन सा है?"}, options:[
+            {en:"Alt + =",hi:"Alt + ="},
+            {en:"Ctrl + =",hi:"Ctrl + ="},
+            {en:"Shift + =",hi:"Shift + ="},
+            {en:"Ctrl + Shift + S",hi:"Ctrl + Shift + S"}], answer:0 },
+        { question:{en:"What does the Fill -> Down command do when you select a cell with data and blank cells below it?",hi:"जब आप डेटा वाले सेल और उसके नीचे के खाली सेलों का चयन करते हैं, तो Fill -> Down कमांड क्या करता है?"}, options:[
+            {en:"Copies the contents and format of the top cell into selected cells below",hi:"शीर्ष सेल की सामग्री और फ़ॉर्मेट को नीचे चयनित सेलों में कॉपी करता है"},
+            {en:"Moves the top cell down to the bottom of the column",hi:"शीर्ष सेल को कॉलम के नीचे ले जाता है"},
+            {en:"Fills blank cells with the number zero",hi:"खाली सेलों को शून्य संख्या से भरता है"},
+            {en:"Deletes rows below the selection",hi:"चयन के नीचे की पंक्तियों को हटाता है"}], answer:0 },
+        { question:{en:"Which option under Clear on the Home tab removes formatting, contents, comments/notes, and hyperlinks all at once?",hi:"Home टैब पर Clear के अंतर्गत कौन सा विकल्प फॉर्मेटिंग, सामग्री, टिप्पणियों और हाइपरलिंक को एक साथ हटाता है?"}, options:[
+            {en:"Clear All",hi:"Clear All"},
+            {en:"Clear Contents",hi:"Clear Contents"},
+            {en:"Clear Formats",hi:"Clear Formats"},
+            {en:"Clear Comments",hi:"Clear Comments"}], answer:0 },
+        { question:{en:"Which shortcut opens the Find and Replace dialog box directly on the Replace tab?",hi:"कौन सा शॉर्टकट सीधे Replace टैब पर Find and Replace डायलॉग बॉक्स खोलता है?"}, options:[
+            {en:"Ctrl + H",hi:"Ctrl + H"},
+            {en:"Ctrl + F",hi:"Ctrl + F"},
+            {en:"Ctrl + G",hi:"Ctrl + G"},
+            {en:"Ctrl + R",hi:"Ctrl + R"}], answer:0 },
+        { question:{en:"Which shortcut opens the Find dialog box in Excel?",hi:"Excel में Find डायलॉग बॉक्स खोलने का शॉर्टकट कौन सा है?"}, options:[
+            {en:"Ctrl + F",hi:"Ctrl + F"},
+            {en:"Ctrl + H",hi:"Ctrl + H"},
+            {en:"Ctrl + K",hi:"Ctrl + K"},
+            {en:"Ctrl + L",hi:"Ctrl + L"}], answer:0 },
+        { question:{en:"In Find & Select -> Go To Special, which option selects all cells containing formulas?",hi:"Find & Select -> Go To Special में, कौन सा विकल्प फ़ॉर्मूला वाले सभी सेलों का चयन करता है?"}, options:[
+            {en:"Formulas",hi:"Formulas"},
+            {en:"Constants",hi:"Constants"},
+            {en:"Blanks",hi:"Blanks"},
+            {en:"Row differences",hi:"Row differences"}], answer:0 },
+        { question:{en:"In Find & Select -> Go To Special, what does selecting 'Constants' highlight?",hi:"Find & Select -> Go To Special में, 'Constants' चुनने पर क्या हाइलाइट होता है?"}, options:[
+            {en:"Cells containing static values (text, numbers, dates) rather than formulas",hi:"फ़ॉर्मूला के बजाय स्थिर मान (टेक्स्ट, संख्याएँ, तिथियाँ) वाले सेल"},
+            {en:"Only cells with dynamic array formulas",hi:"केवल डायनामिक ऐरे फ़ॉर्मूला वाले सेल"},
+            {en:"Only locked cells on a protected sheet",hi:"संरक्षित शीट पर केवल लॉक किए गए सेल"},
+            {en:"Cells with formula errors like #REF!",hi:"#REF! जैसी फ़ॉर्मूला त्रुटियों वाले सेल"}], answer:0 },
+        { question:{en:"What does Sort Smallest to Largest do to a selected table column of numbers?",hi:"चयनित टेबल कॉलम की संख्याओं पर Sort Smallest to Largest क्या करता है?"}, options:[
+            {en:"Arranges numbers in ascending order and keeps entire rows together",hi:"संख्याओं को आरोही क्रम में व्यवस्थित करता है और पूरी पंक्तियों को साथ रखता है"},
+            {en:"Arranges numbers in descending order only",hi:"केवल अवरोही क्रम में संख्याओं को व्यवस्थित करता है"},
+            {en:"Sorts only that column without moving adjacent columns",hi:"आस-पास के कॉलम को बिना खिसकाए केवल उस कॉलम को क्रमबद्ध करता है"},
+            {en:"Deletes duplicate numbers automatically",hi:"डुप्लिकेट संख्याओं को स्वचालित रूप से हटाता है"}], answer:0 },
+        { question:{en:"Which font style shortcut makes selected text in Excel bold?",hi:"कौन सा फॉन्ट स्टाइल शॉर्टकट Excel में चयनित टेक्स्ट को बोल्ड करता है?"}, options:[
+            {en:"Ctrl + B",hi:"Ctrl + B"},
+            {en:"Ctrl + I",hi:"Ctrl + I"},
+            {en:"Ctrl + U",hi:"Ctrl + U"},
+            {en:"Ctrl + E",hi:"Ctrl + E"}], answer:0 },
+        { question:{en:"Which shortcut applies or removes underlining on selected text in Excel?",hi:"कौन सा शॉर्टकट Excel में चयनित टेक्स्ट पर अंडरलाइन लागू करता या हटाता है?"}, options:[
+            {en:"Ctrl + U",hi:"Ctrl + U"},
+            {en:"Ctrl + D",hi:"Ctrl + D"},
+            {en:"Ctrl + L",hi:"Ctrl + L"},
+            {en:"Ctrl + Shift + U",hi:"Ctrl + Shift + U"}], answer:0 },
+        { question:{en:"What does the Format Cells dialog box shortcut Ctrl + 1 open?",hi:"Format Cells डायलॉग बॉक्स शॉर्टकट Ctrl + 1 क्या खोलता है?"}, options:[
+            {en:"The Format Cells window with Number, Alignment, Font, Border, Fill, and Protection tabs",hi:"Number, Alignment, Font, Border, Fill और Protection टैब वाली Format Cells विंडो"},
+            {en:"The VBA Macro Editor window",hi:"VBA मैक्रो एडिटर विंडो"},
+            {en:"The Print Preview screen",hi:"प्रिंट प्रीव्यू स्क्रीन"},
+            {en:"The Name Manager dialog",hi:"नेम मैनेजर डायलॉग"}], answer:0 },
+        { question:{en:"In the Font group, which tool changes the background color behind text inside selected cells?",hi:"Font ग्रुप में, कौन सा टूल चयनित सेलों के अंदर टेक्स्ट के पीछे की पृष्ठभूमि का रंग बदलता है?"}, options:[
+            {en:"Fill Color",hi:"Fill Color"},
+            {en:"Font Color",hi:"Font Color"},
+            {en:"Borders",hi:"Borders"},
+            {en:"Format Painter",hi:"Format Painter"}], answer:0 },
+        { question:{en:"What does choosing 'No Border' in the Borders dropdown on the Home tab do?",hi:"Home टैब पर Borders ड्रॉपडाउन में 'No Border' चुनने से क्या होता है?"}, options:[
+            {en:"Removes cell border lines applied to the selected cells",hi:"चयनित सेलों पर लागू सेल बॉर्डर लाइनों को हटाता है"},
+            {en:"Hides worksheet gridlines across the entire workbook",hi:"पूरी वर्कबुक में वर्कशीट ग्रिडलाइन छिपाता है"},
+            {en:"Deletes the selected cells",hi:"चयनित सेलों को हटाता है"},
+            {en:"Turns borders into dotted print guides",hi:"बॉर्डर को डॉटेड प्रिंट गाइड में बदलता है"}], answer:0 },
+        { question:{en:"Which alignment button centers text horizontally across a cell?",hi:"कौन सा संरेखण बटन सेल में टेक्स्ट को क्षैतिज रूप से केंद्र में रखता है?"}, options:[
+            {en:"Center",hi:"Center"},
+            {en:"Middle Align",hi:"Middle Align"},
+            {en:"Justify",hi:"Justify"},
+            {en:"Distributed",hi:"Distributed"}], answer:0 },
+        { question:{en:"What does the Comma Style button (,) in the Number group typically apply?",hi:"Number ग्रुप में Comma Style बटन (,) आमतौर पर क्या लागू करता है?"}, options:[
+            {en:"Thousands separators and two decimal places",hi:"हज़ार विभाजक और दो दशमलव स्थान"},
+            {en:"Currency symbol with zero decimal places",hi:"शून्य दशमलव स्थानों के साथ मुद्रा चिह्न"},
+            {en:"Percentage sign with one decimal place",hi:"एक दशमलव स्थान के साथ प्रतिशत चिह्न"},
+            {en:"Short date format",hi:"संक्षिप्त तिथि प्रारूप"}], answer:0 },
+        { question:{en:"Which option in Conditional Formatting highlights cells whose values fall between two numbers?",hi:"Conditional Formatting का कौन सा विकल्प उन सेलों को हाइलाइट करता है जिनके मान दो संख्याओं के बीच आते हैं?"}, options:[
+            {en:"Highlight Cells Rules -> Between",hi:"Highlight Cells Rules -> Between"},
+            {en:"Top/Bottom Rules -> Above Average",hi:"Top/Bottom Rules -> Above Average"},
+            {en:"Color Scales -> 3-Color Scale",hi:"Color Scales -> 3-Color Scale"},
+            {en:"New Rule -> Format only unique or duplicate values",hi:"New Rule -> Format only unique or duplicate values"}], answer:0 },
+        { question:{en:"In Conditional Formatting, what do Color Scales use to indicate value ranges?",hi:"Conditional Formatting में, Color Scales मान श्रेणियों को इंगित करने के लिए किसका उपयोग करते हैं?"}, options:[
+            {en:"Two- or three-color gradients across a range of cells",hi:"सेलों की रेंज में दो- या तीन-रंग के ग्रेडिएंट"},
+            {en:"Bold italic text only",hi:"केवल बोल्ड इटैलिक टेक्स्ट"},
+            {en:"Cell comments with numeric scores",hi:"संख्यात्मक स्कोर वाली सेल टिप्पणियाँ"},
+            {en:"Drop-down arrow icons",hi:"ड्रॉप-डाउन तीर आइकन"}], answer:0 },
+        { question:{en:"What does Insert -> Insert Sheet Rows in the Cells group do?",hi:"Cells ग्रुप में Insert -> Insert Sheet Rows क्या करता है?"}, options:[
+            {en:"Inserts a new blank row above the active cell or selection",hi:"सक्रिय सेल या चयन के ऊपर एक नई खाली पंक्ति डालता है"},
+            {en:"Inserts a new column to the left of the active cell",hi:"सक्रिय सेल के बाईं ओर एक नया कॉलम डालता है"},
+            {en:"Adds a new worksheet tab to the workbook",hi:"वर्कबुक में एक नया वर्कशीट टैब जोड़ता है"},
+            {en:"Inserts a page break above the row",hi:"पंक्ति के ऊपर पेज ब्रेक डालता है"}], answer:0 },
+        { question:{en:"What does Insert -> Insert Sheet Columns in the Cells group do?",hi:"Cells ग्रुप में Insert -> Insert Sheet Columns क्या करता है?"}, options:[
+            {en:"Inserts a new blank column to the left of the active cell or selection",hi:"सक्रिय सेल या चयन के बाईं ओर एक नया खाली कॉलम डालता है"},
+            {en:"Inserts a new column to the right of the active cell",hi:"सक्रिय सेल के दाईं ओर एक नया कॉलम डालता है"},
+            {en:"Inserts a new row below the active cell",hi:"सक्रिय सेल के नीचे एक नई पंक्ति डालता है"},
+            {en:"Deletes the active column",hi:"सक्रिय कॉलम को हटाता है"}], answer:0 },
+        { question:{en:"Which option in Clear removes only cell formatting while keeping values and formulas intact?",hi:"Clear में कौन सा विकल्प मान और फ़ॉर्मूला को सुरक्षित रखते हुए केवल सेल फॉर्मेटिंग हटाता है?"}, options:[
+            {en:"Clear Formats",hi:"Clear Formats"},
+            {en:"Clear Contents",hi:"Clear Contents"},
+            {en:"Clear All",hi:"Clear All"},
+            {en:"Clear Hyperlinks",hi:"Clear Hyperlinks"}], answer:0 }
+    ];
+
+    /* ========================================================
+       APPLICATION STATE
+       ======================================================== */
+    let studentData = { name: "", course: "", email: "" };
+    let testQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = {}; // questionIndex -> selectedOptionIndex
+    let markedForReview = {}; // questionIndex -> boolean
+    let visitedQuestions = new Set();
+    let timerInterval = null;
+    let timeLeft = CONFIG.testDurationMinutes * 60; // 1 hour (60 minutes = 3600 seconds)
+    let startTime = null;
+    let isSubmitted = false;
+
+    /* ========================================================
+       DOM REFERENCES
+       ======================================================== */
+    const loginScreen = document.getElementById("login-screen");
+    const instructionScreen = document.getElementById("instruction-screen");
+    const examScreen = document.getElementById("exam-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const loginForm = document.getElementById("login-form");
+    const headerInfo = document.getElementById("header-info");
+    const hdrStudent = document.getElementById("hdr-student");
+    const hdrCourse = document.getElementById("hdr-course");
+    const timerDisplay = document.getElementById("timer-display");
+    const beginTestBtn = document.getElementById("begin-test-btn");
+
+    // Exam Screen Elements
+    const qCounter = document.getElementById("q-counter");
+    const qEn = document.getElementById("q-en");
+    const qHi = document.getElementById("q-hi");
+    const optionsContainer = document.getElementById("options-container");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const clearBtn = document.getElementById("clear-btn");
+    const reviewBtn = document.getElementById("review-btn");
+    const submitTestBtn = document.getElementById("submit-test-btn");
+    const paletteGrid = document.getElementById("palette-grid");
+
+    /* ========================================================
+       EVENT LISTENERS & FLOW
+       ======================================================== */
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("student-name").value.trim();
+        const course = document.getElementById("student-course").value;
+        const email = document.getElementById("student-email").value;
+
+        if (!name || !course || !email) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        studentData = { name, course, email };
+        
+        // Populate instructions
+        document.getElementById("inst-total-q").textContent = CONFIG.numberOfQuestions;
+        document.getElementById("inst-time-limit").textContent = CONFIG.testDurationMinutes;
+
+        loginScreen.classList.add("hidden");
+        instructionScreen.classList.remove("hidden");
+    });
+
+    beginTestBtn.addEventListener("click", () => {
+        initTest();
+        instructionScreen.classList.add("hidden");
+        examScreen.classList.remove("hidden");
+        headerInfo.classList.remove("hidden");
+        
+        hdrStudent.textContent = `Student: ${studentData.name}`;
+        hdrCourse.textContent = `Course: ${studentData.course}`;
+
+        startTimer();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderQuestion();
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        if (currentIndex < testQuestions.length - 1) {
+            currentIndex++;
+            renderQuestion();
+        }
+    });
+
+    clearBtn.addEventListener("click", () => {
+        delete userAnswers[currentIndex];
+        renderQuestion();
+        updatePalette();
+    });
+
+    reviewBtn.addEventListener("click", () => {
+        if (markedForReview[currentIndex]) {
+            delete markedForReview[currentIndex];
+        } else {
+            markedForReview[currentIndex] = true;
+        }
+        renderQuestion();
+        updatePalette();
+    });
+
+    submitTestBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to submit the test?")) {
+            submitTest();
+        }
+    });
+
+    /* ========================================================
+       TEST INITIALIZATION & RANDOMIZATION
+       ======================================================== */
+    function initTest() {
+        startTime = new Date();
+        let numQ = CONFIG.numberOfQuestions;
+        
+        if (masterQuestionBank.length < numQ) {
+            alert(`Requested ${numQ} questions, but only ${masterQuestionBank.length} available in bank. Adjusting accordingly.`);
+            numQ = masterQuestionBank.length;
+        }
+
+        // Shuffle questions and select numQ
+        let shuffledBank = [...masterQuestionBank].sort(() => 0.5 - Math.random());
+        let selected = shuffledBank.slice(0, numQ);
+
+        // Randomize options for each question while tracking correct answer index
+        testQuestions = selected.map(q => {
+            let optionsWithIndex = q.options.map((opt, idx) => ({ opt, originalIndex: idx }));
+            optionsWithIndex.sort(() => 0.5 - Math.random());
+            
+            let newOptions = optionsWithIndex.map(item => item.opt);
+            let newAnswerIndex = optionsWithIndex.findIndex(item => item.originalIndex === q.answer);
+
+            return {
+                question: q.question,
+                options: newOptions,
+                answer: newAnswerIndex
+            };
+        });
+
+        timeLeft = CONFIG.testDurationMinutes * 60; // 1 hour total timer
+        currentIndex = 0;
+        renderPaletteGrid();
+        renderQuestion();
+    }
+
+    /* ========================================================
+       RENDER QUESTION & PALETTE
+       ======================================================== */
+    function renderQuestion() {
+        visitedQuestions.add(currentIndex);
+        const q = testQuestions[currentIndex];
+
+        qCounter.textContent = `Question ${currentIndex + 1} of ${testQuestions.length}`;
+        qEn.textContent = q.question.en;
+        qHi.textContent = q.question.hi;
+
+        optionsContainer.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+            const isChecked = userAnswers[currentIndex] === idx ? "checked" : "";
+            const div = document.createElement("label");
+            div.className = "option-item";
+            div.innerHTML = `
+                <input type="radio" name="question_option" value="${idx}" ${isChecked} onchange="selectOption(${idx})">
+                <div class="option-text">
+                    <div><strong>${String.fromCharCode(65 + idx)}.</strong> ${opt.en}</div>
+                    <div class="hi-opt">${opt.hi}</div>
+                </div>
+            `;
+            optionsContainer.appendChild(div);
+        });
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex === testQuestions.length - 1;
+        
+        updatePalette();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentIndex] = optIdx;
+        updatePalette();
+    }
+
+    function renderPaletteGrid() {
+        paletteGrid.innerHTML = "";
+        testQuestions.forEach((_, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "palette-btn neutral";
+            btn.textContent = idx + 1;
+            btn.id = `palette-btn-${idx}`;
+            btn.onclick = () => {
+                currentIndex = idx;
+                renderQuestion();
+            };
+            paletteGrid.appendChild(btn);
+        });
+    }
+
+    function updatePalette() {
+        testQuestions.forEach((_, idx) => {
+            const btn = document.getElementById(`palette-btn-${idx}`);
+            if (!btn) return;
+
+            btn.className = "palette-btn";
+
+            if (idx === currentIndex) {
+                btn.classList.add("current");
+            }
+
+            if (userAnswers[idx] !== undefined) {
+                btn.classList.add("attempted");
+            } else if (markedForReview[idx]) {
+                btn.classList.add("review");
+            } else if (visitedQuestions.has(idx)) {
+                btn.classList.add("unattempted");
+            } else {
+                btn.classList.add("neutral");
+            }
+        });
+    }
+
+    /* ========================================================
+       TIMER LOGIC (1 Hour / 60 Minutes)
+       ======================================================== */
+    function startTimer() {
+        let minsInit = Math.floor(timeLeft / 60);
+        let secsInit = timeLeft % 60;
+        timerDisplay.textContent = `${minsInit.toString().padStart(2, '0')}:${secsInit.toString().padStart(2, '0')}`;
+
+        timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will be submitted automatically.");
+                submitTest();
+                return;
+            }
+
+            timeLeft--;
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            if (timeLeft === 300) {
+                alert("Warning: Only 5 minutes remaining!");
+            }
+        }, 1000);
+    }
+
+    /* ========================================================
+       SUBMISSION & RESULT CALCULATION
+       ======================================================== */
+    function submitTest() {
+        if (isSubmitted) return;
+        isSubmitted = true;
+        clearInterval(timerInterval);
+
+        let attempted = Object.keys(userAnswers).length;
+        let unattempted = testQuestions.length - attempted;
+        let correct = 0;
+        let incorrect = 0;
+
+        testQuestions.forEach((q, idx) => {
+            if (userAnswers[idx] !== undefined) {
+                if (userAnswers[idx] === q.answer) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
+            }
+        });
+
+        let marksObtained = correct; // No negative marking (+1 correct, 0 incorrect)
+        let maxMarks = testQuestions.length;
+        let percentage = Math.round((marksObtained / maxMarks) * 100);
+
+        let endTime = new Date();
+        let timeTakenSecs = Math.floor((endTime - startTime) / 1000);
+        let timeTakenMins = Math.floor(timeTakenSecs / 60);
+        let timeTakenSecsRem = timeTakenSecs % 60;
+        let timeTakenStr = `${timeTakenMins}m ${timeTakenSecsRem}s`;
+
+        // Performance message
+        let perfBadge = document.getElementById("performance-badge");
+        let perfText = "";
+        let badgeColor = "";
+        if (percentage >= 90) { perfText = "Excellent Performance!"; badgeColor = "#10b981"; }
+        else if (percentage >= 75) { perfText = "Very Good Performance!"; badgeColor = "#3b82f6"; }
+        else if (percentage >= 60) { perfText = "Good Performance!"; badgeColor = "#8b5cf6"; }
+        else if (percentage >= 40) { perfText = "Keep Practicing!"; badgeColor = "#f59e0b"; }
+        else { perfText = "More Practice Required!"; badgeColor = "#ef4444"; }
+
+        perfBadge.textContent = perfText;
+        perfBadge.style.background = badgeColor;
+        perfBadge.style.color = "#fff";
+
+        // Fill result metrics
+        document.getElementById("res-student-info").textContent = `${studentData.name} | ${studentData.course} | ${studentData.email}`;
+        document.getElementById("res-total").textContent = maxMarks;
+        document.getElementById("res-attempted").textContent = attempted;
+        document.getElementById("res-unattempted").textContent = unattempted;
+        document.getElementById("res-correct").textContent = correct;
+        document.getElementById("res-incorrect").textContent = incorrect;
+        document.getElementById("res-marks").textContent = `${marksObtained} / ${maxMarks}`;
+        document.getElementById("res-percentage").textContent = `${percentage}%`;
+        document.getElementById("res-time").textContent = timeTakenStr;
+
+        examScreen.classList.add("hidden");
+        resultScreen.classList.remove("hidden");
+
+        // Send Email to Admin via EmailJS
+        sendAdminEmail({
+            total: maxMarks,
+            attempted,
+            unattempted,
+            correct,
+            incorrect,
+            marks: marksObtained,
+            percentage,
+            timeTaken: timeTakenStr
+        });
+    }
+
+    /* ========================================================
+       EMAIL DISPATCH VIA EMAILJS
+       ======================================================== */
+    function sendAdminEmail(stats) {
+        let questionDetailsHtml = "<table border='1' cellpadding='5' cellspacing='0' style='border-collapse:collapse;font-size:12px;'><tr><th>Q.No</th><th>Question</th><th>Student Answer</th><th>Correct Answer</th><th>Status</th></tr>";
+        
+        testQuestions.forEach((q, idx) => {
+            let studentAnsIdx = userAnswers[idx];
+            let studentAnsText = studentAnsIdx !== undefined ? q.options[studentAnsIdx].en : "Unattempted";
+            let correctAnsText = q.options[q.answer].en;
+            let status = "Unattempted";
+            if (studentAnsIdx !== undefined) {
+                status = studentAnsIdx === q.answer ? "Correct" : "Incorrect";
+            }
+            questionDetailsHtml += `<tr><td>${idx+1}</td><td>${q.question.en}</td><td>${studentAnsText}</td><td>${correctAnsText}</td><td>${status}</td></tr>`;
+        });
+        questionDetailsHtml += "</table>";
+
+        const templateParams = {
+            to_email: CONFIG.adminEmail,
+            institute_name: CONFIG.instituteName,
+            student_name: studentData.name,
+            student_course: studentData.course,
+            student_email: studentData.email,
+            test_date: new Date().toLocaleDateString(),
+            test_time: new Date().toLocaleTimeString(),
+            total_questions: stats.total,
+            attempted_questions: stats.attempted,
+            unattempted_questions: stats.unattempted,
+            correct_answers: stats.correct,
+            incorrect_answers: stats.incorrect,
+            marks_obtained: stats.marks,
+            max_marks: stats.total,
+            percentage: stats.percentage + "%",
+            time_taken: stats.timeTaken,
+            question_details: questionDetailsHtml
+        };
+
+        const banner = document.getElementById("email-status-banner");
+
+        emailjs.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, templateParams)
+            .then(response => {
+                console.log("Email sent successfully!", response.status, response.text);
+            })
+            .catch(error => {
+                console.error("Failed to send email result.", error);
+                banner.innerHTML = `<div class="error-banner">Notice: Your test was successfully evaluated, but the admin notification email could not be dispatched at this moment.</div>`;
+            });
+    }
+</script>
+
+</body>
+</html>
